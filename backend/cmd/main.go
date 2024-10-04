@@ -1,21 +1,29 @@
 package main
 
 import (
-    "github.com/gin-gonic/gin"
-    "net/http"
+	"backend/internal/controllers"
+	"backend/internal/database"
+	"backend/internal/services"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    // Initialize Gin router
-    router := gin.Default()
+	// Initialize the database connection
+	database.InitDB()
 
-    // Define a simple GET route
-    router.GET("/ping", func(c *gin.Context) {
-        c.JSON(http.StatusOK, gin.H{
-            "message": "pong",
-        })
-    })
+	// Initialize services
+	userService := services.NewUserService(database.DB)
 
-    // Start the server on port 8080
-    router.Run(":8080")
+	// Initialize controllers
+	userController := controllers.NewUserController(userService)
+
+	// Set up Gin router
+	router := gin.Default()
+
+	// Define routes
+	router.GET("/users/:id", userController.GetUser)
+
+	// Start the server
+	router.Run(":8080")
 }
