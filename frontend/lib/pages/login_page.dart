@@ -8,7 +8,9 @@ class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final DioService dioService = DioService(); // Instantiate the Dio service
+  final DioService dioService = DioService();
+
+  LoginPage({super.key}); // Instantiate the Dio service
 
   @override
   Widget build(BuildContext context) {
