@@ -23,6 +23,7 @@ func main() {
 
 	// Define routes
 	router.GET("/users/:id", userController.GetUser)
+	router.POST("/login", userController.Login)
 
 	// Start the server
 	router.Run(":8080")
