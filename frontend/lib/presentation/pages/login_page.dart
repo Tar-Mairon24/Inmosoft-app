@@ -80,7 +80,7 @@ class LoginPage extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 16),
-                    Container(
+                    SizedBox(
                       height: 40,
                       width: double.infinity,
                       child: FilledButton(
@@ -95,9 +95,7 @@ class LoginPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => HomePage(
-                                    email: emailController.text,
-                                  ),
+                                  builder: (context) => HomePage(),
                                 ),
                               );
                             } else {
