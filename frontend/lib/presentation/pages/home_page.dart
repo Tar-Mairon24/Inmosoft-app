@@ -1,34 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/widgets/add_property_widget.dart';
+import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 
 class HomePage extends StatelessWidget {
-  final String email;
-
-  const HomePage({super.key, required this.email});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text(
+          'Propiedades',
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),
+        ),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 64.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Welcome, $email!',
-              style: TextStyle(fontSize: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [Text("Filtros"), Icon(Icons.filter_alt)],
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Add any action you want to perform on button press
-              },
-              child: Text('Logout'),
+            Column(
+              children: [
+                Row(
+                  children: [AddPropertyWidget()],
+                )
+              ],
             ),
           ],
         ),
       ),
+      drawer: NavigationDrawerWidget(),
     );
   }
 }
