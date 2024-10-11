@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
+import 'package:frontend/presentation/widgets/property_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,7 +26,13 @@ class HomePage extends StatelessWidget {
             Column(
               children: [
                 Row(
-                  children: [AddPropertyWidget()],
+                  children: [
+                    AddPropertyWidget(),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    PropertyWidget()
+                  ],
                 )
               ],
             ),

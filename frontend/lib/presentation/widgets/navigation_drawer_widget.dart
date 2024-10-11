@@ -6,7 +6,8 @@ class NavigationDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.indigo[700],
+      shape: BeveledRectangleBorder(),
+      backgroundColor: const Color.fromARGB(255, 9, 15, 84),
       child: Center(
         child: SingleChildScrollView(
             child: Column(
@@ -31,15 +32,19 @@ class NavigationDrawerWidget extends StatelessWidget {
             title: const Text(
               'Citas',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             onTap: () {},
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(),
           ),
           ListTile(
             title: const Text(
               'Contratos',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             onTap: () {},
           ),

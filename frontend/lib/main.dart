@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: HomePage(), // Set LoginPage as the home page
+      home: LoginPage(), // Set LoginPage as the home page
     );
   }
 }
