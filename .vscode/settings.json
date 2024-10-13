@@ -3,5 +3,6 @@
         "minimap.background": "#00000000",
         "scrollbar.shadow": "#00000000"
     },
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "/home/tarmairon/Documents/sistemas/7mo Semestre/Ingenieria/Inmosoft_App/frontend/linux"
 }
