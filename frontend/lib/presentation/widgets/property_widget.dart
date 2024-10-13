@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 
 class PropertyWidget extends StatelessWidget {
-  const PropertyWidget({super.key});
+  final Image image;
+  final String title;
+  final String status;
+  final double price;
+  const PropertyWidget(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.status,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      height: 180,
+      height: 170,
       decoration: BoxDecoration(border: Border.all(), color: Colors.grey),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: Image.asset(
-                "../../assets/images/images.jpeg",
-              ),
-            ),
+            Expanded(child: image),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
@@ -30,18 +35,18 @@ class PropertyWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Casa Ramos",
+                          title,
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.start,
                         ),
                         Text(
-                          "Vendida",
+                          status,
                           style: TextStyle(fontSize: 12),
                           textAlign: TextAlign.start,
                         ),
                         Text(
-                          "1 150 000 MXN",
+                          "$price MXN",
                           style: TextStyle(fontSize: 12),
                           textAlign: TextAlign.start,
                         ),
