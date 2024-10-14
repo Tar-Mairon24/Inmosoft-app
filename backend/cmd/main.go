@@ -14,9 +14,11 @@ func main() {
 
 	// Initialize services
 	userService := services.NewUserService(database.DB)
+	PropiedadService := services.NewPropiedadService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
+	propiedadController := controllers.NewPropiedadController(PropiedadService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -24,6 +26,7 @@ func main() {
 	// Define routes
 	router.GET("/users/:id", userController.GetUser)
 	router.POST("/login", userController.Login)
+	router.GET("/all/propiedades/", propiedadController.GetAllPropiedades)
 
 	// Start the server
 	router.Run(":8080")
