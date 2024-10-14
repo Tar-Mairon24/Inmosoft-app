@@ -1,9 +1,6 @@
-// lib/main.dart
-
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
-import 'presentation/pages/login_page.dart'; // Import the LoginPage
+import 'presentation/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,13 +22,26 @@ class MyApp extends StatelessWidget {
       properties.add(property);
     }
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'InmoSoft',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: false,
+        scaffoldBackgroundColor: Colors.white,
+        primaryTextTheme: TextTheme(
+          titleMedium: TextStyle(
+              color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(3.0),
+            ),
+          ),
+        ),
       ),
-      home: HomePage(
-        properties: properties,
-      ), // Set LoginPage as the home page
+      home: LoginPage(),
     );
   }
 }
