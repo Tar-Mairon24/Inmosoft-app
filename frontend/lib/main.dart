@@ -13,8 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: false,
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.indigo,
       ),
       home: LoginPage(), // Set LoginPage as the home page
