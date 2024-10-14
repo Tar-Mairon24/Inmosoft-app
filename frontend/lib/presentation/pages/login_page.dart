@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/login_service.dart'; // Import the Dio service
-import 'home_page.dart';
+import '../../services/login_service.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -8,7 +7,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final DioService dioService = DioService();
 
-  LoginPage({super.key}); // Instantiate the Dio service
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Text(
                     "Bienvenido a InmoSoft",
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),
+                    style: Theme.of(context).primaryTextTheme.titleMedium,
                   ),
                   SizedBox(height: separation * 2),
                   Form(
@@ -36,8 +35,9 @@ class LoginPage extends StatelessWidget {
                       children: [
                         TextFormField(
                           controller: emailController,
-                          decoration: const InputDecoration(
-                            labelStyle: TextStyle(fontSize: 12),
+                          decoration: InputDecoration(
+                            labelStyle:
+                                Theme.of(context).primaryTextTheme.labelMedium,
                             labelText: 'tu email',
                             border: OutlineInputBorder(),
                           ),
@@ -54,7 +54,8 @@ class LoginPage extends StatelessWidget {
                         TextFormField(
                           controller: passwordController,
                           decoration: InputDecoration(
-                            labelStyle: TextStyle(fontSize: 12),
+                            labelStyle:
+                                Theme.of(context).primaryTextTheme.labelMedium,
                             labelText: 'tu contraseña',
                             border: OutlineInputBorder(),
                           ),
@@ -79,13 +80,13 @@ class LoginPage extends StatelessWidget {
                                 );
 
                                 if (success) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomePage(email: emailController.text),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) =>
+                                  //         HomePage(),
+                                  //   ),
+                                  // );
                                 } else {
                                   showDialog(
                                     context: context,
@@ -103,10 +104,8 @@ class LoginPage extends StatelessWidget {
                                 }
                               }
                             },
-                            style: FilledButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(3.0))),
-                            child: const Text(
+                            style: Theme.of(context).filledButtonTheme.style,
+                            child: Text(
                               'Ingresar',
                             ),
                           ),

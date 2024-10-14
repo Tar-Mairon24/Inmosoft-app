@@ -1,7 +1,5 @@
-// lib/main.dart
-
 import 'package:flutter/material.dart';
-import 'presentation/pages/login_page.dart'; // Import the LoginPage
+import 'presentation/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,14 +12,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'InmoSoft',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: false,
         scaffoldBackgroundColor: Colors.white,
-        primarySwatch: Colors.indigo,
+        primaryTextTheme: TextTheme(
+          titleMedium: TextStyle(
+              color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(3.0),
+            ),
+          ),
+        ),
       ),
-      home: LoginPage(), // Set LoginPage as the home page
+      home: LoginPage(),
     );
   }
 }
