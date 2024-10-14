@@ -3,7 +3,7 @@ import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
 class HomePage extends StatelessWidget {
-  final List<PropertyWidget> properties;
+  final List<Widget> properties;
   const HomePage({super.key, required this.properties});
 
   @override

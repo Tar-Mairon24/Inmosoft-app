@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
+import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-List<PropertyWidget> properties = [];
+List<Widget> properties = [AddPropertyWidget()];
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
