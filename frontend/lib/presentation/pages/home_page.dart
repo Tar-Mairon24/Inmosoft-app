@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/domain/models/property.dart';
-import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
@@ -13,7 +11,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Text(
           'Propiedades',
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),

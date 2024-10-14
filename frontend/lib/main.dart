@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
-import 'presentation/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +25,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'InmoSoft',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: false,
         scaffoldBackgroundColor: Colors.white,
@@ -41,7 +51,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: LoginPage(),
+      home: HomePage(
+        properties: properties,
+      ),
     );
   }
 }
