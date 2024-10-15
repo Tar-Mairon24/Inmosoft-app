@@ -7,8 +7,40 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final DioService dioService = DioService();
+  String? errorMessage;
 
   LoginPage({super.key}); // Instantiate the Dio service
+
+  void _login(BuildContext context) async {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    final result = await dioService.login(email, password);
+
+    if (result.success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(email: email),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(
+            result.errorMessage ?? 'Credenciales no válidas, inténtelo de nuevo.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            )
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,32 +118,7 @@ class LoginPage extends StatelessWidget {
                       child: FilledButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            bool success = await dioService.login(
-                              emailController.text,
-                              passwordController.text,
-                            );
-
-                            if (success) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePage(email: emailController.text),
-                                ),
-                              );
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  content: Text(
-                                      "Credenciales no válidas, inténtelo de nuevo."),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text("OK"))
-                                  ],
-                                ),
-                              );
-                            }
+                            _login(context);
                           }
                         },
                         style: FilledButton.styleFrom(
