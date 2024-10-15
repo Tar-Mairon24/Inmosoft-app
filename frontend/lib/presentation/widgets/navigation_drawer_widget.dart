@@ -6,8 +6,6 @@ class NavigationDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      shape: BeveledRectangleBorder(),
-      backgroundColor: const Color.fromARGB(255, 9, 15, 84),
       child: Center(
         child: SingleChildScrollView(
             child: Column(
@@ -26,25 +24,26 @@ class NavigationDrawerWidget extends StatelessWidget {
       );
 
   Widget buildMenuItems(BuildContext context) => Wrap(
-        runSpacing: 16,
+        runSpacing: MediaQuery.of(context).size.height * 0.04,
         children: [
           ListTile(
-            title: const Text(
+            title: Text(
               'Citas',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 14),
+              style: Theme.of(context).primaryTextTheme.bodyMedium,
             ),
             onTap: () {},
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.02),
             child: Divider(),
           ),
           ListTile(
-            title: const Text(
+            title: Text(
               'Contratos',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 14),
+              style: Theme.of(context).primaryTextTheme.bodyMedium,
             ),
             onTap: () {},
           ),

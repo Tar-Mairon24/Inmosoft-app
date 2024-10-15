@@ -16,14 +16,9 @@ class PropertyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Usamos MediaQuery para obtener el tamaño de la pantalla.
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Container(
-      width:
-          screenWidth * 0.45, // Ajusta el ancho a un porcentaje de la pantalla.
-      height:
-          screenWidth * 0.55, // Ajusta la altura proporcionalmente al ancho.
+      // width: MediaQuery.of(context).size.width * 0.45,
+      // height: MediaQuery.of(context).size.width * 0.55,
       decoration: BoxDecoration(
         border: Border.all(),
         color: Colors.grey[400],
@@ -32,16 +27,15 @@ class PropertyWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // El widget Expanded permite que la imagen ocupe el espacio disponible.
             Expanded(child: image),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.01),
                 color: Colors.white,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Usamos Expanded y ajustamos el estilo del texto según el tamaño de la pantalla.
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,68 +43,47 @@ class PropertyWidget extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: screenWidth *
-                                  0.01, // Tamaño de fuente adaptativo
-                            ),
-                            textAlign: TextAlign.start,
+                            style:
+                                Theme.of(context).primaryTextTheme.titleSmall,
                           ),
                           Text(
                             status,
-                            style: TextStyle(
-                              fontSize: screenWidth *
-                                  0.01, // Tamaño de fuente adaptativo
-                            ),
-                            textAlign: TextAlign.start,
+                            style: Theme.of(context).primaryTextTheme.bodySmall,
                           ),
                           Text(
                             "$price MXN",
-                            style: TextStyle(
-                              fontSize: screenWidth *
-                                  0.01, // Tamaño de fuente adaptativo
-                            ),
-                            textAlign: TextAlign.start,
+                            style: Theme.of(context).primaryTextTheme.bodySmall,
                           ),
                         ],
                       ),
                     ),
                     PopupMenuButton<String>(
-                      color: Colors.white,
                       itemBuilder: (BuildContext context) => [
                         PopupMenuItem<String>(
-                          onTap: () {
-                            // Acción de edición
-                          },
+                          onTap: () {},
                           child: const Text('Editar'),
                         ),
                         PopupMenuItem<String>(
                           onTap: () {
-                            // Mostramos un diálogo de confirmación para borrar
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  content: const Text(
-                                      "¿Está seguro de que desea eliminar esta propiedad?"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        // Acción de confirmación para borrar
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("SI"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("NO"),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            });
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                content: const Text(
+                                    "¿Está seguro de que desea eliminar esta propiedad?"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      //! Eliminar la propiedad de la base de datos y actualizar el estado
+                                    },
+                                    child: const Text("SI"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text("NO"),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                           child: const Text('Borrar'),
                         ),

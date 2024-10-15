@@ -42,7 +42,11 @@ class MyApp extends StatelessWidget {
         primaryTextTheme: TextTheme(
           titleMedium: TextStyle(
               color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          titleSmall: TextStyle(
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
           labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
+          bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
+          bodySmall: TextStyle(color: Colors.black, fontSize: 12),
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
@@ -51,6 +55,8 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        popupMenuTheme: PopupMenuThemeData(color: Colors.white),
+        drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo),
       ),
       home: HomePage(
         properties: properties,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/widgets/home_filters_bar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
@@ -9,28 +10,22 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Propiedades',
-          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),
+          style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 64.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.06),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text("Filtros"),
-                Icon(Icons.filter_alt),
-              ],
-            ),
+            HomeFiltersBarWidget(),
             Expanded(
               child: GridView.count(
-                crossAxisSpacing: 56,
-                mainAxisSpacing: 32,
+                crossAxisSpacing: MediaQuery.of(context).size.width * 0.06,
+                mainAxisSpacing: MediaQuery.of(context).size.height * 0.06,
                 crossAxisCount: 4,
                 children: properties,
               ),
