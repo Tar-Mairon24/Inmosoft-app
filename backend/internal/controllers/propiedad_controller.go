@@ -82,9 +82,9 @@ func (ctrl *Propiedad_Controller) GetEstadoPropiedad(c *gin.Context) {
 	c.JSON(http.StatusOK, estadoPropiedad)
 }
 
-// GET /estadoPropiedad/:id_tipo_propiedad
+// GET /estadoPropiedad/:id
 func (ctrl *Propiedad_Controller) GetTipoPropiedad(c *gin.Context) {
-	idTipoPropiedadParam := c.Param("id_tipo_propiedad")
+	idTipoPropiedadParam := c.Param("id")
 	idTipoPropiedad, err := strconv.Atoi(idTipoPropiedadParam)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid tipo propiedad ID"})
@@ -107,7 +107,7 @@ func (ctrl *Propiedad_Controller) GetTipoPropiedad(c *gin.Context) {
 
 // GET /propietario/:id_propietario
 func (ctrl *Propiedad_Controller) GetPropietario(c *gin.Context) {
-	idPropietarioParam := c.Param("id_propietario")
+	idPropietarioParam := c.Param("id")
 	idPropietario, err := strconv.Atoi(idPropietarioParam)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid propietario ID"})

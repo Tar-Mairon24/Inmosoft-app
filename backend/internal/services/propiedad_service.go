@@ -4,6 +4,7 @@ import (
 	"backend/internal/models"
 	"database/sql"
 	"log"
+	"strings"
 )
 
 type PropiedadService struct {
@@ -53,14 +54,15 @@ func (service *PropiedadService) GetAllPropiedades() ([]*models.MenuPropiedades,
 // Funcion que recupera todos los campos de una propiedad en específico
 func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error) {
 	var propiedad models.Propiedad
+	var gas, comodidades, extras, utilidades string
 	query := "SELECT * FROM Propiedades WHERE id_propiedad = ?"
 	err := service.DB.QueryRow(query, id).Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.FechaAlta,
 		&propiedad.Direccion, &propiedad.Colonia, &propiedad.Ciudad,
 		&propiedad.Referencia, &propiedad.Precio, &propiedad.MtsConstruccion,
 		&propiedad.MtsTerreno, &propiedad.Habitada, &propiedad.Amueblada,
 		&propiedad.NumPlantas, &propiedad.NumRecamaras, &propiedad.NumBanos,
-		&propiedad.SizeCochera, &propiedad.MtsJardin, &propiedad.Gas,
-		&propiedad.Comodidades, &propiedad.Extras, &propiedad.Utilidades,
+		&propiedad.SizeCochera, &propiedad.MtsJardin, &gas,
+		&comodidades, &extras, &utilidades,
 		&propiedad.Observaciones, &propiedad.IDTipoPropiedad, &propiedad.IDPropietario, &propiedad.IDUsuario)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -70,6 +72,11 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 		log.Println("Error fetching propiedad:", err)
 		return nil, err
 	}
+
+	propiedad.Gas = parseStringSet(gas)
+	propiedad.Comodidades = parseStringSet(comodidades)
+	propiedad.Extras = parseStringSet(extras)
+	propiedad.Utilidades = parseStringSet(utilidades)
 
 	return &propiedad, nil
 }
@@ -124,4 +131,13 @@ func (service *PropiedadService) GetTipoPropiedad(id int) (*models.TipoPropiedad
 		return nil, err
 	}
 	return &tipo, nil
+}
+
+// helper function to parse sets of strings
+func parseStringSet(str string) []string {
+	var set []string
+	if str != "" {
+		set = strings.Split(str, ",")
+	}
+	return set
 }
