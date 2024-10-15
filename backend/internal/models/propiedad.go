@@ -43,3 +43,17 @@ type MenuPropiedades struct {
 	TipoTransaccion string  `json:"tipo_transaccion"` // Tipo de transacción ('venta', 'renta')
 	Estado          string  `json:"estado"`           // Estado de la propiedad ('disponible', 'vendida', 'rentada')
 }
+
+type TipoPropiedad struct {
+	IDTipoPropiedad int    `json:"id_tipo_propiedad"` // Clave primaria
+	Tipo_Propiedad  string `json:"descripcion"`       // Descripción del tipo de propiedad
+}
+
+type Propietario struct {
+	IDPropietario int    `json:"id_propietario"` // Clave primaria
+	Nombre        string `json:"nombre"`         // Nombre del propietario
+	ApellidoP     string `json:"apellido_p"`     // Apellido paterno
+	ApellidoM     string `json:"apellido_m"`     // Apellido materno
+	Telefono      string `json:"telefono"`       // Teléfono de contacto
+	Correo        string `json:"correo"`         // Correo electrónico
+}

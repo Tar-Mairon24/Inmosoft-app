@@ -24,9 +24,22 @@ func main() {
 	router := gin.Default()
 
 	// Define routes
+
+	// rutas para un usuario en específico
 	router.GET("/users/:id", userController.GetUser)
+	// ruta para comprobar credenciales de un usuario
 	router.POST("/login", userController.Login)
+
+	// ruta para agarrar la informacion importante de todas las propiedades
 	router.GET("/all/propiedades/", propiedadController.GetAllPropiedades)
+	// ruta para agarrar toda la informacion de una propiedad en específico
+	router.GET("/propiedad/:id", propiedadController.GetPropiedad)
+	// ruta para agarrar el estado de una propiedad en específico
+	router.GET("/estadopropiedad/:id", propiedadController.GetTipoPropiedad)
+	// ruta para agarrar el propietario de una propiedad en específico
+	router.GET("/propietario/:id", propiedadController.GetPropietario)
+	// ruta para agarrar el tipo de propiedad
+	router.GET("/tipopropiedad/:id", propiedadController.GetTipoPropiedad)
 
 	// Start the server
 	router.Run(":8080")
