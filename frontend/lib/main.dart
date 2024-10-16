@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
+import 'package:frontend/presentation/pages/property_adder_page.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
@@ -58,9 +59,7 @@ class MyApp extends StatelessWidget {
         popupMenuTheme: PopupMenuThemeData(color: Colors.white),
         drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo),
       ),
-      home: HomePage(
-        properties: properties,
-      ),
+      home: PropertyAdderPage(),
     );
   }
 }
