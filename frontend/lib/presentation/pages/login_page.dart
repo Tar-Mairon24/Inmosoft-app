@@ -106,34 +106,7 @@ class LoginPage extends StatelessWidget {
                           child: FilledButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                bool success = await dioService.login(
-                                  emailController.text,
-                                  passwordController.text,
-                                );
-
-                                if (success) {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         HomePage(),
-                                  //   ),
-                                  // );
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      content: Text(
-                                          "Credenciales no válidas, inténtelo de nuevo."),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: const Text("OK"))
-                                      ],
-                                    ),
-                                  );
-                                }
+                                _login(context);
                               }
                             },
                             style: Theme.of(context).filledButtonTheme.style,
