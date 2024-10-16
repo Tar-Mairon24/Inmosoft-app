@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
         context: context,
         builder: (context) => AlertDialog(
           content: Text(
-            result.errorMessage ?? 'Credenciales no válidas, inténtelo de nuevo.',
+            result.errorMessage ?? 'Checar la conexion con el servidor',
           ),
           actions: [
             TextButton(

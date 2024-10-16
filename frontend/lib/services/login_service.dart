@@ -41,8 +41,27 @@ class DioService {
         log.e('Receive Timeout Exception');
         errorMessage = 'Receive Timeout Exception';
       } else if (e.type == DioExceptionType.badResponse) {
-        log.e('Received invalid status code: ${e.response?.statusCode}');
-        errorMessage = 'Received invalid status code: ${e.response?.statusCode}';
+        switch (e.response?.statusCode) {
+          case 400:
+            errorMessage = 'Bad Request';
+            break;
+          case 401:
+            errorMessage = 'Credenciales invalidas. Comprobar Usuario y Contraseña';
+            break;
+          case 403:
+            errorMessage = 'Forbidden';
+            break;
+          case 404:
+            errorMessage = 'Not Found';
+            break;
+          case 500:
+            errorMessage = 'Internal Server Error';
+            break;
+          default:
+            errorMessage = 'Received invalid status code: ${e.response?.statusCode}';
+            break;
+        }
+        log.e('Bad Response: $errorMessage\n${e.response?.data}');
       } else if (e.type == DioExceptionType.cancel) {
         log.e('Request to API server was cancelled');
         errorMessage = 'Request to API server was cancelled';
