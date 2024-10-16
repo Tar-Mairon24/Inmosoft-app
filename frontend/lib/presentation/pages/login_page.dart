@@ -7,7 +7,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final DioService dioService = DioService();
-  String? errorMessage;
+  final String? errorMessage = '';
 
   LoginPage({super.key}); // Instantiate the Dio service
 
