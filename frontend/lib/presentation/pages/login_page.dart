@@ -6,8 +6,40 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final DioService dioService = DioService();
+  final String? errorMessage = '';
 
-  LoginPage({super.key});
+  LoginPage({super.key}); // Instantiate the Dio service
+
+  void _login(BuildContext context) async {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    final result = await dioService.login(email, password);
+
+    if (result.success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(email: email),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(
+            result.errorMessage ?? 'Checar la conexion con el servidor',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            )
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
