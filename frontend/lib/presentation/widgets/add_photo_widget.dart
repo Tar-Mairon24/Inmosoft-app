@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/pages/property_adder_page.dart';
 
-class AddPropertyWidget extends StatelessWidget {
-  const AddPropertyWidget({super.key});
+class AddPhotoWidget extends StatelessWidget {
+  const AddPhotoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class AddPropertyWidget extends StatelessWidget {
                   size: MediaQuery.of(context).size.height * 0.1,
                 ),
                 Text(
-                  "Agregar propiedad",
+                  "Agregar fotografía",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).primaryTextTheme.bodyMedium,
                 ),
@@ -31,9 +30,7 @@ class AddPropertyWidget extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => PropertyAdderPage()),
-      ),
+      onTap: () {},
     );
   }
 }

@@ -109,7 +109,6 @@ class LoginPage extends StatelessWidget {
                                 _login(context);
                               }
                             },
-                            style: Theme.of(context).filledButtonTheme.style,
                             child: Text(
                               'Ingresar',
                             ),
