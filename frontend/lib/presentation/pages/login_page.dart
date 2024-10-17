@@ -104,7 +104,6 @@ class LoginPage extends StatelessWidget {
                                 }
                               }
                             },
-                            style: Theme.of(context).filledButtonTheme.style,
                             child: Text(
                               'Ingresar',
                             ),

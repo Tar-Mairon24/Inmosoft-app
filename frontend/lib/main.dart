@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
-import 'package:frontend/presentation/pages/property_adder_page.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
@@ -24,42 +23,41 @@ class MyApp extends StatelessWidget {
       properties.add(property);
     }
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'InmoSoft',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
+        debugShowCheckedModeBanner: false,
+        title: 'InmoSoft',
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+            iconTheme: IconThemeData(color: Colors.black),
           ),
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: false,
-        scaffoldBackgroundColor: Colors.white,
-        primaryTextTheme: TextTheme(
-          titleMedium: TextStyle(
-              color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
-          titleSmall: TextStyle(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
-          labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
-          bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
-          bodySmall: TextStyle(color: Colors.black, fontSize: 12),
-        ),
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(3.0),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+          useMaterial3: false,
+          scaffoldBackgroundColor: Colors.white,
+          primaryTextTheme: TextTheme(
+            titleMedium: TextStyle(
+                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            titleSmall: TextStyle(
+                color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+            labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
+            bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
+            bodySmall: TextStyle(color: Colors.black, fontSize: 12),
+          ),
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3.0),
+              ),
             ),
           ),
+          popupMenuTheme: PopupMenuThemeData(color: Colors.white),
+          drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo),
         ),
-        popupMenuTheme: PopupMenuThemeData(color: Colors.white),
-        drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo),
-      ),
-      home: PropertyAdderPage(),
-    );
+        home: HomePage(properties: properties));
   }
 }

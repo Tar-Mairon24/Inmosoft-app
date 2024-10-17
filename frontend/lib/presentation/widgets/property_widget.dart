@@ -17,8 +17,6 @@ class PropertyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: MediaQuery.of(context).size.width * 0.45,
-      // height: MediaQuery.of(context).size.width * 0.55,
       decoration: BoxDecoration(
         border: Border.all(),
         color: Colors.grey[400],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/widgets/home_filters_bar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
-import 'package:frontend/presentation/widgets/property_widget.dart';
 
 class HomePage extends StatelessWidget {
   final List<Widget> properties;
@@ -18,7 +17,8 @@ class HomePage extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.06),
+          horizontal: MediaQuery.of(context).size.width * 0.06,
+        ),
         child: Column(
           children: [
             HomeFiltersBarWidget(),

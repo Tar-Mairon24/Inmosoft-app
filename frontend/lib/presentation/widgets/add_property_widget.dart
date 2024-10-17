@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/pages/property_adder_page.dart';
 
 class AddPropertyWidget extends StatelessWidget {
   const AddPropertyWidget({super.key});
@@ -30,7 +31,9 @@ class AddPropertyWidget extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PropertyAdderPage()),
+      ),
     );
   }
 }
