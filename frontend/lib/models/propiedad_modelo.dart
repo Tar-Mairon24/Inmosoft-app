@@ -8,10 +8,10 @@ class PropiedadMenu {
 
   factory PropiedadMenu.fromJson(Map<String, dynamic> json) {
     return PropiedadMenu(
-      titulo: json['titulo'],
-      precio: json['precio'],
-      tipoTransaccion: json['tipoTransaccion'],
-      estado: json['estado'],
+      titulo: json['titulo'] as String? ?? 'Unknown',
+      precio: (json['precio'] as num?)?.toDouble() ?? 0.0,
+      tipoTransaccion: json['tipoTransaccion'] as String? ?? 'Unknown',
+      estado: json['estado'] as String? ?? 'Unknown',
     );
   }
 }
