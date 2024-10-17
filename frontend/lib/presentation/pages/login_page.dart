@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 import '../../services/login_service.dart';
+import '../../services/propiedad_service.dart';
+import '../widgets/property_widget.dart';
+import '../../models/propiedad_modelo.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final DioService dioService = DioService();
+  final LoginService dioService = LoginService();
+  final PropiedadService propiedadService = PropiedadService();
   final String? errorMessage = '';
 
   LoginPage({super.key}); // Instantiate the Dio service
+
+  List<Widget> crearPropiedades(List<PropiedadMenu> propiedades) {
+  return propiedades.map((propiedad) {
+    return PropertyWidget(
+      image: Image.asset('assets/images/images.jpeg'),
+      title: propiedad.titulo,
+      status: propiedad.estado,
+      price: propiedad.precio,
+    );
+  }).toList();
+}
 
   void _login(BuildContext context) async {
     final email = emailController.text;
@@ -17,12 +33,32 @@ class LoginPage extends StatelessWidget {
     final result = await dioService.login(email, password);
 
     if (result.success) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(email: email),
-        ),
-      );
+      final resultPropiedades = await propiedadService.getPropiedades();
+      if(resultPropiedades.success){
+        final propiedades = resultPropiedades.data;
+        final propiedadesWidget = crearPropiedades(propiedades ?? []);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(properties: propiedadesWidget),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Text(
+              resultPropiedades.errorMessage ?? 'Checar la conexion con el servidor',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("OK"),
+              )
+            ],
+          ),
+        );
+      }
     } else {
       showDialog(
         context: context,

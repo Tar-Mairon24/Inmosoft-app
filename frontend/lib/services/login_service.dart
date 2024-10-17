@@ -8,7 +8,7 @@ class LoginReuslt {
   LoginReuslt({required this.success, this.errorMessage});
 }
 
-class DioService {
+class LoginService {
   final Dio _dio = Dio();
   final Logger log = Logger();
 
