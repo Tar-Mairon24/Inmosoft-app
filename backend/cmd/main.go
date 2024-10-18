@@ -5,6 +5,7 @@ import (
 	"backend/internal/database"
 	"backend/internal/services"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,6 +24,16 @@ func main() {
 	// Set up Gin router
 	router := gin.Default()
 
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3030"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
+	router.RemoveExtraSlash = true
+
 	// Define routes
 
 	// rutas para un usuario en específico
@@ -31,7 +42,7 @@ func main() {
 	router.POST("/login", userController.Login)
 
 	// ruta para agarrar la informacion importante de todas las propiedades
-	router.GET("/all/propiedades/", propiedadController.GetAllPropiedades)
+	router.GET("/all/propiedades", propiedadController.GetAllPropiedades)
 	// ruta para agarrar toda la informacion de una propiedad en específico
 	router.GET("/propiedad/:id", propiedadController.GetPropiedad)
 	// ruta para agarrar el estado de una propiedad en específico

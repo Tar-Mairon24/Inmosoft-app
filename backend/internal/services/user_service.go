@@ -37,9 +37,7 @@ func (service *UserService) GetUserByID(id int) (*models.User, error) {
 func (service *UserService) Login(email, password string) (*models.User, error) {
 	user := &models.User{}
 	query := "select * from Usuarios where usuario = ? and password_usuario = ?;"
-	println(email, password)
 	err := service.DB.QueryRow(query, email, password).Scan(&user.ID, &user.Email, &user.Password)
-	println(err)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return user, errors.New("invalid credentials")
