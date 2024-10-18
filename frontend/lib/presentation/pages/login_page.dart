@@ -17,12 +17,12 @@ class LoginPage extends StatelessWidget {
     final result = await dioService.login(email, password);
 
     if (result.success) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(email: email),
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => HomePage(email: email),
+      //   ),
+      // );
     } else {
       showDialog(
         context: context,
@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Text(
                     "Bienvenido a InmoSoft",
-                    style: Theme.of(context).primaryTextTheme.titleMedium,
+                    style: Theme.of(context).primaryTextTheme.titleLarge,
                   ),
                   SizedBox(height: separation * 2),
                   Form(
