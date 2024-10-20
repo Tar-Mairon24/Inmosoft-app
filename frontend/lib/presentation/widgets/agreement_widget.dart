@@ -16,28 +16,68 @@ class AgreementWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(), // Borde recto
+        border: Border.all(),
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.04),
-        child: ListTile(
-          leading: Icon(Icons.person),
-          title: Text(
-            title,
-            style: Theme.of(context).primaryTextTheme.titleMedium,
-          ),
-          subtitle: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Alinear a la izquierda
-            children: [
-              Text(
-                property,
-              ),
-              Text(client),
-            ],
-          ),
-          trailing: Icon(Icons.more_vert_outlined),
+      child: ListTile(
+        contentPadding:
+            EdgeInsets.all(MediaQuery.of(context).size.aspectRatio * 12),
+        dense: true,
+        isThreeLine: true,
+        leading: CircleAvatar(
+          backgroundColor: Colors.grey[400],
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              type,
+              style: Theme.of(context).primaryTextTheme.bodySmall,
+            ),
+            Text(
+              title,
+              style: Theme.of(context).primaryTextTheme.titleMedium,
+            ),
+          ],
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(property),
+            Text(client),
+          ],
+        ),
+        trailing: PopupMenuButton<String>(
+          itemBuilder: (BuildContext context) => [
+            PopupMenuItem<String>(
+              onTap: () {},
+              child: const Text('Editar'),
+            ),
+            PopupMenuItem<String>(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: const Text(
+                        "¿Está seguro de que desea eliminar este contrato?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          //! Eliminar el contrato de la base de datos y actualizar el estado
+                        },
+                        child: const Text("SI"),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("NO"),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: const Text('Borrar'),
+            ),
+          ],
+          icon: const Icon(Icons.more_vert_outlined),
         ),
       ),
     );

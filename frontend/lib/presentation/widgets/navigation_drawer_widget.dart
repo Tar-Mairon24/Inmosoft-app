@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/pages/agreements_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({super.key});
@@ -28,24 +29,43 @@ class NavigationDrawerWidget extends StatelessWidget {
         children: [
           ListTile(
             title: Text(
-              'Citas',
+              'Inicio',
               textAlign: TextAlign.center,
-              style: Theme.of(context).primaryTextTheme.bodyMedium,
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
             onTap: () {},
           ),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.02),
-            child: Divider(),
+            child: Divider(
+              color: Colors.white,
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'Citas',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.02),
+            child: Divider(
+              color: Colors.white,
+            ),
           ),
           ListTile(
             title: Text(
               'Contratos',
               textAlign: TextAlign.center,
-              style: Theme.of(context).primaryTextTheme.bodyMedium,
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => const AgreementsPage())),
           ),
         ],
       );
