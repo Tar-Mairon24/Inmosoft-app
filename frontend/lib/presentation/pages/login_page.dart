@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import '../../services/login_service.dart';
 import '../../services/propiedad_service.dart';
 import '../widgets/property_widget.dart';
@@ -16,15 +17,19 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key}); // Instantiate the Dio service
 
   List<Widget> crearPropiedades(List<PropiedadMenu> propiedades) {
-  return propiedades.map((propiedad) {
-    return PropertyWidget(
-      image: Image.asset('assets/images/images.jpeg'),
-      title: propiedad.titulo,
-      status: propiedad.estado,
-      price: propiedad.precio,
-    );
-  }).toList();
-}
+    List<Widget> widgets = [
+      AddPropertyWidget(), // El primer elemento de la lista
+      ...propiedades.map((propiedad) {
+        return PropertyWidget(
+          image: Image.asset('assets/images/images.jpeg'),
+          title: propiedad.titulo,
+          status: propiedad.estado,
+          price: propiedad.precio,
+        );
+      }),
+    ];
+    return widgets;
+  }
 
   void _login(BuildContext context) async {
     final email = emailController.text;
@@ -34,7 +39,7 @@ class LoginPage extends StatelessWidget {
 
     if (result.success) {
       final resultPropiedades = await propiedadService.getPropiedades();
-      if(resultPropiedades.success){
+      if (resultPropiedades.success) {
         final propiedades = resultPropiedades.data;
         final propiedadesWidget = crearPropiedades(propiedades ?? []);
         Navigator.push(
@@ -48,7 +53,8 @@ class LoginPage extends StatelessWidget {
           context: context,
           builder: (context) => AlertDialog(
             content: Text(
-              resultPropiedades.errorMessage ?? 'Checar la conexion con el servidor',
+              resultPropiedades.errorMessage ??
+                  'Checar la conexion con el servidor',
             ),
             actions: [
               TextButton(
