@@ -38,6 +38,7 @@ class LoginPage extends StatelessWidget {
     final result = await dioService.login(email, password);
 
     if (result.success) {
+<<<<<<< HEAD
       final resultPropiedades = await propiedadService.getPropiedades();
       if (resultPropiedades.success) {
         final propiedades = resultPropiedades.data;
@@ -65,6 +66,14 @@ class LoginPage extends StatelessWidget {
           ),
         );
       }
+=======
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => HomePage(email: email),
+      //   ),
+      // );
+>>>>>>> agreements
     } else {
       showDialog(
         context: context,
@@ -99,7 +108,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Text(
                     "Bienvenido a InmoSoft",
-                    style: Theme.of(context).primaryTextTheme.titleMedium,
+                    style: Theme.of(context).primaryTextTheme.titleLarge,
                   ),
                   SizedBox(height: separation * 2),
                   Form(
