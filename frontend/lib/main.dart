@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:frontend/presentation/pages/login_page.dart';
-=======
 import 'package:frontend/presentation/pages/agreements_page.dart';
->>>>>>> agreements
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
 
@@ -64,10 +61,6 @@ class MyApp extends StatelessWidget {
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-<<<<<<< HEAD
         home: LoginPage());
-=======
-        home: AgreementsPage());
->>>>>>> agreements
   }
 }
