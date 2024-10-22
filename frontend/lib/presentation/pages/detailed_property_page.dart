@@ -56,6 +56,7 @@ class DetailedPropertyPage extends StatelessWidget {
                 Flexible(
                   child: SingleChildScrollView(
                     child: Column(
+<<<<<<< HEAD
                       children: [
                         Text('Dirección'),
                         Text('Dirección'),
@@ -102,6 +103,9 @@ class DetailedPropertyPage extends StatelessWidget {
                         Text('Dirección'),
                         Text('Dirección'),
                       ],
+=======
+                      children: [],
+>>>>>>> detailed_property
                     ),
                   ),
                 ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/agreement_adder_page.dart';
+import 'package:frontend/presentation/pages/detailed_property_page.dart';
+import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
 import 'package:frontend/presentation/pages/agreements_page.dart';
 import 'package:frontend/presentation/pages/property_adder_page.dart';
@@ -63,6 +65,8 @@ class MyApp extends StatelessWidget {
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-        home: AgreementsPage());
+        home: HomePage(
+          properties: properties,
+        ));
   }
 }
