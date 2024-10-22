@@ -81,56 +81,30 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 	return &propiedad, nil
 }
 
-// GET /estadoPropiedad/:id_tipo_propiedad
-// Funcion que recupera el estado de la propiedad dependiedo del id_tipo_propiedad que biene en el get/prpopiedad/:id
-func (service *PropiedadService) GetEstadoPropiedad(id int) (*models.EstadoPropiedades, error) {
-	var estado models.EstadoPropiedades
-	query := "SELECT * FROM Estado_Propiedades WHERE id_propiedad = ?"
-	err := service.DB.QueryRow(query, id).Scan(&estado.IDEstadoPropiedades, &estado.TipoTransaccion, &estado.Estado, &estado.FechaCambioEstado)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			log.Println("No rows found")
-			return nil, nil
-		}
-		log.Println("Error fetching estado:", err)
-		return nil, err
-	}
+func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (int, error) {
+	query := "INSERT INTO Propiedades(id_propiedad, titulo, fecha_alta, direccion, colonia, ciudad, referencia, " +
+		"precio, mts_construccion, mts_terreno, habitada, amueblada, " +
+		"num_plantas, num_recamaras, num_banos, size_cochera, mts_jardin, " +
+		"gas, comodidades, extras, utilidades, observaciones, id_tipo_propiedad, " +
+		"id_propietario, id_usuario) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+	result, err := service.DB.Exec(query, propiedad.IDPropiedad, propiedad.Titulo, propiedad.FechaAlta,
+		propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad, propiedad.Referencia,
+		propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno, propiedad.Habitada, propiedad.Amueblada,
+		propiedad.NumPlantas, propiedad.NumRecamaras, propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin,
+		strings.Join(propiedad.Gas, ","), strings.Join(propiedad.Comodidades, ","), strings.Join(propiedad.Extras, ","),
+		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario)
 
-	return &estado, nil
-}
-
-// /propietario/:id_propietario
-// Funcion que recupera el propietario de la propiedad dependiendo del id_propietario que biene en el get/prpopiedad/:id
-func (service *PropiedadService) GetPropietario(id int) (*models.Propietario, error) {
-	var propietario models.Propietario
-	query := "SELECT * FROM Propietario WHERE id_propietario = ?"
-	err := service.DB.QueryRow(query, id).Scan(&propietario.IDPropietario, &propietario.Nombre, &propietario.ApellidoP, &propietario.ApellidoM, &propietario.Telefono, &propietario.Correo)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			log.Println("No rows found")
-			return nil, nil
+		log.Println("Error inserting propiedad:", err)
+		return 0, err
+	} else {
+		lastID, err := result.LastInsertId()
+		if err != nil {
+			log.Println("Error getting last insert ID:", err)
+			return 0, err
 		}
-		log.Println("Error fetching propietario:", err)
-		return nil, err
+		return int(lastID), nil
 	}
-	return &propietario, nil
-}
-
-// GET /tipoPropiedad/:id_tipo_propiedad
-// Funcion que recupera el tipo de propiedad dependiendo del id_tipo_propiedad que biene en el get/prpopiedad/:id
-func (service *PropiedadService) GetTipoPropiedad(id int) (*models.TipoPropiedad, error) {
-	var tipo models.TipoPropiedad
-	query := "SELECT * FROM Tipo_Propiedad WHERE id_tipo_propiedad = ?"
-	err := service.DB.QueryRow(query, id).Scan(&tipo.IDTipoPropiedad, &tipo.Tipo_Propiedad)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			log.Println("No rows found")
-			return nil, nil
-		}
-		log.Println("Error fetching tipo:", err)
-		return nil, err
-	}
-	return &tipo, nil
 }
 
 // helper function to parse sets of strings

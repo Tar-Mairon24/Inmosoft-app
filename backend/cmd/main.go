@@ -16,10 +16,16 @@ func main() {
 	// Initialize services
 	userService := services.NewUserService(database.DB)
 	PropiedadService := services.NewPropiedadService(database.DB)
+	EstadoPropiedadService := services.NewEstadoPropiedadService(database.DB)
+	PropietarioService := services.NewPropietarioService(database.DB)
+	TipoPropiedadService := services.NewTipoPropiedadService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
 	propiedadController := controllers.NewPropiedadController(PropiedadService)
+	estadoPropiedadController := controllers.NewEstadoPropiedadController(EstadoPropiedadService)
+	propietarioController := controllers.NewPropietarioController(PropietarioService)
+	tipoPropiedadController := controllers.NewTipoPropiedadController(TipoPropiedadService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -46,11 +52,11 @@ func main() {
 	// ruta para agarrar toda la informacion de una propiedad en específico
 	router.GET("/propiedad/:id", propiedadController.GetPropiedad)
 	// ruta para agarrar el estado de una propiedad en específico
-	router.GET("/estadopropiedad/:id", propiedadController.GetTipoPropiedad)
+	router.GET("/estadopropiedad/:id", estadoPropiedadController.GetEstadoPropiedad)
 	// ruta para agarrar el propietario de una propiedad en específico
-	router.GET("/propietario/:id", propiedadController.GetPropietario)
+	router.GET("/propietario/:id", propietarioController.GetPropietario)
 	// ruta para agarrar el tipo de propiedad
-	router.GET("/tipopropiedad/:id", propiedadController.GetTipoPropiedad)
+	router.GET("/tipopropiedad/:id", tipoPropiedadController.GetTipoPropiedad)
 
 	// Start the server
 	router.Run(":8080")
