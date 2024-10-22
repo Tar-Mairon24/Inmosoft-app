@@ -30,12 +30,7 @@ type Propiedad struct {
 	IDUsuario       int       `json:"id_usuario"`        // Clave foránea que referencia a Usuarios
 }
 
-type EstadoPropiedades struct {
-	IDEstadoPropiedades int       `json:"id_estado_propiedades"` // Clave primaria
-	TipoTransaccion     string    `json:"tipo_transaccion"`      // Tipo de transacción ('venta', 'renta')
-	Estado              string    `json:"estado"`                // Estado de la propiedad ('disponible', 'vendida', 'rentada')
-	FechaCambioEstado   time.Time `json:"fecha_cambio_estado"`   // Fecha en que cambió el estado de la propiedad
-}
+
 
 type MenuPropiedades struct {
 	Titulo          string  `json:"titulo"`           // Título de la propiedad
@@ -44,16 +39,4 @@ type MenuPropiedades struct {
 	Estado          string  `json:"estado"`           // Estado de la propiedad ('disponible', 'vendida', 'rentada')
 }
 
-type TipoPropiedad struct {
-	IDTipoPropiedad int    `json:"id_tipo_propiedad"` // Clave primaria
-	Tipo_Propiedad  string `json:"descripcion"`       // Descripción del tipo de propiedad
-}
 
-type Propietario struct {
-	IDPropietario int    `json:"id_propietario"` // Clave primaria
-	Nombre        string `json:"nombre"`         // Nombre del propietario
-	ApellidoP     string `json:"apellido_p"`     // Apellido paterno
-	ApellidoM     string `json:"apellido_m"`     // Apellido materno
-	Telefono      string `json:"telefono"`       // Teléfono de contacto
-	Correo        string `json:"correo"`         // Correo electrónico
-}
