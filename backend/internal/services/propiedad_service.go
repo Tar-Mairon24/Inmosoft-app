@@ -82,6 +82,13 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 }
 
 func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (int, error) {
+	lastID, err := service.getLastId()
+	if err != nil {
+		log.Println("Error getting last ID:", err)
+		return 0, err
+	}
+	propiedad.IDPropiedad = lastID + 1
+	
 	query := "INSERT INTO Propiedades(id_propiedad, titulo, fecha_alta, direccion, colonia, ciudad, referencia, " +
 		"precio, mts_construccion, mts_terreno, habitada, amueblada, " +
 		"num_plantas, num_recamaras, num_banos, size_cochera, mts_jardin, " +
@@ -105,6 +112,17 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (i
 		}
 		return int(lastID), nil
 	}
+}
+
+func (service *PropiedadService) getLastId() (int, error) {
+	var id int
+	query := "SELECT MAX(id_propiedad) FROM Propiedades"
+	err := service.DB.QueryRow(query).Scan(&id)
+	if err != nil {
+		log.Println("Error getting last ID:", err)
+		return 0, err
+	}
+	return id, nil
 }
 
 // helper function to parse sets of strings

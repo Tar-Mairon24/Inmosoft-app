@@ -58,6 +58,10 @@ func main() {
 	// ruta para agarrar el tipo de propiedad
 	router.GET("/tipopropiedad/:id", tipoPropiedadController.GetTipoPropiedad)
 
+
+	// ruta para insertar una propiedad
+	router.POST("/propiedad", propiedadController.CreatePropiedad)
+
 	// Start the server
 	router.Run(":8080")
 }
