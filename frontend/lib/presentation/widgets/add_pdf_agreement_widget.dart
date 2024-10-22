@@ -21,7 +21,7 @@ class AddAgreementWidget extends StatelessWidget {
                   size: MediaQuery.of(context).size.height * 0.1,
                 ),
                 Text(
-                  "Agregar contrato",
+                  "PDF del contrato",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).primaryTextTheme.bodyMedium,
                 ),

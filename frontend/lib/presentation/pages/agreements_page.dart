@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/pages/agreement_adder_page.dart';
 import 'package:frontend/presentation/widgets/agreement_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 
@@ -99,7 +100,10 @@ class AgreementsPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         vertical: MediaQuery.of(context).size.height * 0.02),
                     child: FilledButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => AgreementAdderPage()),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.04,

@@ -142,7 +142,7 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                   onPressed: () {},
                                   child: Text('Agregar propiedad')),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
