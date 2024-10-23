@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
+import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
@@ -12,49 +14,106 @@ class AppointmentsPage extends StatefulWidget {
 class _AppointmentsPageState extends State<AppointmentsPage> {
   List<Widget> appointments = [
     AppointmentWidget(
-        title: 'Cita de negociación',
-        name: 'Rosario Cárdenas Martínez',
-        hour: '17:00'),
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
     AppointmentWidget(
-        title: 'Cita de negociación',
-        name: 'Rosario Cárdenas Martínez',
-        hour: '17:00'),
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
     AppointmentWidget(
-        title: 'Cita de negociación',
-        name: 'Rosario Cárdenas Martínez',
-        hour: '17:00'),
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
     AppointmentWidget(
-        title: 'Cita de negociación',
-        name: 'Rosario Cárdenas Martínez',
-        hour: '17:00'),
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
     AppointmentWidget(
-        title: 'Cita de negociación',
-        name: 'Rosario Cárdenas Martínez',
-        hour: '17:00'),
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
+    AppointmentWidget(
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
+    AppointmentWidget(
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
+    AppointmentWidget(
+      title: 'Cita con Lupita',
+      name: 'Guadalupe Martínez',
+      hour: '15:00',
+    ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                    itemBuilder: (context, i) {
-                      return appointments[i];
-                    },
-                    separatorBuilder: (context, i) => SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04,
-                        ),
-                    itemCount: appointments.length),
-              ),
-              Expanded(child: AppointmentsCalendarWidget())
-            ],
-          )
-        ],
+      appBar: AppBar(
+        title: const Text('Citas'),
       ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.04,
+        ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.02),
+                child: FilledButton(
+                  onPressed: () {},
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.04,
+                      vertical: MediaQuery.of(context).size.height * 0.018,
+                    ),
+                    child: Text('Agendar cita'),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: ListView.separated(
+                      itemCount: appointments.length,
+                      itemBuilder: (context, i) {
+                        return appointments[i];
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.06,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: AppointmentsCalendarWidget(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      drawer: NavigationDrawerWidget(),
     );
   }
 }

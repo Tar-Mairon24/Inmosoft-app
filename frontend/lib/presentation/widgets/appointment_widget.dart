@@ -17,17 +17,25 @@ class AppointmentWidget extends StatelessWidget {
         contentPadding:
             EdgeInsets.all(MediaQuery.of(context).size.aspectRatio * 12),
         dense: true,
-        isThreeLine: true,
         leading: CircleAvatar(
           backgroundColor: Colors.grey[400],
         ),
-        title: Text(title),
-        subtitle: Column(
+        title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(name),
-            Text(hour),
+            Text(
+              name,
+              style: Theme.of(context).primaryTextTheme.labelMedium,
+            ),
+            Text(
+              title,
+              style: Theme.of(context).primaryTextTheme.titleMedium,
+            ),
           ],
+        ),
+        subtitle: Text(
+          hour,
+          style: TextStyle(color: Colors.indigo),
         ),
         trailing: PopupMenuButton<String>(
           itemBuilder: (BuildContext context) => [
