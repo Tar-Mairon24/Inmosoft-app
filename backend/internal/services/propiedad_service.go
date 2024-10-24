@@ -2,6 +2,7 @@ package services
 
 import (
 	"backend/internal/models"
+	"backend/internal/database"
 	"database/sql"
 	"log"
 	"strings"
@@ -82,7 +83,8 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 }
 
 func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (int, error) {
-	lastID, err := service.getLastId()
+	utils := database.NewDbUtilities(service.DB)
+	lastID, err := utils.GetLastId("Propiedades", "id_propiedad")
 	if err != nil {
 		log.Println("Error getting last ID:", err)
 		return 0, err
@@ -104,25 +106,7 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (i
 	if err != nil {
 		log.Println("Error inserting propiedad:", err)
 		return 0, err
-	} else {
-		lastID, err := result.LastInsertId()
-		if err != nil {
-			log.Println("Error getting last insert ID:", err)
-			return 0, err
-		}
-		return int(lastID), nil
 	}
-}
-
-func (service *PropiedadService) getLastId() (int, error) {
-	var id int
-	query := "SELECT MAX(id_propiedad) FROM Propiedades"
-	err := service.DB.QueryRow(query).Scan(&id)
-	if err != nil {
-		log.Println("Error getting last ID:", err)
-		return 0, err
-	}
-	return id, nil
 }
 
 // helper function to parse sets of strings

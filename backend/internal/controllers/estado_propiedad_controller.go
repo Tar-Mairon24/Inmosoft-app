@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"backend/internal/services"
+	"backend/internal/models"
 	"net/http"
 	"strconv"
 
@@ -39,5 +40,21 @@ func (ctrl *EstadoPropiedadController) GetEstadoPropiedad(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, estadoPropiedad)
+}
+
+// POST /estadopropiedad/
+func (ctrl *EstadoPropiedadController) CreateEstadoPropiedad(c *gin.Context) {
+	var estadoPropiedad models.EstadoPropiedades
+	if err := c.ShouldBindJSON(&estadoPropiedad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := ctrl.EstadoPropiedadService.CreateEstadoPropiedad(&estadoPropiedad); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create estado propiedad"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, estadoPropiedad)
 }
 
