@@ -1,7 +1,6 @@
 package services
 
 import (
-	"backend/database/utils"
 	"backend/internal/database"
 	"backend/internal/models"
 	"database/sql"
@@ -39,7 +38,7 @@ func (service *EstadoPropiedadService) GetEstadoPropiedad(id int) (*models.Estad
 
 // POST /estadoPropiedad/
 // Funcion que crea un nuevo estado de la propiedad
-func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.EstadoPropiedades) (id, error) {
+func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.EstadoPropiedades) (int, error) {
 	utils := database.NewDbUtilities(service.DB)
 	lastId, err := utils.GetLastId("Estado_Propiedades", "id_estado_propiedades")
 	if err != nil {
@@ -49,7 +48,7 @@ func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.Esta
 	query := "INSERT INTO Estado_Propiedades (id_estado_propiedades, tipo_transaccion, estado, fecha_transaccion, id_propiedad) VALUES (?, ?, ?, ?, ?)"
 	result, err := service.DB.Exec(query, estado.IDEstadoPropiedades, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, estado.IDPropiedad)
 	if err != nil {
-		log.Println("Error inserting estado:", err)
+		log.Println("Error inserting estado de la propiedad:", err)
 		return 0, err
 	}
 	rows, err := result.RowsAffected()
