@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});

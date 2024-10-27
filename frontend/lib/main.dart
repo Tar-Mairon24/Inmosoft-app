@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/pages/agreement_adder_page.dart';
-import 'package:frontend/presentation/pages/appointments_page.dart';
-import 'package:frontend/presentation/pages/detailed_property_page.dart';
-import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
-import 'package:frontend/presentation/widgets/property_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,14 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < 10; i++) {
-      PropertyWidget property = PropertyWidget(
-          image: Image.asset('assets/images/images.jpeg'),
-          title: 'Casa $i',
-          status: 'Disponible',
-          price: i.toDouble());
-      properties.add(property);
-    }
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'InmoSoft',
@@ -64,8 +51,7 @@ class MyApp extends StatelessWidget {
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-        home: HomePage(
-          properties: properties,
-        ));
+        home: LoginPage()
+      );
   }
 }

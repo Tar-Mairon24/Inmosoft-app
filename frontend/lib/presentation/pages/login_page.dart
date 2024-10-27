@@ -3,7 +3,7 @@ import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import '../../services/login_service.dart';
 import '../../services/propiedad_service.dart';
 import '../widgets/property_widget.dart';
-import '../../models/propiedad_modelo.dart';
+import '../../models/propiedad_menu_modelo.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
     final result = await dioService.login(email, password);
 
     if (result.success) {
-      final resultPropiedades = await propiedadService.getPropiedades();
+      final resultPropiedades = await propiedadService.getAllPropiedades();
       if (resultPropiedades.success) {
         final propiedades = resultPropiedades.data;
         final propiedadesWidget = crearPropiedades(propiedades ?? []);
