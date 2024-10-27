@@ -31,7 +31,7 @@ func main() {
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3030"},
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -57,6 +57,11 @@ func main() {
 	router.GET("/propietario/:id", propietarioController.GetPropietario)
 	// ruta para agarrar el tipo de propiedad
 	router.GET("/tipopropiedad/:id", tipoPropiedadController.GetTipoPropiedad)
+
+
+	// ruta para insertar una propiedad
+	router.POST("/propiedad", propiedadController.CreatePropiedad)
+	router.POST("/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
 
 	// Start the server
 	router.Run(":8080")

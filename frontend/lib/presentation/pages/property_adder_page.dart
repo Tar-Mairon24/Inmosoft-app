@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
 
 class PropertyAdderPage extends StatefulWidget {

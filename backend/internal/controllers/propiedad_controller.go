@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"backend/internal/models"
 	"backend/internal/services"
 	"net/http"
 	"strconv"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -57,4 +59,22 @@ func (ctrl *Propiedad_Controller) GetPropiedad(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, propiedad)
+}
+
+// POST /propiedad/
+func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
+	var propiedad models.Propiedad
+	if err := c.ShouldBindJSON(&propiedad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
+
+	id, err := ctrl.PropiedadService.InsertPropiedad(&propiedad)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert propiedad"})
+		return
+	}
+	log.Printf("Propiedad created with ID: %d", id)
+
+	c.JSON(http.StatusCreated, propiedad)
 }

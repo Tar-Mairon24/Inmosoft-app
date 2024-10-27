@@ -1,6 +1,7 @@
 package services
 
 import (
+	"backend/internal/database"
 	"backend/internal/models"
 	"database/sql"
 	"log"
@@ -82,6 +83,14 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 }
 
 func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (int, error) {
+	utils := database.NewDbUtilities(service.DB)
+	lastID, err := utils.GetLastId("Propiedades", "id_propiedad")
+	if err != nil {
+		log.Println("Error getting last ID:", err)
+		return 0, err
+	}
+	propiedad.IDPropiedad = lastID + 1
+
 	query := "INSERT INTO Propiedades(id_propiedad, titulo, fecha_alta, direccion, colonia, ciudad, referencia, " +
 		"precio, mts_construccion, mts_terreno, habitada, amueblada, " +
 		"num_plantas, num_recamaras, num_banos, size_cochera, mts_jardin, " +
@@ -93,18 +102,20 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (i
 		propiedad.NumPlantas, propiedad.NumRecamaras, propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin,
 		strings.Join(propiedad.Gas, ","), strings.Join(propiedad.Comodidades, ","), strings.Join(propiedad.Extras, ","),
 		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario)
-
 	if err != nil {
 		log.Println("Error inserting propiedad:", err)
 		return 0, err
-	} else {
-		lastID, err := result.LastInsertId()
-		if err != nil {
-			log.Println("Error getting last insert ID:", err)
-			return 0, err
-		}
-		return int(lastID), nil
 	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return 0, err
+	}
+	if rows != 1 {
+		log.Println("Error inserting estado: no rows affected")
+		return 0, err
+	}
+	return propiedad.IDPropiedad, nil
 }
 
 // helper function to parse sets of strings

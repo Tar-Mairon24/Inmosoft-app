@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"backend/internal/services"
+	"backend/internal/models"
 	"net/http"
 	"strconv"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,5 +41,23 @@ func (ctrl *EstadoPropiedadController) GetEstadoPropiedad(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, estadoPropiedad)
+}
+
+// POST /estadopropiedad/
+func (ctrl *EstadoPropiedadController) CreateEstadoPropiedad(c *gin.Context) {
+	var estadoPropiedad models.EstadoPropiedades
+	if err := c.ShouldBindJSON(&estadoPropiedad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	id, err := ctrl.EstadoPropiedadService.CreateEstadoPropiedad(&estadoPropiedad)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert estado propiedad"})
+		return
+	}
+	log.Printf("Created estado propiedad with ID: %d", id)
+
+	c.JSON(http.StatusCreated, estadoPropiedad)
 }
 

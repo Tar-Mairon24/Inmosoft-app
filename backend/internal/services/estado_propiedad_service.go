@@ -1,6 +1,7 @@
 package services
 
 import (
+	"backend/internal/database"
 	"backend/internal/models"
 	"database/sql"
 	"log"
@@ -33,4 +34,31 @@ func (service *EstadoPropiedadService) GetEstadoPropiedad(id int) (*models.Estad
 	}
 
 	return &estado, nil
+}
+
+// POST /estadoPropiedad/
+// Funcion que crea un nuevo estado de la propiedad
+func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.EstadoPropiedades) (int, error) {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Estado_Propiedades", "id_estado_propiedades")
+	if err != nil {
+		return 0, err
+	}
+	estado.IDEstadoPropiedades = lastId + 1
+	query := "INSERT INTO Estado_Propiedades (id_estado_propiedades, tipo_transaccion, estado, fecha_transaccion, id_propiedad) VALUES (?, ?, ?, ?, ?)"
+	result, err := service.DB.Exec(query, estado.IDEstadoPropiedades, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, estado.IDPropiedad)
+	if err != nil {
+		log.Println("Error inserting estado de la propiedad:", err)
+		return 0, err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return 0, err
+	}
+	if rows != 1 {
+		log.Println("Error inserting estado: no rows affected")
+		return 0, err
+	}
+	return estado.IDEstadoPropiedades, nil
 }
