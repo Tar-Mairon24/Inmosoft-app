@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type Db_Utilities struct{
@@ -16,8 +17,8 @@ func NewDbUtilities(db *sql.DB) *Db_Utilities {
 
 func (dbu *Db_Utilities) GetLastId(table string, idName string) (int, error) {
 	var id int
-	query := "select max(?) from ?"
-	err := dbu.db.QueryRow(query, table, idName).Scan(&id)
+	query := fmt.Sprintf("Select max(%s) from %s", idName, table)
+	err := dbu.db.QueryRow(query).Scan(&id)
 	if err != nil {
 		return 0, err
 	}
