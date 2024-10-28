@@ -62,6 +62,7 @@ func main() {
 	// ruta para insertar una propiedad
 	router.POST("/propiedad", propiedadController.CreatePropiedad)
 	router.POST("/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
+	router.POST("/propietario", propietarioController.CreatePropietario)
 
 	// Start the server
 	router.Run(":8080")
