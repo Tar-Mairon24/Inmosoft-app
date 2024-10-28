@@ -14,31 +14,37 @@ class DetailedPropertyPage extends StatelessWidget {
             Expanded(
                 child: Column(
               children: [
-                Image.asset(
-                  'assets/images/images2.jpg',
+                Expanded(
+                  flex: 3,
+                  child: Image.asset(
+                    'assets/images/images2.jpg',
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.04),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: () {},
-                          child: Text('Ficha técnica'),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.04),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: () {},
+                            child: Text('Ficha técnica'),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.04,
-                      ),
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: () {},
-                          child: Text('Generar publicidad'),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.04,
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: () {},
+                            child: Text('Generar publicidad'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
