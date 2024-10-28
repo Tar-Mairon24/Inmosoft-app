@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"backend/internal/services"
+	"backend/internal/models"
 	"net/http"
 	"strconv"
 
@@ -41,4 +42,21 @@ func (ctrl *PropietarioController) GetPropietario(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, propietario)
+}
+
+// POST /propietario
+func (ctrl *PropietarioController) CreatePropietario(c *gin.Context) {
+	var propietario models.Propietario
+	if err := c.ShouldBindJSON(&propietario); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid propietario data"})
+		return
+	}
+
+	idPropietario, err := ctrl.PropietarioService.CreatePropietario(&propietario)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propietario"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"id_propietario": idPropietario})
 }
