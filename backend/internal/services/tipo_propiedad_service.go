@@ -2,6 +2,7 @@ package services
 
 import (
 	"backend/internal/models"
+	"backend/internal/database"
 	"database/sql"
 	"log"
 )
@@ -32,4 +33,31 @@ func (service *TipoPropiedadService) GetTipoPropiedad(id int) (*models.TipoPropi
 		return nil, err
 	}
 	return &tipo, nil
+}
+
+// POST /tipoPropiedad
+// Funcion que inserta un nuevo tipo de propiedad en la base de datos
+func (service *TipoPropiedadService) CreateTipoPropiedad(tipo *models.TipoPropiedad) (int, error) {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Tipo_Propiedad", "id_tipo_propiedad")
+	if err != nil {
+		log.Println("Error gettin last Id in Tipo_Propiedad table:", err)
+		return 0, err
+	}
+	tipo.IDTipoPropiedad = lastId + 1
+	query := "INSERT INTO Tipo_Propiedad (id_tipo_propiedad, tipo_propiedad) VALUES (?, ?)"
+	result, err := service.DB.Exec(query, tipo.IDTipoPropiedad, tipo.Tipo_Propiedad)
+	if err != nil {
+		log.Println("Error inserting tipo:", err)
+		return 0, err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return 0, err
+	}
+	if rows == 0 {
+		log.Println("No rows affected")
+	}
+	return tipo.IDTipoPropiedad, nil
 }
