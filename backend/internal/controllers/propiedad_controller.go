@@ -104,7 +104,7 @@ func (ctrl *Propiedad_Controller) UpdatePropiedad(c *gin.Context) {
 	c.JSON(http.StatusOK, propiedad)
 }
 
-// DELETE /propiedad/:id
+// DELETE eliminar/propiedad/:id
 func (ctrl *Propiedad_Controller) DeletePropiedad(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.Atoi(idParam)
