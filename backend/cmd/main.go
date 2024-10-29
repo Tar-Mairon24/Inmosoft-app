@@ -60,9 +60,18 @@ func main() {
 
 
 	// ruta para insertar una propiedad
-	router.POST("/propiedad", propiedadController.CreatePropiedad)
-	router.POST("/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
-	router.POST("/propietario", propietarioController.CreatePropietario)
+	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
+	router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
+	router.POST("/create/propietario", propietarioController.CreatePropietario)
+	router.POST("/create/tipoPropiedad", tipoPropiedadController.CreateTipoPropiedad)
+
+	// ruta para actualizar una propiedad
+	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)
+	router.PUT("/update/estadoPropiedad/:id", estadoPropiedadController.UpdateEstadoPropiedad)
+
+	// rutas para borrar una propiedad
+	router.DELETE("/eliminar/eropiedad/:id", propiedadController.DeletePropiedad)
+	router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
 
 	// Start the server
 	router.Run(":8080")

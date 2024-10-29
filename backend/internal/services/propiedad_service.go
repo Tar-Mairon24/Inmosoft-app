@@ -118,6 +118,55 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (i
 	return propiedad.IDPropiedad, nil
 }
 
+// UpdatePropiedad updates a Propiedad in the database
+func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad) error {
+	query := "UPDATE Propiedades SET titulo=?, fecha_alta=?, direccion=?, colonia=?, ciudad=?, referencia=?, " +
+		"precio=?, mts_construccion=?, mts_terreno=?, habitada=?, amueblada=?, " +
+		"num_plantas=?, num_recamaras=?, num_banos=?, size_cochera=?, mts_jardin=?, " +
+		"gas=?, comodidades=?, extras=?, utilidades=?, observaciones=?, id_tipo_propiedad=?, " +
+		"id_propietario=?, id_usuario=? WHERE id_propiedad=?"
+	result, err := service.DB.Exec(query, propiedad.Titulo, propiedad.FechaAlta,
+		propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad, propiedad.Referencia,
+		propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno, propiedad.Habitada, propiedad.Amueblada,
+		propiedad.NumPlantas, propiedad.NumRecamaras, propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin,
+		strings.Join(propiedad.Gas, ","), strings.Join(propiedad.Comodidades, ","), strings.Join(propiedad.Extras, ","),
+		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario, propiedad.IDPropiedad)
+	if err != nil {
+		log.Println("Error updating propiedad:", err)
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	if rows != 1 {
+		log.Println("Error updating propiedad: no rows affected")
+		return err
+	}
+	return nil
+}
+
+// DeletePropiedad deletes a Propiedad from the database
+func (service *PropiedadService) DeletePropiedad(id int) error {
+	query := "DELETE FROM Propiedades WHERE id_propiedad=?"
+	result, err := service.DB.Exec(query, id)
+	if err != nil {
+		log.Println("Error deleting propiedad:", err)
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	if rows != 1 {
+		log.Println("Error deleting propiedad: no rows affected")
+		return err
+	}
+	return nil
+}
+
 // helper function to parse sets of strings
 func parseStringSet(str string) []string {
 	var set []string

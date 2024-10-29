@@ -78,3 +78,46 @@ func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, propiedad)
 }
+
+// PUT /propiedad/:id
+func (ctrl *Propiedad_Controller) UpdatePropiedad(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid propiedad ID"})
+		return
+	}
+
+	var propiedad models.Propiedad
+	if err := c.ShouldBindJSON(&propiedad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
+
+	propiedad.IDPropiedad = id
+	err = ctrl.PropiedadService.UpdatePropiedad(&propiedad)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update propiedad"})
+		return
+	}
+
+	c.JSON(http.StatusOK, propiedad)
+}
+
+// DELETE eliminar/propiedad/:id
+func (ctrl *Propiedad_Controller) DeletePropiedad(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid propiedad ID"})
+		return
+	}
+
+	err = ctrl.PropiedadService.DeletePropiedad(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete propiedad"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Propiedad deleted"})
+}

@@ -62,3 +62,45 @@ func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.Esta
 	}
 	return estado.IDEstadoPropiedades, nil
 }
+
+// PUT /estadoPropiedad/:id
+// Funcion que actualiza el estado de la propiedad
+func(service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.EstadoPropiedades) error {
+	query := "UPDATE Estado_Propiedades SET tipo_transaccion = ?, estado = ?, fecha_transaccion = ?, id_propiedad = ? WHERE id_estado_propiedades = ?"
+	result, err := service.DB.Exec(query, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, estado.IDPropiedad, estado.IDEstadoPropiedades)
+	if err != nil {
+		log.Println("Error updating estado de la propiedad:", err)
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	if rows != 1 {
+		log.Println("Error updating estado: no rows affected")
+		return err
+	}
+	return nil
+}
+
+// DELETE /eliminar/estadoPropiedad
+//Function that deletes a EstadoPropiedad from the database
+func (service *EstadoPropiedadService) DeleteEstadoPropiedad(id int) error {
+	query := "DELETE FROM Estado_Propiedades WHERE id_estado_propiedades = ?"
+	result, err := service.DB.Exec(query, id)
+	if err != nil {
+		log.Println("Error deleting estado de la propiedad:", err)
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	if rows != 1 {
+		log.Println("Error deleting estado: no rows affected")
+		return err
+	}
+	return nil
+}

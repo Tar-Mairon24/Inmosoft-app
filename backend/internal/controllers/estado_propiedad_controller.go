@@ -61,3 +61,42 @@ func (ctrl *EstadoPropiedadController) CreateEstadoPropiedad(c *gin.Context) {
 	c.JSON(http.StatusCreated, estadoPropiedad)
 }
 
+//PUT /Update/EstadoPropiedad/:id
+//Function that updates the state of the property
+func (ctrl *EstadoPropiedadController) UpdateEstadoPropiedad(c *gin.Context) {
+	var estadoPropiedad models.EstadoPropiedades
+	if err := c.ShouldBindJSON(&estadoPropiedad); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := ctrl.EstadoPropiedadService.UpdateEstadoPropiedad(&estadoPropiedad)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update estado propiedad"})
+		return
+	}
+	log.Printf("Updated estado propiedad with ID: %d", estadoPropiedad.IDEstadoPropiedades)
+
+	c.JSON(http.StatusOK, estadoPropiedad)
+}
+
+// DELETE /eliminar/estadoPropiedad
+// Function that deletes a EstadoPropiedad from the database
+func (ctrl *EstadoPropiedadController) DeleteEstadoPropiedad(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid estado propiedad ID"})
+		return
+	}
+
+	err = ctrl.EstadoPropiedadService.DeleteEstadoPropiedad(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete estado propiedad"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Estado propiedad deleted successfully"})
+}
+
+
