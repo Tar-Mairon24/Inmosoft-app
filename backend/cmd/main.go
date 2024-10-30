@@ -22,7 +22,7 @@ func main() {
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
-	propiedadController := controllers.NewPropiedadController(PropiedadService)
+	propiedadController := controllers.NewPropiedadController(PropiedadService, EstadoPropiedadService)
 	estadoPropiedadController := controllers.NewEstadoPropiedadController(EstadoPropiedadService)
 	propietarioController := controllers.NewPropietarioController(PropietarioService)
 	tipoPropiedadController := controllers.NewTipoPropiedadController(TipoPropiedadService)
@@ -61,7 +61,7 @@ func main() {
 
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
-	router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
+	//router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
 	router.POST("/create/propietario", propietarioController.CreatePropietario)
 	router.POST("/create/tipoPropiedad", tipoPropiedadController.CreateTipoPropiedad)
 
@@ -70,8 +70,8 @@ func main() {
 	router.PUT("/update/estadoPropiedad/:id", estadoPropiedadController.UpdateEstadoPropiedad)
 
 	// rutas para borrar una propiedad
-	router.DELETE("/eliminar/eropiedad/:id", propiedadController.DeletePropiedad)
-	router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
+	router.DELETE("/eliminar/propiedad/:id", propiedadController.DeletePropiedad)
+	//router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
 
 	// Start the server
 	router.Run(":8080")

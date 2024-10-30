@@ -5,7 +5,6 @@ import (
 	"backend/internal/services"
 	"net/http"
 	"strconv"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,12 +12,14 @@ import (
 // UserController is the controller for the User model
 type Propiedad_Controller struct {
 	PropiedadService *services.PropiedadService
+	EstadoPropiedadService *services.EstadoPropiedadService
 }
 
 // NewUserController is the constructor for the UserController
-func NewPropiedadController(propiedadService *services.PropiedadService) *Propiedad_Controller {
+func NewPropiedadController(propiedadService *services.PropiedadService, estadoPropiedadService *services.EstadoPropiedadService) *Propiedad_Controller {
 	return &Propiedad_Controller{
 		PropiedadService: propiedadService,
+		EstadoPropiedadService: estadoPropiedadService,
 	}
 }
 
@@ -63,20 +64,23 @@ func (ctrl *Propiedad_Controller) GetPropiedad(c *gin.Context) {
 
 // POST /propiedad/
 func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
-	var propiedad models.Propiedad
-	if err := c.ShouldBindJSON(&propiedad); err != nil {
+	var request struct {
+		Propiedad models.Propiedad `json:"propiedad"`
+		EstadoPropiedades models.EstadoPropiedades `json:"estado_propiedades"`
+	}
+
+	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
 
-	id, err := ctrl.PropiedadService.InsertPropiedad(&propiedad)
+	IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.InsertPropiedad(&request.Propiedad, &request.EstadoPropiedades)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert propiedad"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad"})
 		return
 	}
-	log.Printf("Propiedad created with ID: %d", id)
 
-	c.JSON(http.StatusCreated, propiedad)
+	c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "\nid_estado_propiedades": IDEstadoPropiedad})
 }
 
 // PUT /propiedad/:id
@@ -94,8 +98,7 @@ func (ctrl *Propiedad_Controller) UpdatePropiedad(c *gin.Context) {
 		return
 	}
 
-	propiedad.IDPropiedad = id
-	err = ctrl.PropiedadService.UpdatePropiedad(&propiedad)
+	err = ctrl.PropiedadService.UpdatePropiedad(&propiedad, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update propiedad"})
 		return
@@ -120,4 +123,12 @@ func (ctrl *Propiedad_Controller) DeletePropiedad(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Propiedad deleted"})
+
+	err = ctrl.EstadoPropiedadService.DeleteEstadoPropiedad(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete estado_propiedad"})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{"message": "Estado_Propiedad deleted"})
 }

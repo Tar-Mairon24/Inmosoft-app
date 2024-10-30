@@ -82,12 +82,12 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 	return &propiedad, nil
 }
 
-func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (int, error) {
+func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, estadoPropiedad *models.EstadoPropiedades) (int, int, error) {
 	utils := database.NewDbUtilities(service.DB)
 	lastID, err := utils.GetLastId("Propiedades", "id_propiedad")
 	if err != nil {
 		log.Println("Error getting last ID:", err)
-		return 0, err
+		return 0, 0, err
 	}
 	propiedad.IDPropiedad = lastID + 1
 
@@ -104,22 +104,52 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad) (i
 		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario)
 	if err != nil {
 		log.Println("Error inserting propiedad:", err)
-		return 0, err
+		return 0, 0, err
 	}
 	rows, err := result.RowsAffected()
 	if err != nil {
 		log.Println("Error getting rows affected:", err)
-		return 0, err
+		return 0, 0, err
 	}
 	if rows != 1 {
 		log.Println("Error inserting estado: no rows affected")
-		return 0, err
+		return 0, 0, err
 	}
-	return propiedad.IDPropiedad, nil
+
+	estadoPropiedad.IDPropiedad = propiedad.IDPropiedad
+	estadoPropiedad.IDEstadoPropiedades = lastID + 1
+	query = "INSERT INTO Estado_Propiedades(id_estado_propiedades, tipo_transaccion, estado, fecha_transaccion, id_propiedad) VALUES(?,?,?,?,?)"
+	result, err = service.DB.Exec(query, estadoPropiedad.IDEstadoPropiedades, estadoPropiedad.TipoTransaccion, estadoPropiedad.Estado, estadoPropiedad.FechaCambioEstado, estadoPropiedad.IDPropiedad)
+	if err != nil {
+		log.Println("Error inserting estado:", err)
+		return 0, 0, err
+	}
+	rows, err = result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return 0, 0, err
+	}
+	if rows != 1 {
+		log.Println("Error inserting estado: no rows affected")
+		return 0, 0, err
+	}
+	return propiedad.IDPropiedad, estadoPropiedad.IDEstadoPropiedades, nil
 }
 
 // UpdatePropiedad updates a Propiedad in the database
-func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad) error {
+func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, id int) error {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Propiedades", "id_propiedad")
+	if err != nil {
+		log.Println("Error getting last ID:", err)
+		return err
+	}
+	println(lastId)
+	if id <= 0 || id > lastId {
+		log.Println("Invalid propiedad ID:", id)
+		return err
+	}
+	println(id)
 	query := "UPDATE Propiedades SET titulo=?, fecha_alta=?, direccion=?, colonia=?, ciudad=?, referencia=?, " +
 		"precio=?, mts_construccion=?, mts_terreno=?, habitada=?, amueblada=?, " +
 		"num_plantas=?, num_recamaras=?, num_banos=?, size_cochera=?, mts_jardin=?, " +
@@ -130,7 +160,7 @@ func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad) er
 		propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno, propiedad.Habitada, propiedad.Amueblada,
 		propiedad.NumPlantas, propiedad.NumRecamaras, propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin,
 		strings.Join(propiedad.Gas, ","), strings.Join(propiedad.Comodidades, ","), strings.Join(propiedad.Extras, ","),
-		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario, propiedad.IDPropiedad)
+		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario, id)
 	if err != nil {
 		log.Println("Error updating propiedad:", err)
 		return err
@@ -149,6 +179,18 @@ func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad) er
 
 // DeletePropiedad deletes a Propiedad from the database
 func (service *PropiedadService) DeletePropiedad(id int) error {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Propiedades", "id_propiedad")
+	println(lastId)
+	if err != nil {
+		log.Println("Error getting last ID:", err)
+		return err
+	}
+	if id <= 0 || id > lastId {
+		log.Println("Invalid propiedad ID:", id)
+		return err
+	}
+
 	query := "DELETE FROM Propiedades WHERE id_propiedad=?"
 	result, err := service.DB.Exec(query, id)
 	if err != nil {
