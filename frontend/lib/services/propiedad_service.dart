@@ -99,21 +99,21 @@ class PropiedadService {
     }
   }
 
-  Future<int> insertPropiedad(Propiedad propiedad) async {
-    try {
-      final response = await _dio.post(
-        'http://localhost:8080/propiedad',
-        data: propiedad.toJson(),
-      );
+  // Future<int> insertPropiedad(Propiedad propiedad) async {
+  //   try {
+  //     final response = await _dio.post(
+  //       'http://localhost:8080/propiedad',
+  //       data: propiedad.toJson(),
+  //     );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        log.i('Propiedades fetched successfully');
-      } else {
-        throw Exception("Failed to insert propiedad");
-      }
-    } catch (e) {
-      print("Error inserting propiedad: $e");
-      return 0; // Devuelve 0 en caso de error
-    }
-  }
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       log.i('Propiedades fetched successfully');
+  //     } else {
+  //       throw Exception("Failed to insert propiedad");
+  //     }
+  //   } catch (e) {
+  //     print("Error inserting propiedad: $e");
+  //     return 0; // Devuelve 0 en caso de error
+  //   }
+  // }
 }

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
+import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/home_filters_bar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/presentation/widgets/property_widget.dart';
-import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  final List<Widget> properties;
-  const HomePage({super.key, required this.properties});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +31,8 @@ class HomePage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
-              AsyncSnapshot<Result<List<PropiedadMenu>>> resultPropiedades =
-                  snapshot;
-              List<PropiedadMenu>? propiedades = resultPropiedades.data!.data;
+
+              List<PropiedadMenu>? propiedades = snapshot.data!.data;
               return Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -52,6 +50,7 @@ class HomePage extends StatelessWidget {
                       //   children: properties,
                       // ),
                       child: GridView.builder(
+                          itemCount: propiedades!.length + 1,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
@@ -61,11 +60,14 @@ class HomePage extends StatelessWidget {
                                 MediaQuery.of(context).size.width * 0.06,
                           ),
                           itemBuilder: (context, i) {
-                            return PropertyWidget(
-                                image: image,
-                                title: propiedades[i].titulo,
-                                status: propiedades[i].estado,
-                                price: propiedades[i].precio);
+                            if (i == 0) {
+                              return AddPropertyWidget();
+                            } else {
+                              return PropertyWidget(
+                                image: Image.asset('assets/images/images.jpeg'),
+                                property: propiedades[i - 1],
+                              );
+                            }
                           }),
                     ),
                   ],

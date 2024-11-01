@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
 
 class PropertyWidget extends StatelessWidget {
+  // final Image image;
+  // final String title;
+  // final String status;
+  // final double price;
+  final PropiedadMenu property;
   final Image image;
-  final String title;
-  final String status;
-  final double price;
 
   const PropertyWidget({
     super.key,
+    required this.property,
     required this.image,
-    required this.title,
-    required this.status,
-    required this.price,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DetailedPropertyPage())),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => DetailedPropertyPage(
+                propertyID: property.idPropiedad,
+              ))),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(),
@@ -44,17 +47,17 @@ class PropertyWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              title,
+                              property.titulo,
                               style:
                                   Theme.of(context).primaryTextTheme.titleSmall,
                             ),
                             Text(
-                              status,
+                              property.estado,
                               style:
                                   Theme.of(context).primaryTextTheme.bodySmall,
                             ),
                             Text(
-                              "$price MXN",
+                              "${property.precio} MXN",
                               style:
                                   Theme.of(context).primaryTextTheme.bodySmall,
                             ),
