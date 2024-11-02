@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
+import 'package:frontend/presentation/pages/property_modifier_page.dart';
 
 class PropertyWidget extends StatelessWidget {
   // final Image image;
@@ -67,7 +68,13 @@ class PropertyWidget extends StatelessWidget {
                       PopupMenuButton<String>(
                         itemBuilder: (BuildContext context) => [
                           PopupMenuItem<String>(
-                            onTap: () {},
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PropertyModifierPage(
+                                  propertyID: property.idPropiedad,
+                                ),
+                              ),
+                            ),
                             child: const Text('Editar'),
                           ),
                           PopupMenuItem<String>(

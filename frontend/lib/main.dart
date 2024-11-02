@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
             popupMenuTheme: PopupMenuThemeData(color: Colors.white),
             drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
           ),
-          home: AppointmentsPage()),
+          home: HomePage()),
     );
   }
 }
