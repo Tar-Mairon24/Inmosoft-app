@@ -16,20 +16,20 @@ class LoginPage extends StatelessWidget {
 
   LoginPage({super.key}); // Instantiate the Dio service
 
-  // List<Widget> crearPropiedades(List<PropiedadMenu> propiedades) {
-  //   List<Widget> widgets = [
-  //     AddPropertyWidget(), // El primer elemento de la lista
-  //     ...propiedades.map((propiedad) {
-  //       return PropertyWidget(
-  //         image: Image.asset('assets/images/images.jpeg'),
-  //         title: propiedad.titulo,
-  //         status: propiedad.estado,
-  //         price: propiedad.precio,
-  //       );
-  //     }),
-  //   ];
-  //   return widgets;
-  // }
+  List<Widget> crearPropiedades(List<PropiedadMenu> propiedades) {
+    List<Widget> widgets = [
+      AddPropertyWidget(), // El primer elemento de la lista
+      ...propiedades.map((propiedad) {
+        return PropertyWidget(
+          image: Image.asset('assets/images/images.jpeg'),
+          title: propiedad.titulo,
+          status: propiedad.estado,
+          price: propiedad.precio,
+        );
+      }),
+    ];
+    return widgets;
+  }
 
   void _login(BuildContext context) async {
     final email = emailController.text;
@@ -40,12 +40,12 @@ class LoginPage extends StatelessWidget {
     if (result.success) {
       final resultPropiedades = await propiedadService.getAllPropiedades();
       if (resultPropiedades.success) {
-        // final propiedades = resultPropiedades.data;
-        // final propiedadesWidget = crearPropiedades(propiedades ?? []);
+        final propiedades = resultPropiedades.data;
+        final propiedadesWidget = crearPropiedades(propiedades ?? []);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => HomePage(properties: propiedadesWidget),
           ),
         );
       } else {

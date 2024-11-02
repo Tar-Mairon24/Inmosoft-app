@@ -202,7 +202,7 @@ func (service *PropiedadService) DeletePropiedad(id int) error {
 		log.Println("Error getting rows affected:", err)
 		return err
 	}
-	if rows != 1 {
+	if rows == 0 {
 		log.Println("Error deleting propiedad: no rows affected")
 		return err
 	}

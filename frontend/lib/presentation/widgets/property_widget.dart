@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
-import 'package:frontend/presentation/pages/property_modifier_page.dart';
 
 class PropertyWidget extends StatelessWidget {
-  // final Image image;
-  // final String title;
-  // final String status;
-  // final double price;
-  final PropiedadMenu property;
   final Image image;
+  final String title;
+  final String status;
+  final double price;
 
   const PropertyWidget({
     super.key,
-    required this.property,
     required this.image,
+    required this.title,
+    required this.status,
+    required this.price,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DetailedPropertyPage(
-                propertyID: property.idPropiedad,
-              ))),
+      onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => DetailedPropertyPage())),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(),
@@ -48,17 +44,17 @@ class PropertyWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              property.titulo,
+                              title,
                               style:
                                   Theme.of(context).primaryTextTheme.titleSmall,
                             ),
                             Text(
-                              property.estado,
+                              status,
                               style:
                                   Theme.of(context).primaryTextTheme.bodySmall,
                             ),
                             Text(
-                              "${property.precio} MXN",
+                              "$price MXN",
                               style:
                                   Theme.of(context).primaryTextTheme.bodySmall,
                             ),
@@ -68,13 +64,7 @@ class PropertyWidget extends StatelessWidget {
                       PopupMenuButton<String>(
                         itemBuilder: (BuildContext context) => [
                           PopupMenuItem<String>(
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => PropertyModifierPage(
-                                  propertyID: property.idPropiedad,
-                                ),
-                              ),
-                            ),
+                            onTap: () {},
                             child: const Text('Editar'),
                           ),
                           PopupMenuItem<String>(

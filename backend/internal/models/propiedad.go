@@ -30,10 +30,14 @@ type Propiedad struct {
 	IDUsuario       int       `json:"id_usuario"`        // Clave foránea que referencia a Usuarios
 }
 
+
+
 type MenuPropiedades struct {
-	IDPropiedad     int     `json:"id_propiedad"`     // Clave primaria
+	IDPropiedad     int     `json:"id_propiedad"`      // Clave primaria
 	Titulo          string  `json:"titulo"`           // Título de la propiedad
 	Precio          float64 `json:"precio"`           // Precio de la propiedad
 	TipoTransaccion string  `json:"tipo_transaccion"` // Tipo de transacción ('venta', 'renta')
 	Estado          string  `json:"estado"`           // Estado de la propiedad ('disponible', 'vendida', 'rentada')
 }
+
+

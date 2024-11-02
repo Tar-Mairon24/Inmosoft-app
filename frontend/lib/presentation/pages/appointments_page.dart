@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/pages/appointment_adder_page.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
@@ -73,11 +72,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 0.02),
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => AppointmentAdderPage(),
-                    ),
-                  ),
+                  onPressed: () {},
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.04,
