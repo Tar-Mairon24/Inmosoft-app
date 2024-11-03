@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
+import 'package:frontend/presentation/pages/property_modifier_page.dart';
+import 'package:frontend/services/propiedad_service.dart';
+import 'package:provider/provider.dart';
 
 class PropertyWidget extends StatelessWidget {
   final Image image;
@@ -17,6 +20,7 @@ class PropertyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PropiedadService propiedadService = PropiedadService();
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => DetailedPropertyPage())),
@@ -76,9 +80,14 @@ class PropertyWidget extends StatelessWidget {
                                       "¿Está seguro de que desea eliminar esta propiedad?"),
                                   actions: [
                                     TextButton(
-                                      onPressed: () {
-                                        //! Eliminar la propiedad de la base de datos y actualizar el estado
-                                      },
+                                      //                           onPressed: (_) async {
+                                      //                             //! Eliminar la propiedad de la base de datos y actualizar el estado
+                                      //                             Provider.of<>(navigatorKey.currentContext!,
+                                      //     listen: false)
+                                      // .shouldRefresh();
+                                      // await propiedadService.
+                                      //                           },
+                                      onPressed: () {},
                                       child: const Text("SI"),
                                     ),
                                     TextButton(
