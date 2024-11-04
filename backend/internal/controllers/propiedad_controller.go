@@ -63,24 +63,32 @@ func (ctrl *Propiedad_Controller) GetPropiedad(c *gin.Context) {
 }
 
 // POST /propiedad/
+// POST /propiedad/
 func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
-	var request struct {
-		Propiedad models.Propiedad `json:"propiedad"`
-		EstadoPropiedades models.EstadoPropiedades `json:"estado_propiedades"`
-	}
+    var request struct {
+        Propiedad         models.Propiedad         `json:"propiedad"`
+        EstadoPropiedades models.EstadoPropiedades `json:"estado_propiedades"`
+    }
 
-	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
-		return
-	}
+    // Print the request payload
+    //fmt.Printf("Request payload before binding: %+v\n", request)
 
-	IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.InsertPropiedad(&request.Propiedad, &request.EstadoPropiedades)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad"})
-		return
-	}
+    if err := c.ShouldBindJSON(&request); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload", "details": err.Error()})
+		print(err.Error())
+        return
+    }
 
-	c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "id_estado_propiedades": IDEstadoPropiedad})
+    // Print the request payload after binding
+    //fmt.Printf("Request payload after binding: %+v\n", request)
+
+    IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.InsertPropiedad(&request.Propiedad, &request.EstadoPropiedades)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad", "details": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "id_estado_propiedades": IDEstadoPropiedad})
 }
 
 // PUT /propiedad/:id
