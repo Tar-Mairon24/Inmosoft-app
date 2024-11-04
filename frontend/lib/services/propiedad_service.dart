@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/models/propiedad_menu_modelo.dart';
 import 'package:frontend/models/propiedad_modelo.dart';
 import 'package:logger/logger.dart';
 
@@ -99,21 +98,22 @@ class PropiedadService {
     }
   }
 
-  // Future<int> insertPropiedad(Propiedad propiedad) async {
-  //   try {
-  //     final response = await _dio.post(
-  //       'http://localhost:8080/propiedad',
-  //       data: propiedad.toJson(),
-  //     );
+  Future<int> insertPropiedadEstado(PropiedadEstado propiedadEstado) async {
+    try {
+      final response = await _dio.post(
+        'http://localhost:8080/propiedad',
+        data: propiedadEstado.toJson(),
+      );
 
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       log.i('Propiedades fetched successfully');
-  //     } else {
-  //       throw Exception("Failed to insert propiedad");
-  //     }
-  //   } catch (e) {
-  //     print("Error inserting propiedad: $e");
-  //     return 0; // Devuelve 0 en caso de error
-  //   }
-  // }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log.i('Propiedades fetched successfully');
+      } else {
+        throw Exception("Failed to insert propiedad");
+      }
+    } catch (e) {
+      print("Error inserting propiedad: $e");
+      return 0; // Devuelve 0 en caso de error
+    }
+    return 1; // Devuelve 1 en caso de éxito
+  }
 }

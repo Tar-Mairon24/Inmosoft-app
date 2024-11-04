@@ -114,3 +114,81 @@ class Propiedad{
     };
   }
 }
+
+class PropiedadMenu {
+  final String titulo;
+  final double precio;
+  final String tipoTransaccion;
+  final String estado;
+
+  PropiedadMenu({required this.titulo, required this.precio, required this.tipoTransaccion, required this.estado});
+
+  factory PropiedadMenu.fromJson(Map<String, dynamic> json) {
+    return PropiedadMenu(
+      titulo: json['titulo'] as String? ?? 'Unknown',
+      precio: (json['precio'] as num?)?.toDouble() ?? 0.0,
+      tipoTransaccion: json['tipoTransaccion'] as String? ?? 'Unknown',
+      estado: json['estado'] as String? ?? 'Unknown',
+    );
+  }
+}
+
+class Estado {
+  final int idEstadoPropiedades;
+  final String tipoTransaccion;
+  final String estado;
+  final DateTime fechaCambioEstado;
+  final int idPropiedad;
+
+  Estado({
+    required this.idEstadoPropiedades,
+    required this.tipoTransaccion,
+    required this.estado,
+    required this.fechaCambioEstado,
+    required this.idPropiedad,
+  });
+
+  factory Estado.fromJson(Map<String, dynamic> json) {
+    return Estado(
+      idEstadoPropiedades: json['id_estado_propiedades'],
+      tipoTransaccion: json['tipo_transaccion'],
+      estado: json['estado'],
+      fechaCambioEstado: DateTime.parse(json['fecha_cambio_estado']),
+      idPropiedad: json['id_propiedad'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id_estado_propiedades': idEstadoPropiedades,
+      'tipo_transaccion': tipoTransaccion,
+      'estado': estado,
+      'fecha_cambio_estado': fechaCambioEstado.toIso8601String(),
+      'id_propiedad': idPropiedad,
+    };
+  }
+}
+
+class PropiedadEstado {
+  final Propiedad propiedad;
+  final Estado estadoPropiedades;
+
+  PropiedadEstado({
+    required this.propiedad,
+    required this.estadoPropiedades,
+  });
+
+  factory PropiedadEstado.fromJson(Map<String, dynamic> json) {
+    return PropiedadEstado(
+      propiedad: Propiedad.fromJson(json['propiedad']),
+      estadoPropiedades: Estado.fromJson(json['estado_propiedades']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'propiedad': propiedad.toJson(),
+      'estado_propiedades': estadoPropiedades.toJson(),
+    };
+  }
+}

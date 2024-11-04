@@ -3,14 +3,14 @@ import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import '../../services/login_service.dart';
 import '../../services/propiedad_service.dart';
 import '../widgets/property_widget.dart';
-import '../../models/propiedad_menu_modelo.dart';
+import '../../models/propiedad_modelo.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final LoginService dioService = LoginService();
+  final LoginService loginService = LoginService();
   final PropiedadService propiedadService = PropiedadService();
   final String? errorMessage = '';
 
@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
     final email = emailController.text;
     final password = passwordController.text;
 
-    final result = await dioService.login(email, password);
+    final result = await loginService.login(email, password);
 
     if (result.success) {
       final resultPropiedades = await propiedadService.getAllPropiedades();
