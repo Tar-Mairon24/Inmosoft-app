@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/estado_propiedad_modelo.dart';
 import 'package:frontend/models/propiedad_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
 import 'package:frontend/services/estado_propiedad_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
@@ -174,10 +175,10 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                               width: double.infinity,
                               child: FilledButton(
                                   onPressed: () async {
-                                    Provider.of<PropertiesNotifier>(
-                                            navigatorKey.currentContext!,
-                                            listen: false)
-                                        .shouldRefresh();
+                                    // Provider.of<PropertiesNotifier>(
+                                    //         navigatorKey.currentContext!,
+                                    //         listen: false)
+                                    //     .shouldRefresh();
                                     Propiedad propiedad = Propiedad(
                                       idPropiedad: 0,
                                       titulo: titleController.text,
