@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
+import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PropertiesNotifier>(
+            create: (context) => PropertiesNotifier()),
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'InmoSoft',
         theme: ThemeData(
@@ -51,6 +59,9 @@ class MyApp extends StatelessWidget {
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-        home: LoginPage());
+        home: LoginPage(),
+        navigatorKey: navigatorKey,
+      ),
+    );
   }
 }
