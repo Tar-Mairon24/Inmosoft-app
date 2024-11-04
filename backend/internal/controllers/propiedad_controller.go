@@ -80,7 +80,7 @@ func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "\nid_estado_propiedades": IDEstadoPropiedad})
+	c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "id_estado_propiedades": IDEstadoPropiedad})
 }
 
 // PUT /propiedad/:id
@@ -116,19 +116,17 @@ func (ctrl *Propiedad_Controller) DeletePropiedad(c *gin.Context) {
 		return
 	}
 
+	err = ctrl.EstadoPropiedadService.DeleteEstadoPropiedad(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete estado_propiedad"})
+		return
+	}
+
 	err = ctrl.PropiedadService.DeletePropiedad(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete propiedad"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Propiedad deleted"})
-
-	err = ctrl.EstadoPropiedadService.DeleteEstadoPropiedad(id)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete estado_propiedad"})
-		return
-	}
-	
-	c.JSON(http.StatusOK, gin.H{"message": "Estado_Propiedad deleted"})
+	c.JSON(http.StatusOK, gin.H{"message": "Propiedad and Estado deleted"})
 }

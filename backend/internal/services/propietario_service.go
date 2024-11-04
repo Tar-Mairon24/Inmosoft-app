@@ -63,3 +63,65 @@ func (service *PropietarioService) CreatePropietario(propietario *models.Propiet
 
 	return propietario.IDPropietario, nil
 }
+
+// PUT /propietario
+// Funcion que actualiza la informacion de un propietario en la base de datos
+func (service *PropietarioService) UpdatePropietario(propietario *models.Propietario) error {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Propietario", "id_propietario")
+	if err != nil {
+		log.Println("Error gettin last Id in Propietario table:", err)
+		return err
+	}
+	if(propietario.IDPropietario > lastId && propietario.IDPropietario < 0) {
+		log.Println("Propietario ID not found")
+		return nil
+	}
+	query := "UPDATE Propietario SET nombre = ?, apellido_p = ?, apellido_m = ?, telefono = ?, correo = ? WHERE id_propietario = ?"
+	result, err := service.DB.Exec(query, propietario.Nombre, propietario.ApellidoP, propietario.ApellidoM, propietario.Telefono, propietario.Correo, propietario.IDPropietario)
+	if err != nil {
+		log.Println("Error updating propietario:", err)
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	if (rows != 0) {
+		log.Println("No rows affected")
+		return nil
+	}
+	return nil
+}
+
+// DELETE /propietario/:id
+// Funcion que elimina un propietario de la base de datos
+func (service *PropietarioService) DeletePropietario(id int) error {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Propietario", "id_propietario")
+	if err != nil {
+		log.Println("Error gettin last Id in Propietario table:", err)
+		return err
+	}
+	if(id > lastId && id < 0) {
+		log.Println("Propietario ID not found")
+		return nil
+	}
+	query := "DELETE FROM Propietario WHERE id_propietario = ?"
+	result, err := service.DB.Exec(query, id)
+	if err != nil {
+		log.Println("Error deleting propietario:", err)
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	if rows == 0 {
+		log.Println("No rows affected")
+		return nil
+	}
+	return nil
+}

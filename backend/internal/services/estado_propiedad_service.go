@@ -87,6 +87,16 @@ func(service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.Estad
 // DELETE /eliminar/estadoPropiedad
 //Function that deletes a EstadoPropiedad from the database
 func (service *EstadoPropiedadService) DeleteEstadoPropiedad(id int) error {
+	utils := database.NewDbUtilities(service.DB)
+	lastId, err := utils.GetLastId("Estado_Propiedades", "id_estado_propiedades")
+	if err != nil {
+		log.Println("Error getting last ID:", err)
+		return err
+	}
+	if id <= 0 || id > lastId {
+		log.Println("Invalid estado ID:", id)
+		return err
+	}
 	query := "DELETE FROM Estado_Propiedades WHERE id_estado_propiedades = ?"
 	result, err := service.DB.Exec(query, id)
 	if err != nil {
@@ -98,7 +108,7 @@ func (service *EstadoPropiedadService) DeleteEstadoPropiedad(id int) error {
 		log.Println("Error getting rows affected:", err)
 		return err
 	}
-	if rows != 1 {
+	if rows == 0 {
 		log.Println("Error deleting estado: no rows affected")
 		return err
 	}

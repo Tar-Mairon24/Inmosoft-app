@@ -107,3 +107,49 @@ INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (3, 'venta', 'vendida', nul
 INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (4, 'renta', 'disponible', null, 4);
 INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (5, 'venta', 'disponible', null, 5);
 INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (6, 'renta', 'rentada', null, 6);   
+
+INSERT INTO `inmosoftDB`.`Prospecto` 
+(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+VALUES 
+(1, 'Juan', 'González', 'Pérez', '555-1234', 'juan.gonzalez@example.com');
+
+INSERT INTO `inmosoftDB`.`Prospecto` 
+(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+VALUES 
+(2, 'María', 'Martínez', 'López', '555-5678', 'maria.martinez@example.com');
+
+INSERT INTO `inmosoftDB`.`Prospecto` 
+(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+VALUES 
+(3, 'Carlos', 'Hernández', 'García', '555-9101', 'carlos.hernandez@example.com');
+
+INSERT INTO `inmosoftDB`.`Prospecto` 
+(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+VALUES 
+(4, 'Ana', 'Ramírez', 'Sánchez', '555-1122', 'ana.ramirez@example.com');
+
+
+INSERT INTO `inmosoftDB`.`Citas` 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+VALUES 
+(1, 'Primera visita de inspección', '2024-11-10', 1000, 'Primera inspección para revisar el estado de la propiedad.', 1, 3, 5);
+
+INSERT INTO `inmosoftDB`.`Citas` 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+VALUES 
+(2, 'Reunión de negociación', '2024-11-12', 1500, 'Reunión con el cliente para discutir términos de negociación.', 1, 4, 6);
+
+INSERT INTO `inmosoftDB`.`Citas` 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+VALUES 
+(3, 'Firma de contrato', '2024-11-15', 1100, 'Cita para la firma de contrato de arrendamiento.', 1, 2, 1);
+
+INSERT INTO `inmosoftDB`.`Citas` 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+VALUES 
+(4, 'Segunda visita de inspección', '2024-11-17', 1600, 'Inspección para verificar reparaciones y estado final.', 2, 2, 2);
+
+INSERT INTO `inmosoftDB`.`Citas` 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+VALUES 
+(5, 'Evaluación de cliente', '2024-11-20', 1400, 'Reunión con el cliente para evaluar la propiedad y su interés en la misma.', 2, 1, 4);
