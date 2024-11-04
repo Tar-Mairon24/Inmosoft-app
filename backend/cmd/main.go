@@ -64,7 +64,6 @@ func main() {
 	// ruta para agarrar una cita en específico
 	router.GET("/cita/:id", citasController.GetCita)
 
-
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
 	//router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
