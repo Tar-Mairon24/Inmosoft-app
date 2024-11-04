@@ -21,6 +21,15 @@ class DetailedPropertyPage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
+              List<Image> images = [
+                Image.asset('assets/images/images.jpeg'),
+                Image.asset('assets/images/images2.jpg'),
+                Image.asset('assets/images/images10.jpeg'),
+                Image.asset('assets/images/images11.jpg'),
+                Image.asset('assets/images/images12.jpeg'),
+                Image.asset('assets/images/images13.jpeg'),
+              ];
+
               Propiedad? property = snapshot.data!.data;
               return Padding(
                 padding: EdgeInsets.all(
@@ -32,9 +41,7 @@ class DetailedPropertyPage extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 3,
-                          child: Image.asset(
-                            'assets/images/images2.jpg',
-                          ),
+                          child: images[propertyID],
                         ),
                         Expanded(
                           flex: 1,

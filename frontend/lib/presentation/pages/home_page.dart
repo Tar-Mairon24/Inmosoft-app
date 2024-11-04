@@ -31,7 +31,14 @@ class HomePage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
-
+              List<Image> images = [
+                Image.asset('assets/images/images.jpeg'),
+                Image.asset('assets/images/images2.jpg'),
+                Image.asset('assets/images/images10.jpeg'),
+                Image.asset('assets/images/images11.jpg'),
+                Image.asset('assets/images/images12.jpeg'),
+                Image.asset('assets/images/images13.jpeg'),
+              ];
               List<PropiedadMenu>? propiedades = snapshot.data!.data;
               return Padding(
                 padding: EdgeInsets.symmetric(
@@ -64,7 +71,8 @@ class HomePage extends StatelessWidget {
                               return AddPropertyWidget();
                             } else {
                               return PropertyWidget(
-                                image: Image.asset('assets/images/images.jpeg'),
+                                // image: Image.asset('assets/images/images.jpeg'),
+                                image: images[i],
                                 property: propiedades[i - 1],
                               );
                             }
