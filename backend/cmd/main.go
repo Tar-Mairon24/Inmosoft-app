@@ -19,6 +19,7 @@ func main() {
 	EstadoPropiedadService := services.NewEstadoPropiedadService(database.DB)
 	PropietarioService := services.NewPropietarioService(database.DB)
 	TipoPropiedadService := services.NewTipoPropiedadService(database.DB)
+	citasService := services.NewCitasService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
@@ -26,6 +27,7 @@ func main() {
 	estadoPropiedadController := controllers.NewEstadoPropiedadController(EstadoPropiedadService)
 	propietarioController := controllers.NewPropietarioController(PropietarioService)
 	tipoPropiedadController := controllers.NewTipoPropiedadController(TipoPropiedadService)
+	citasController := controllers.NewCitasController(citasService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -57,6 +59,10 @@ func main() {
 	router.GET("/propietario/:id", propietarioController.GetPropietario)
 	// ruta para agarrar el tipo de propiedad
 	router.GET("/tipopropiedad/:id", tipoPropiedadController.GetTipoPropiedad)
+	// ruta para agarrar todas las citas de un usuario especifico
+	router.GET("/all/citas/:id", citasController.GetAllCitas)
+	// ruta para agarrar una cita en específico
+	router.GET("/cita/:id", citasController.GetCita)
 
 
 	// ruta para insertar una propiedad
@@ -64,14 +70,17 @@ func main() {
 	//router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
 	router.POST("/create/propietario", propietarioController.CreatePropietario)
 	router.POST("/create/tipoPropiedad", tipoPropiedadController.CreateTipoPropiedad)
+	router.POST("/create/cita", citasController.InsertCita)
 
 	// ruta para actualizar una propiedad
 	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)
 	router.PUT("/update/estadoPropiedad/:id", estadoPropiedadController.UpdateEstadoPropiedad)
+	router.PUT("/update/cita" , citasController.UpdateCita)
 
 	// rutas para borrar una propiedad
 	router.DELETE("/eliminar/propiedad/:id", propiedadController.DeletePropiedad)
-	//router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
+	router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
+	router.DELETE("/eliminar/cita/:id", citasController.DeleteCita)
 
 	// Start the server
 	router.Run(":8080")
