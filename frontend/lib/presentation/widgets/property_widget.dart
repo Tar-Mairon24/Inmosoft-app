@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/estado_propiedad_modelo.dart';
 import 'package:frontend/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
 import 'package:frontend/presentation/pages/property_modifier_page.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
+import 'package:frontend/services/estado_propiedad_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +26,8 @@ class PropertyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PropiedadService propiedadService = PropiedadService();
+    final EstadoPropiedadService estadoPropiedadService =
+        EstadoPropiedadService();
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailedPropertyPage(
@@ -99,12 +103,16 @@ class PropertyWidget extends StatelessWidget {
                                       // await propiedadService.
                                       //                           },
                                       onPressed: () async {
-                                        await propiedadService.deletePropiedad(
-                                            property.idPropiedad);
                                         Provider.of<PropertiesNotifier>(
                                                 navigatorKey.currentContext!,
                                                 listen: false)
                                             .shouldRefresh();
+                                        await estadoPropiedadService
+                                            .deleteEstadoPropiedad(
+                                                property.idPropiedad);
+                                        await propiedadService.deletePropiedad(
+                                            property.idPropiedad);
+
                                         Navigator.pop(context);
                                       },
                                       child: const Text("SI"),

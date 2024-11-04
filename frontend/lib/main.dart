@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/appointment_adder_page.dart';
 import 'package:frontend/presentation/pages/appointments_page.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
@@ -25,50 +26,46 @@ class MyApp extends StatelessWidget {
             create: (context) => PropertiesNotifier()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'InmoSoft',
-          theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              backgroundColor: Colors.white,
-              elevation: 0.0,
-              titleTextStyle: TextStyle(
-                color: Colors.black,
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-              iconTheme: IconThemeData(color: Colors.black),
+        debugShowCheckedModeBanner: false,
+        title: 'InmoSoft',
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
             ),
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-            useMaterial3: false,
-            scaffoldBackgroundColor: Colors.white,
-            primaryTextTheme: TextTheme(
-              titleLarge: TextStyle(
-                  color: Colors.black,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold),
-              titleMedium: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-              titleSmall: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold),
-              labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
-              bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
-              bodySmall: TextStyle(color: Colors.black, fontSize: 12),
-            ),
-            filledButtonTheme: FilledButtonThemeData(
-              style: FilledButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3.0),
-                ),
-              ),
-            ),
-            popupMenuTheme: PopupMenuThemeData(color: Colors.white),
-            drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
+            iconTheme: IconThemeData(color: Colors.black),
           ),
-          home: HomePage()),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+          useMaterial3: false,
+          scaffoldBackgroundColor: Colors.white,
+          primaryTextTheme: TextTheme(
+            titleLarge: TextStyle(
+                color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+            titleMedium: TextStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+            titleSmall: TextStyle(
+                color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+            labelMedium: TextStyle(color: Colors.grey[600], fontSize: 12),
+            bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
+            bodySmall: TextStyle(color: Colors.black, fontSize: 12),
+          ),
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3.0),
+              ),
+            ),
+          ),
+          popupMenuTheme: PopupMenuThemeData(color: Colors.white),
+          drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
+        ),
+        home: HomePage(),
+        navigatorKey: navigatorKey,
+      ),
     );
   }
 }
