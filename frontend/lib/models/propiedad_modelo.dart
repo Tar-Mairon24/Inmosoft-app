@@ -1,5 +1,4 @@
-
-class Propiedad{
+class Propiedad {
   int idPropiedad;
   String titulo;
   DateTime fechaAlta;

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/propiedad_menu_modelo.dart';
+import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
 import 'package:frontend/presentation/pages/property_modifier_page.dart';
+import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
@@ -96,7 +98,15 @@ class PropertyWidget extends StatelessWidget {
                                       // .shouldRefresh();
                                       // await propiedadService.
                                       //                           },
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        await propiedadService.deletePropiedad(
+                                            property.idPropiedad);
+                                        Provider.of<PropertiesNotifier>(
+                                                navigatorKey.currentContext!,
+                                                listen: false)
+                                            .shouldRefresh();
+                                        Navigator.pop(context);
+                                      },
                                       child: const Text("SI"),
                                     ),
                                     TextButton(
