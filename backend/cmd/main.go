@@ -58,7 +58,6 @@ func main() {
 	// ruta para agarrar el tipo de propiedad
 	router.GET("/tipopropiedad/:id", tipoPropiedadController.GetTipoPropiedad)
 
-
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
 	//router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
@@ -71,7 +70,7 @@ func main() {
 
 	// rutas para borrar una propiedad
 	router.DELETE("/eliminar/propiedad/:id", propiedadController.DeletePropiedad)
-	//router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
+	router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
 
 	// Start the server
 	router.Run(":8080")
