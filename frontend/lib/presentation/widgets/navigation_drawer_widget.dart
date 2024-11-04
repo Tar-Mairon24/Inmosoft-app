@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/agreements_page.dart';
 import 'package:frontend/presentation/pages/appointments_page.dart';
+import 'package:frontend/presentation/pages/home_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({super.key});
@@ -34,7 +35,8 @@ class NavigationDrawerWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage())),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
