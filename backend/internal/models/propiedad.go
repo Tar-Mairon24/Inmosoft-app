@@ -3,7 +3,7 @@ package models
 type Propiedad struct {
 	IDPropiedad     int       `json:"id_propiedad"`      // Clave primaria
 	Titulo          string    `json:"titulo"`            // Título de la propiedad
-	FechaAlta       string `json:"fecha_alta"`        // Fecha en que se dio de alta la propiedad
+	FechaAlta       *string    `json:"fecha_alta"`        // Fecha en que se dio de alta la propiedad
 	Direccion       string    `json:"direccion"`         // Dirección de la propiedad
 	Colonia         string    `json:"colonia"`           // Colonia
 	Ciudad          string    `json:"ciudad"`            // Ciudad
