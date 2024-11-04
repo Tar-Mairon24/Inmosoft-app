@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class AppointmentWidget extends StatelessWidget {
   const AppointmentWidget(
-      {super.key, required this.title, required this.name, required this.hour});
+      {super.key, required this.title, required this.name, required this.fecha, required this.hour});
   final String title;
   final String name;
-  final String hour;
+  final String fecha;
+  final int hour;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +32,14 @@ class AppointmentWidget extends StatelessWidget {
               title,
               style: Theme.of(context).primaryTextTheme.titleMedium,
             ),
+            Text(
+              fecha.split('T').first,
+              style: Theme.of(context).primaryTextTheme.labelMedium,
+            ),
           ],
         ),
         subtitle: Text(
-          hour,
+            '${(hour ~/ 100).toString().padLeft(2, '0')}:${(hour % 100).toString().padLeft(2, '0')}',
           style: TextStyle(color: Colors.indigo),
         ),
         trailing: PopupMenuButton<String>(

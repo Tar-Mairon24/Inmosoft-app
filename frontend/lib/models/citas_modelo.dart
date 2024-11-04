@@ -44,3 +44,47 @@ class Cita{
     };
   }
 }
+
+class CitaMenu {
+  final int id;
+  final String titulo;
+  final String fecha;
+  final int hora;
+  final String nombre;
+  final String apellidoPaterno;
+  final String apellidoMaterno;
+
+  CitaMenu({
+    required this.id,
+    required this.titulo,
+    required this.fecha,
+    required this.hora,
+    required this.nombre,
+    required this.apellidoPaterno,
+    required this.apellidoMaterno,
+  });
+
+  factory CitaMenu.fromJson(Map<String, dynamic> json) {
+    return CitaMenu(
+      id: json['id_cita'] ?? 0,
+      titulo: json['titulo'] ?? '',
+      fecha: json['fecha_cita'] ?? '',
+      hora: json['hora_cita'] ?? 0,
+      nombre: json['nombre_clienta'] ?? '',
+      apellidoPaterno: json['apellido_paterno_cliente'] ?? '',
+      apellidoMaterno: json['apellido_materno_cliente'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id_cita': id,
+      'titulo': titulo,
+      'fecha_cita': fecha,
+      'hora_cita': hora,
+      'nombre_cita': nombre,
+      'apellido_paterno_cita': apellidoPaterno,
+      'apellido_materno_cita': apellidoMaterno,
+    };
+  }
+}

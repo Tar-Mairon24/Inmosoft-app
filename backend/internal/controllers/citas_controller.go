@@ -41,6 +41,7 @@ func (ctrl *CitasController) GetAllCitas(c *gin.Context) {
 		return
 	}
 
+	c.Header("Content-Type", "application/json; charset=utf-8")
 	c.JSON(http.StatusOK, citas)
 }
 

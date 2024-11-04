@@ -10,21 +10,21 @@ class Result<T> {
   Result({required this.success, this.data, this.errorMessage});
 }
 
-class PropiedadService {
+class CitaService {
   final Dio _dio = Dio();
   final Logger log = Logger();
 
-  Future<Result<List<Cita>>> getAllCitasUser(int idUsuario) async {
+  Future<Result<List<CitaMenu>>> getAllCitasUser(int idUsuario) async {
     String? errorMessage;
     try {
-      final response = await _dio.get('http://localhost:8080/all/citas:$idUsuario');
+      final response = await _dio.get('http://localhost:8080/all/citas/$idUsuario');
       if (response.statusCode == 200) {
         final List<dynamic> citas = response.data;
         log.i('Citas fetched successfully');
         return Result(
           success: true,
           data: citas
-              .map((cita) => Cita.fromJson(cita))
+              .map((cita) => CitaMenu.fromJson(cita))
               .toList(),
         );
       } else {
@@ -67,7 +67,7 @@ class PropiedadService {
         log.i('Cita fetched successfully');
         return Result(
           success: true,
-          data: Cita.fromJson(cita),
+          data: CitaMenu.fromJson(cita),
         );
       } else {
         errorMessage = 'Failed to get cita: ${response.statusCode}';
@@ -100,7 +100,7 @@ class PropiedadService {
     }
   }
 
-  Future<Result> createCita(Cita cita) async {
+  Future<Result> createCita(CitaMenu cita) async {
     String? errorMessage;
     try {
       final response = await _dio.post('http://localhost:8080/create/cita', data: cita.toJson());
@@ -138,7 +138,7 @@ class PropiedadService {
     }
   }
 
-  Future<Result> updateCita(Cita cita) async {
+  Future<Result> updateCita(CitaMenu cita) async {
     String? errorMessage;
     try {
       final response = await _dio.put('http://localhost:8080/update/cita', data: cita.toJson());
