@@ -10,14 +10,14 @@ class Result<T> {
   Result({required this.success, this.data, this.errorMessage});
 }
 
-class PropiedadService {
+class CitaService {
   final Dio _dio = Dio();
   final Logger log = Logger();
 
   Future<Result<List<Cita>>> getAllCitasUser(int idUsuario) async {
     String? errorMessage;
     try {
-      final response = await _dio.get('http://localhost:8080/all/citas:$idUsuario');
+      final response = await _dio.get('http://localhost:8080/all/citas/$idUsuario');
       if (response.statusCode == 200) {
         final List<dynamic> citas = response.data;
         log.i('Citas fetched successfully');

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppointmentWidget extends StatelessWidget {
   const AppointmentWidget(
-      {super.key, required this.title, required this.name, required this.hour});
+      {super.key, required this.title, required this.name, required this.fecha, required this.hour});
   final String title;
   final String name;
+  final String fecha;
   final String hour;
 
   @override

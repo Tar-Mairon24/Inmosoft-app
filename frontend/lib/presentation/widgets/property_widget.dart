@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
-import 'package:frontend/presentation/pages/property_modifier_page.dart';
+//import 'package:frontend/presentation/pages/property_modifier_page.dart';
 import 'package:frontend/services/propiedad_service.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 class PropertyWidget extends StatelessWidget {
   final Image image;

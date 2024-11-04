@@ -21,7 +21,7 @@ func NewCitasService(db *sql.DB) *CitasService {
 // Funcion que recupera todas las citas de la base de datos
 func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.Cita, error) {
 	var citas []*models.Cita
-	query := "SELECT * FROM Citas where id_usuario = ?"
+	query := "SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto,  FROM Citas where id_usuario = ?"
 	rows, err := service.DB.Query(query, IdUsuario)
 	if err != nil {
 		if err == sql.ErrNoRows {
