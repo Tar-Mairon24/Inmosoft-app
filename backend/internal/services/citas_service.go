@@ -19,9 +19,9 @@ func NewCitasService(db *sql.DB) *CitasService {
 }
 
 // Funcion que recupera todas las citas de la base de datos
-func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.Cita, error) {
-	var citas []*models.Cita
-	query := "SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto,  FROM Citas where id_usuario = ?"
+func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.CitaMenu, error) {
+	var citas []*models.CitaMenu
+	query := "SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto FROM Citas, Prospecto where id_usuario = ? and Prospecto.id_cliente = Citas.id_cliente"
 	rows, err := service.DB.Query(query, IdUsuario)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -34,8 +34,8 @@ func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.Cita, err
 	defer rows.Close()
 
 	for rows.Next() {
-		var cita models.Cita
-		err := rows.Scan(&cita.IDCita, &cita.Titulo, &cita.FechaCita, &cita.HoraCita, &cita.Descripcion, &cita.IdUsuario, &cita.IdCliente, &cita.IdPropiedad)
+		var cita models.CitaMenu
+		err := rows.Scan(&cita.IDCita, &cita.Titulo, &cita.FechaCita, &cita.HoraCita, &cita.NombreCliente, &cita.ApellidoPaternoCliente, &cita.ApellidoMaternoCliente)
 		if err != nil {
 			log.Println("Error scanning cita:", err)
 			return nil, err
@@ -95,7 +95,7 @@ func (service *CitasService) InsertCita(cita *models.Cita) error {
 
 // Funcion que actualiza una cita en la base de datos
 func (service *CitasService) UpdateCita(cita *models.Cita) error {
-	print (cita.Titulo)
+	print(cita.Titulo)
 	utils := database.NewDbUtilities(service.DB)
 	lastId, err := utils.GetLastId("Citas", "id_citas")
 	if err != nil {
@@ -153,5 +153,3 @@ func (service *CitasService) DeleteCita(id int) error {
 	}
 	return nil
 }
-
-

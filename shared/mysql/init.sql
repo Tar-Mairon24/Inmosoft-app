@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema inmosoftDB
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `inmosoftDB` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+CREATE SCHEMA IF NOT EXISTS `inmosoftDB` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci ;
 USE `inmosoftDB` ;
 
 -- -----------------------------------------------------
@@ -22,7 +22,7 @@ USE `inmosoftDB` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Tipo_Propiedad` (
   `id_tipo_propiedad` INT NOT NULL,
-  `tipo_propiedad` VARCHAR(45) NULL,
+  `tipo_propiedad` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   PRIMARY KEY (`id_tipo_propiedad`))
 ENGINE = InnoDB;
 
@@ -32,11 +32,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Propietario` (
   `id_propietario` INT NOT NULL,
-  `nombre_propietario` VARCHAR(45) NULL,
-  `apellido_paterno_propietario` VARCHAR(45) NULL,
-  `apellido_materno_propietario` VARCHAR(45) NULL,
-  `telefono_propietario` VARCHAR(45) NULL,
-  `correo_propietario` VARCHAR(45) NULL,
+  `nombre_propietario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `apellido_paterno_propietario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `apellido_materno_propietario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `telefono_propietario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `correo_propietario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   PRIMARY KEY (`id_propietario`))
 ENGINE = InnoDB;
 
@@ -46,8 +46,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Usuarios` (
   `id_usuario` INT NOT NULL,
-  `usuario` VARCHAR(100) NULL,
-  `password_usuario` VARCHAR(45) NULL,
+  `usuario` VARCHAR(100)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `password_usuario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   PRIMARY KEY (`id_usuario`))
 ENGINE = InnoDB;
 
@@ -57,12 +57,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Propiedades` (
   `id_propiedad` INT NOT NULL,
-  `titulo` VARCHAR(45) NULL,
+  `titulo` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `fecha_alta` DATE NULL,
-  `direccion` VARCHAR(45) NULL,
-  `colonia` VARCHAR(45) NULL,
-  `ciudad` VARCHAR(45) NULL,
-  `referencia` VARCHAR(45) NULL,
+  `direccion` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `colonia` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `ciudad` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `referencia` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `precio` DOUBLE NULL,
   `mts_construccion` INT NULL,
   `mts_terreno` INT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Propiedades` (
   `comodidades` SET('clima', 'calefaccion', 'hidroneumatico', 'aljibe', 'tinaco') NULL DEFAULT NULL,
   `extras` SET('alberca', 'jardin', 'techada', 'cocineta', 'cuarto_servicio') NULL DEFAULT NULL,
   `utilidades` SET('agua', 'luz', 'internet') NULL DEFAULT NULL,
-  `observaciones` VARCHAR(1000) NULL,
+  `observaciones` VARCHAR(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NULL,
   `id_tipo_propiedad` INT NOT NULL,
   `id_propietario` INT NOT NULL,
   `id_usuario` INT NOT NULL,
@@ -108,8 +108,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Imagenes` (
   `id_imagen` INT NOT NULL,
-  `ruta_imagen` VARCHAR(255) NULL,
-  `descripcion_imagen` VARCHAR(500) NULL,
+  `ruta_imagen` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `descripcion_imagen` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `principal` TINYINT NULL,
   `id_propiedad` INT NOT NULL,
   PRIMARY KEY (`id_imagen`),
@@ -146,9 +146,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Contratos` (
   `id_contrato` INT NOT NULL,
-  `descripcion_contrato` VARCHAR(1500) NULL,
-  `tipo` VARCHAR(45) NULL,
-  `ruta_pdf` VARCHAR(255) NULL,
+  `descripcion_contrato` VARCHAR(1500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NULL,
+  `tipo` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `ruta_pdf` VARCHAR(255)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `id_propiedad` INT NOT NULL,
   PRIMARY KEY (`id_contrato`),
   INDEX `fk_Contratos_Propiedades2_idx` (`id_propiedad` ASC) VISIBLE,
@@ -165,11 +165,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Prospecto` (
   `id_cliente` INT NOT NULL,
-  `nombre_prospecto` VARCHAR(45) NULL,
-  `apellido_paterno_prospecto` VARCHAR(45) NULL,
-  `apellido_materno_prospecto` VARCHAR(45) NULL,
-  `telefono_prospecto` VARCHAR(45) NULL,
-  `correo_prospecto` VARCHAR(45) NULL,
+  `nombre_prospecto` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `apellido_paterno_prospecto` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `apellido_materno_prospecto` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `telefono_prospecto` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `correo_prospecto` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   PRIMARY KEY (`id_cliente`))
 ENGINE = InnoDB;
 
@@ -179,10 +179,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Citas` (
   `id_citas` INT NOT NULL,
-  `titulo_cita` VARCHAR(100) NULL,
+  `titulo_cita` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `fecha_cita` DATE NULL,
   `hora_cita` INT NULL,
-  `descripcion_cita` VARCHAR(2000) NULL,
+  `descripcion_cita` VARCHAR(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NULL,
   `id_usuario` INT NOT NULL,
   `id_cliente` INT NOT NULL,
   `id_propiedad` INT NOT NULL,
@@ -213,8 +213,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Documentos_Anexos` (
   `id_documento_anexo` INT NOT NULL,
-  `ruta_documento` VARCHAR(255) NULL,
-  `descripcion_documento_anexo` VARCHAR(45) NULL,
+  `ruta_documento` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `descripcion_documento_anexo` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `id_propiedad` INT NOT NULL,
   PRIMARY KEY (`id_documento_anexo`),
   INDEX `fk_Documentos_Anexos_Propiedades2_idx` (`id_propiedad` ASC) VISIBLE,

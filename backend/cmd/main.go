@@ -40,6 +40,12 @@ func main() {
 		AllowCredentials: true,
 	}))
 
+	// Set the Content-Type header to application/json; charset=utf-8
+    router.Use(func(c *gin.Context) {
+        c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+        c.Next()
+    })
+
 	router.RemoveExtraSlash = true
 
 	// Define routes

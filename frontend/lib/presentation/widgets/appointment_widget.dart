@@ -6,7 +6,7 @@ class AppointmentWidget extends StatelessWidget {
   final String title;
   final String name;
   final String fecha;
-  final String hour;
+  final int hour;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,14 @@ class AppointmentWidget extends StatelessWidget {
               title,
               style: Theme.of(context).primaryTextTheme.titleMedium,
             ),
+            Text(
+              fecha.split('T').first,
+              style: Theme.of(context).primaryTextTheme.labelMedium,
+            ),
           ],
         ),
         subtitle: Text(
-          hour,
+            '${(hour ~/ 100).toString().padLeft(2, '0')}:${(hour % 100).toString().padLeft(2, '0')}',
           style: TextStyle(color: Colors.indigo),
         ),
         trailing: PopupMenuButton<String>(

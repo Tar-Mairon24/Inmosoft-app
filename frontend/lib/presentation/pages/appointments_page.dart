@@ -49,11 +49,11 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     }
   }
 
-  List<Widget> createAppointmentWidgets(List<Cita> citas) {
+  List<Widget> createAppointmentWidgets(List<CitaMenu> citas) {
     return citas.map((cita) {
       return AppointmentWidget(
         title: cita.titulo,
-        name: "cliente",
+        name: cita.nombre + cita.apellidoPaterno + cita.apellidoMaterno,
         fecha: cita.fecha,
         hour: cita.hora,
       );
