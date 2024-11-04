@@ -1,7 +1,7 @@
 class Propiedad {
   int idPropiedad;
   String titulo;
-  DateTime fechaAlta;
+  String fechaAlta;
   String direccion;
   String colonia;
   String ciudad;
@@ -57,7 +57,7 @@ class Propiedad {
     return Propiedad(
       idPropiedad: json['id_propiedad'],
       titulo: json['titulo'],
-      fechaAlta: DateTime.parse(json['fecha_alta']),
+      fechaAlta: json['fecha_alta'],
       direccion: json['direccion'],
       colonia: json['colonia'],
       ciudad: json['ciudad'],
@@ -87,7 +87,7 @@ class Propiedad {
     return {
       'id_propiedad': idPropiedad,
       'titulo': titulo,
-      'fecha_alta': fechaAlta.toIso8601String(),
+      'fecha_alta': fechaAlta,
       'direccion': direccion,
       'colonia': colonia,
       'ciudad': ciudad,

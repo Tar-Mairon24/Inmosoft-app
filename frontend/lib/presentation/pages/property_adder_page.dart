@@ -182,7 +182,7 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                     Propiedad propiedad = Propiedad(
                                       idPropiedad: 0,
                                       titulo: titleController.text,
-                                      fechaAlta: DateTime.now(),
+                                      fechaAlta: "2024-11-4",
                                       direccion: addressController.text,
                                       colonia: residenceController.text,
                                       ciudad: cityController.text,
