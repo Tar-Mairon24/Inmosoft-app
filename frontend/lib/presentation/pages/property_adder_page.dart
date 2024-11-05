@@ -175,10 +175,6 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                               width: double.infinity,
                               child: FilledButton(
                                   onPressed: () async {
-                                    // Provider.of<PropertiesNotifier>(
-                                    //         navigatorKey.currentContext!,
-                                    //         listen: false)
-                                    //     .shouldRefresh();
                                     Propiedad propiedad = Propiedad(
                                       idPropiedad: 0,
                                       titulo: titleController.text,
@@ -218,14 +214,19 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                     EstadoPropiedad estadoPropiedad =
                                         EstadoPropiedad(
                                       idEstadoPropiedad: 0,
-                                      tipoTransaccion: 'renta',
+                                      tipoTransaccion: "'renta'",
                                       estado: "disponible",
                                       fechaCambioEstado: null,
                                       idPropiedad: 0,
                                     );
+
                                     await propiedadService.insertPropiedad(
                                         propiedad, estadoPropiedad);
-                                    Navigator.pop(context);
+                                    Provider.of<PropertiesNotifier>(
+                                            navigatorKey.currentContext!,
+                                            listen: false)
+                                        .shouldRefresh();
+                                    Navigator.of(context).pop();
                                   },
                                   child: Text('Agregar propiedad')),
                             ),

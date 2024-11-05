@@ -125,20 +125,20 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `inmosoftDB`.`Estado_Propiedades`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Estado_Propiedades` (
-  `id_estado_propiedades` INT NOT NULL,
-  `tipo_transaccion` ENUM('venta', 'renta') NOT NULL,
-  `estado` ENUM('disponible', 'vendida', 'rentada') NOT NULL,
-  `fecha_transaccion` DATE NULL,
-  `id_propiedad` INT NOT NULL,
-  PRIMARY KEY (`id_estado_propiedades`),
-  INDEX `fk_Estado_Propiedades_Propiedades1_idx` (`id_propiedad` ASC) VISIBLE,
-  CONSTRAINT `fk_Estado_Propiedades_Propiedades1`
-    FOREIGN KEY (`id_propiedad`)
-    REFERENCES `inmosoftDB`.`Propiedades` (`id_propiedad`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Estado_Propiedades` (
+    `id_estado_propiedades` INT NOT NULL,
+    `tipo_transaccion` VARCHAR(255) NOT NULL,
+    `estado` VARCHAR(255) NOT NULL,
+    `fecha_cambio_estado` DATE NULL,
+    `id_propiedad` INT NOT NULL,
+    PRIMARY KEY (`id_estado_propiedades`),
+    INDEX `fk_Estado_Propiedades_Propiedades1_idx` (`id_propiedad` ASC) VISIBLE,
+    CONSTRAINT `fk_Estado_Propiedades_Propiedades1`
+      FOREIGN KEY (`id_propiedad`)
+      REFERENCES `inmosoftDB`.`Propiedades` (`id_propiedad`)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

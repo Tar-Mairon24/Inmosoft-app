@@ -112,13 +112,14 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, es
 		return 0, 0, err
 	}
 	if rows != 1 {
+
 		log.Println("Error inserting estado: no rows affected")
 		return 0, 0, err
 	}
 
 	estadoPropiedad.IDPropiedad = propiedad.IDPropiedad
 	estadoPropiedad.IDEstadoPropiedades = lastID + 1
-	query = "INSERT INTO Estado_Propiedades(id_estado_propiedades, tipo_transaccion, estado, fecha_transaccion, id_propiedad) VALUES(?,?,?,?,?)"
+	query = "INSERT INTO Estado_Propiedades(id_estado_propiedades, tipo_transaccion, estado, fecha_cambio_estado, id_propiedad) VALUES(?,?,?,?,?)"
 	result, err = service.DB.Exec(query, estadoPropiedad.IDEstadoPropiedades, estadoPropiedad.TipoTransaccion, estadoPropiedad.Estado, estadoPropiedad.FechaCambioEstado, estadoPropiedad.IDPropiedad)
 	if err != nil {
 		log.Println("Error inserting estado:", err)

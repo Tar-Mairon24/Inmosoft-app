@@ -80,6 +80,7 @@ class PropiedadService {
       final estadoPropiedadData = estadoPropiedad.toJson();
       log.w(propiedadData);
       log.w(estadoPropiedadData);
+      log.w(estadoPropiedadData.toString());
 
       final response = await _dio.post(
         'http://localhost:8080/create/propiedad',
