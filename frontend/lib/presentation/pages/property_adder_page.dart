@@ -218,7 +218,7 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                     EstadoPropiedad estadoPropiedad =
                                         EstadoPropiedad(
                                       idEstadoPropiedad: 0,
-                                      tipoTransaccion: 'venta',
+                                      tipoTransaccion: 'renta',
                                       estado: "disponible",
                                       fechaCambioEstado: null,
                                       idPropiedad: 0,
