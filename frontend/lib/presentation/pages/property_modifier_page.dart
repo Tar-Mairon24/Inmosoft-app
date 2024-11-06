@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/estado_propiedad_modelo.dart';
 import 'package:frontend/models/propiedad_modelo.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
 import 'package:frontend/services/propiedad_service.dart';
@@ -27,6 +28,29 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
   final TextEditingController bathroomsNumController = TextEditingController();
   final TextEditingController garageSizeController = TextEditingController();
   final TextEditingController gardenMtsController = TextEditingController();
+  final TextEditingController observationsController = TextEditingController();
+
+  bool isOccupied = false;
+  bool isFurnished = false;
+  bool hasClima = false;
+  bool hasCalefaccion = false;
+  bool hasHidroneumatico = false;
+  bool hasAljibe = false;
+  bool hasTinaco = false;
+  bool hasAgua = false;
+  bool hasLuz = false;
+  bool hasInternet = false;
+  bool isGasEstacionario = false;
+  bool isGasNatural = false;
+  bool hasAlberca = false;
+  bool hasJardin = false;
+  bool hasTechada = false;
+  bool hasCocineta = false;
+  bool hasCuartoServicio = false;
+  List<String> gases = [];
+  List<String> comodidades = [];
+  List<String> utilidades = [];
+  List<String> extras = [];
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +86,32 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
             bathroomsNumController.text = property.numBanos.toString();
             garageSizeController.text = property.sizeCochera.toString();
             gardenMtsController.text = property.mtsJardin.toString();
+            observationsController.text = property.observaciones;
+
+            List<String> gases = property.gas;
+            List<String> comodidades = property.comodidades;
+            List<String> utilidades = property.utilidades;
+            List<String> extras = property.extras;
+            isOccupied = false;
+            isFurnished = false;
+            hasClima = comodidades.contains("clima") ? true : false;
+            hasCalefaccion = comodidades.contains("calefacción") ? true : false;
+            hasHidroneumatico =
+                comodidades.contains("hidroneumático") ? true : false;
+            hasAljibe = comodidades.contains("aljibe") ? true : false;
+            hasTinaco = comodidades.contains("tinaco") ? true : false;
+            hasAgua = utilidades.contains("agua") ? true : false;
+            hasLuz = utilidades.contains("luz") ? true : false;
+            hasInternet = utilidades.contains("internet") ? true : false;
+            isGasEstacionario =
+                gases.contains("gas estacionario") ? true : false;
+            isGasNatural = gases.contains("gas natural") ? true : false;
+            hasAlberca = extras.contains("alberca") ? true : false;
+            hasJardin = extras.contains("jardín") ? true : false;
+            hasTechada = extras.contains("techada") ? true : false;
+            hasCocineta = extras.contains("cocineta") ? true : false;
+            hasCuartoServicio =
+                extras.contains("cuarto de servicio") ? true : false;
 
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -96,6 +146,10 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01,
+                                  ),
                                   customTextFormFieldWidget(
                                       titleController, 'título'),
                                   SizedBox(height: separation),
@@ -111,32 +165,48 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                   customTextFormFieldWidget(
                                       referenceController, 'referencia'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       priceController, 'precio'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(constrMtsController,
+                                  customNumberFormFieldWidget(
+                                      constrMtsController,
                                       'metros de la construcción'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       lotMtsController, 'metros del terreno'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       floorsNumController, 'número de plantas'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       bedroomsNumController,
                                       'número de recámaras'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       bathroomsNumController,
                                       'número de baños'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       garageSizeController,
                                       'tamaño de la cochera'),
                                   SizedBox(height: separation),
-                                  customTextFormFieldWidget(
+                                  customNumberFormFieldWidget(
                                       gardenMtsController, 'metros del jardín'),
+                                  SizedBox(height: separation),
+                                  TextFormField(
+                                    maxLines: 3,
+                                    controller: observationsController,
+                                    decoration: InputDecoration(
+                                      labelText: "observaciones",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Este campo es obligatorio';
+                                      }
+                                      return null;
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -152,33 +222,165 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                   child: SingleChildScrollView(
                                     child: Column(
                                       children: [
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01,
+                                        ),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text("General")),
+                                        Divider(),
                                         customSwitchWidget(
-                                            "Habitada", (value) {}),
+                                            "Habitada", isOccupied, (newValue) {
+                                          setState(() {
+                                            isOccupied = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Amueblada", (value) {}),
-                                        customSwitchWidget("Clima", (value) {}),
+                                            "Amueblada", isFurnished,
+                                            (newValue) {
+                                          setState(() {
+                                            isFurnished = newValue;
+                                          });
+                                        }),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.04,
+                                        ),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text("Comodidades")),
+                                        Divider(),
+                                        customSwitchWidget("Clima", hasClima,
+                                            (newValue) {
+                                          setState(() {
+                                            hasClima = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Calefacción", (value) {}),
+                                            "Calefacción", hasCalefaccion,
+                                            (newValue) {
+                                          setState(() {
+                                            hasCalefaccion = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Hidroneumático", (value) {}),
+                                            "Hidroneúmatico", hasHidroneumatico,
+                                            (newValue) {
+                                          setState(() {
+                                            hasHidroneumatico = newValue;
+                                          });
+                                        }),
+                                        customSwitchWidget("Aljibe", hasAljibe,
+                                            (newValue) {
+                                          setState(() {
+                                            hasAljibe = newValue;
+                                          });
+                                        }),
+                                        customSwitchWidget("Tinaco", hasTinaco,
+                                            (newValue) {
+                                          setState(() {
+                                            hasTinaco = newValue;
+                                          });
+                                        }),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.04,
+                                        ),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text("Utilidades")),
+                                        Divider(),
+                                        customSwitchWidget("Agua", hasAgua,
+                                            (newValue) {
+                                          setState(() {
+                                            hasAgua = newValue;
+                                          });
+                                        }),
+                                        customSwitchWidget("Luz", hasLuz,
+                                            (newValue) {
+                                          setState(() {
+                                            hasLuz = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Aljibe", (value) {}),
+                                            "Internet", hasInternet,
+                                            (newValue) {
+                                          setState(() {
+                                            hasInternet = newValue;
+                                          });
+                                        }),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.04,
+                                        ),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text("Gas")),
+                                        Divider(),
                                         customSwitchWidget(
-                                            "Tinaco", (value) {}),
+                                            "Natural", isGasNatural,
+                                            (newValue) {
+                                          setState(() {
+                                            isGasNatural = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Alberca", (value) {}),
+                                            "Estacionario", isGasEstacionario,
+                                            (newValue) {
+                                          setState(() {
+                                            isGasEstacionario = newValue;
+                                          });
+                                        }),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.04,
+                                        ),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text("Extras")),
+                                        Divider(),
                                         customSwitchWidget(
-                                            "Jardín", (value) {}),
+                                            "Alberca", hasAlberca, (newValue) {
+                                          setState(() {
+                                            hasAlberca = newValue;
+                                          });
+                                        }),
+                                        customSwitchWidget("Jardín", hasJardin,
+                                            (newValue) {
+                                          setState(() {
+                                            hasJardin = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Techada", (value) {}),
+                                            "Techada", hasTechada, (newValue) {
+                                          setState(() {
+                                            hasTechada = newValue;
+                                          });
+                                        }),
                                         customSwitchWidget(
-                                            "Cocineta", (value) {}),
-                                        customSwitchWidget(
-                                            "Cuarto de servicio", (value) {}),
-                                        customSwitchWidget("Agua", (value) {}),
-                                        customSwitchWidget("Luz", (value) {}),
-                                        customSwitchWidget(
-                                            "Internet", (value) {}),
+                                            "Cocineta", hasCocineta,
+                                            (newValue) {
+                                          setState(() {
+                                            hasCocineta = newValue;
+                                          });
+                                        }),
+                                        customSwitchWidget("Cuarto de servicio",
+                                            hasCuartoServicio, (newValue) {
+                                          setState(() {
+                                            hasCuartoServicio = newValue;
+                                          });
+                                        })
                                       ],
                                     ),
                                   ),
@@ -191,7 +393,104 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                   child: SizedBox(
                                     width: double.infinity,
                                     child: FilledButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            if (hasClima) {
+                                              comodidades.add("clima");
+                                            }
+                                            if (hasCalefaccion) {
+                                              comodidades.add("calefacción");
+                                            }
+                                            if (hasHidroneumatico) {
+                                              comodidades.add("aljibe");
+                                            }
+                                            if (hasTinaco) {
+                                              comodidades.add("tinaco");
+                                            }
+                                            if (hasAgua) {
+                                              utilidades.add("agua");
+                                            }
+                                            if (hasLuz) {
+                                              utilidades.add("luz");
+                                            }
+                                            if (hasInternet) {
+                                              utilidades.add("internet");
+                                            }
+                                            if (isGasNatural) {
+                                              gases.add("natural");
+                                            }
+                                            if (isGasEstacionario) {
+                                              gases.add("estacionario");
+                                            }
+                                            if (hasAlberca) {
+                                              extras.add("jardin");
+                                            }
+                                            if (hasTechada) {
+                                              extras.add("techada");
+                                            }
+                                            if (hasCocineta) {
+                                              extras.add("cocineta");
+                                            }
+                                            if (hasCuartoServicio) {
+                                              extras.add("cuarto_servicio");
+                                            }
+
+                                            String formattedDate =
+                                                DateTime.now()
+                                                    .toString()
+                                                    .split(' ')[0];
+
+                                            Propiedad propiedad = Propiedad(
+                                              idPropiedad: 0,
+                                              titulo: titleController.text,
+                                              fechaAlta: formattedDate,
+                                              direccion: addressController.text,
+                                              colonia: residenceController.text,
+                                              ciudad: cityController.text,
+                                              referencia:
+                                                  referenceController.text,
+                                              precio: double.parse(
+                                                  priceController.text),
+                                              mtsConstruccion: int.parse(
+                                                  constrMtsController.text),
+                                              mtsTerreno: int.parse(
+                                                  lotMtsController.text),
+                                              habitada: isOccupied,
+                                              amueblada: isFurnished,
+                                              numPlantas: int.parse(
+                                                  floorsNumController.text),
+                                              numRecamaras: int.parse(
+                                                  bedroomsNumController.text),
+                                              numBanos: int.parse(
+                                                  bathroomsNumController.text),
+                                              sizeCochera: int.parse(
+                                                  garageSizeController.text),
+                                              mtsJardin: int.parse(
+                                                  gardenMtsController.text),
+                                              gas: gases,
+                                              comodidades: comodidades,
+                                              extras: extras,
+                                              utilidades: utilidades,
+                                              observaciones:
+                                                  observationsController.text,
+                                              idTipoPropiedad: 1,
+                                              idPropietario: 1,
+                                              idUsuario: 2,
+                                            );
+
+                                            EstadoPropiedad estadoPropiedad =
+                                                EstadoPropiedad(
+                                              idEstadoPropiedad: 0,
+                                              tipoTransaccion: "renta",
+                                              estado: "disponible",
+                                              fechaCambioEstado: null,
+                                              idPropiedad: 0,
+                                            );
+
+                                            Navigator.of(context).pop();
+                                          }
+                                        },
                                         child: Text('Guardar cambios')),
                                   ),
                                 ),
@@ -209,7 +508,8 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
     );
   }
 
-  Widget customSwitchWidget(String title, ValueChanged<bool>? onChanged) {
+  Widget customSwitchWidget(
+      String title, bool value, ValueChanged<bool> onChanged) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -218,7 +518,7 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
           style: Theme.of(context).primaryTextTheme.bodyMedium,
         ),
         Switch(
-          value: false,
+          value: value,
           onChanged: onChanged,
         ),
       ],
@@ -237,6 +537,27 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
         if (value == null || value.isEmpty) {
           return 'Este campo es obligatorio';
         }
+        return null;
+      },
+    );
+  }
+
+  Widget customNumberFormFieldWidget(
+      TextEditingController controller, String? labelText) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Este campo es obligatorio';
+        }
+        if (int.tryParse(value) == null) {
+          return 'Solo se permiten números';
+        }
+
         return null;
       },
     );
