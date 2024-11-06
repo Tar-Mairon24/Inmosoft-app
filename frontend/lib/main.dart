@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
@@ -56,10 +57,19 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+          switchTheme: SwitchThemeData(
+            thumbColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.selected)) {
+                return Colors.indigo; // Color del "thumb" cuando está activo
+              }
+              return Colors.white; // Color del "thumb" cuando está inactivo
+            }),
+          ),
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-        home: LoginPage(),
+        home: HomePage(),
         navigatorKey: navigatorKey,
       ),
     );

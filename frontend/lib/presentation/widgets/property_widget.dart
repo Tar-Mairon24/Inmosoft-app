@@ -94,13 +94,6 @@ class PropertyWidget extends StatelessWidget {
                                       "¿Está seguro de que desea eliminar esta propiedad?"),
                                   actions: [
                                     TextButton(
-                                      //                           onPressed: (_) async {
-                                      //                             //! Eliminar la propiedad de la base de datos y actualizar el estado
-                                      //                             Provider.of<>(navigatorKey.currentContext!,
-                                      //     listen: false)
-                                      // .shouldRefresh();
-                                      // await propiedadService.
-                                      //                           },
                                       onPressed: () async {
                                         Provider.of<PropertiesNotifier>(
                                                 navigatorKey.currentContext!,

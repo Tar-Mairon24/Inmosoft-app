@@ -4,7 +4,6 @@ import 'package:frontend/models/propiedad_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
-import 'package:frontend/services/estado_propiedad_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
@@ -35,12 +34,30 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
 
   bool isOccupied = false;
   bool isFurnished = false;
+  bool hasClima = false;
+  bool hasCalefaccion = false;
+  bool hasHidroneumatico = false;
+  bool hasAljibe = false;
+  bool hasTinaco = false;
+  bool hasAgua = false;
+  bool hasLuz = false;
+  bool hasInternet = false;
+  bool isGasEstacionario = false;
+  bool isGasNatural = false;
+  bool hasAlberca = false;
+  bool hasJardin = false;
+  bool hasTechada = false;
+  bool hasCocineta = false;
+  bool hasCuartoServicio = false;
+  List<String> gases = [];
+  List<String> comodidades = [];
+  List<String> utilidades = [];
+  List<String> extras = [];
 
   @override
   Widget build(BuildContext context) {
     final PropiedadService propiedadService = PropiedadService();
-    final EstadoPropiedadService estadoPropiedadService =
-        EstadoPropiedadService();
+
     double separation = MediaQuery.of(context).size.height * 0.02;
     List<Widget> photos = [
       AddPhotoWidget(),
@@ -81,6 +98,9 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
+                            ),
                             customTextFormFieldWidget(
                                 titleController, 'título'),
                             SizedBox(height: separation),
@@ -95,32 +115,44 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                             customTextFormFieldWidget(
                                 referenceController, 'referencia'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 priceController, 'precio'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(constrMtsController,
+                            customNumberFormFieldWidget(constrMtsController,
                                 'metros de la construcción'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 lotMtsController, 'metros del terreno'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 floorsNumController, 'número de plantas'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 bedroomsNumController, 'número de recámaras'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 bathroomsNumController, 'número de baños'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 garageSizeController, 'tamaño de la cochera'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
+                            customNumberFormFieldWidget(
                                 gardenMtsController, 'metros del jardín'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(
-                                observationsController, 'observaciones'),
+                            TextFormField(
+                              maxLines: 3,
+                              controller: observationsController,
+                              decoration: InputDecoration(
+                                labelText: "observaciones",
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Este campo es obligatorio';
+                                }
+                                return null;
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -136,6 +168,14 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("General")),
+                                  Divider(),
                                   customSwitchWidget("Habitada", isOccupied,
                                       (newValue) {
                                     setState(() {
@@ -148,21 +188,131 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                       isFurnished = newValue;
                                     });
                                   }),
-                                  // customSwitchWidget("Clima", (value) {}),
-                                  // customSwitchWidget("Calefacción", (value) {}),
-                                  // customSwitchWidget(
-                                  //     "Hidroneumático", (value) {}),
-                                  // customSwitchWidget("Aljibe", (value) {}),
-                                  // customSwitchWidget("Tinaco", (value) {}),
-                                  // customSwitchWidget("Alberca", (value) {}),
-                                  // customSwitchWidget("Jardín", (value) {}),
-                                  // customSwitchWidget("Techada", (value) {}),
-                                  // customSwitchWidget("Cocineta", (value) {}),
-                                  // customSwitchWidget(
-                                  //     "Cuarto de servicio", (value) {}),
-                                  // customSwitchWidget("Agua", (value) {}),
-                                  // customSwitchWidget("Luz", (value) {}),
-                                  // customSwitchWidget("Internet", (value) {}),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Comodidades")),
+                                  Divider(),
+                                  customSwitchWidget("Clima", hasClima,
+                                      (newValue) {
+                                    setState(() {
+                                      hasClima = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget(
+                                      "Calefacción", hasCalefaccion,
+                                      (newValue) {
+                                    setState(() {
+                                      hasCalefaccion = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget(
+                                      "Hidroneúmatico", hasHidroneumatico,
+                                      (newValue) {
+                                    setState(() {
+                                      hasHidroneumatico = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Aljibe", hasAljibe,
+                                      (newValue) {
+                                    setState(() {
+                                      hasAljibe = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Tinaco", hasTinaco,
+                                      (newValue) {
+                                    setState(() {
+                                      hasTinaco = newValue;
+                                    });
+                                  }),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Utilidades")),
+                                  Divider(),
+                                  customSwitchWidget("Agua", hasAgua,
+                                      (newValue) {
+                                    setState(() {
+                                      hasAgua = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Luz", hasLuz, (newValue) {
+                                    setState(() {
+                                      hasLuz = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Internet", hasInternet,
+                                      (newValue) {
+                                    setState(() {
+                                      hasInternet = newValue;
+                                    });
+                                  }),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Gas")),
+                                  Divider(),
+                                  customSwitchWidget("Natural", isGasNatural,
+                                      (newValue) {
+                                    setState(() {
+                                      isGasNatural = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget(
+                                      "Estacionario", isGasEstacionario,
+                                      (newValue) {
+                                    setState(() {
+                                      isGasEstacionario = newValue;
+                                    });
+                                  }),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Extras")),
+                                  Divider(),
+                                  customSwitchWidget("Alberca", hasAlberca,
+                                      (newValue) {
+                                    setState(() {
+                                      hasAlberca = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Jardín", hasJardin,
+                                      (newValue) {
+                                    setState(() {
+                                      hasJardin = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Techada", hasTechada,
+                                      (newValue) {
+                                    setState(() {
+                                      hasTechada = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget("Cocineta", hasCocineta,
+                                      (newValue) {
+                                    setState(() {
+                                      hasCocineta = newValue;
+                                    });
+                                  }),
+                                  customSwitchWidget(
+                                      "Cuarto de servicio", hasCuartoServicio,
+                                      (newValue) {
+                                    setState(() {
+                                      hasCuartoServicio = newValue;
+                                    });
+                                  })
                                 ],
                               ),
                             ),
@@ -175,58 +325,105 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                               width: double.infinity,
                               child: FilledButton(
                                   onPressed: () async {
-                                    Propiedad propiedad = Propiedad(
-                                      idPropiedad: 0,
-                                      titulo: titleController.text,
-                                      fechaAlta: "2024-11-4",
-                                      direccion: addressController.text,
-                                      colonia: residenceController.text,
-                                      ciudad: cityController.text,
-                                      referencia: referenceController.text,
-                                      precio:
-                                          double.parse(priceController.text),
-                                      mtsConstruccion:
-                                          int.parse(constrMtsController.text),
-                                      mtsTerreno:
-                                          int.parse(lotMtsController.text),
-                                      habitada: isOccupied,
-                                      amueblada: isFurnished,
-                                      numPlantas:
-                                          int.parse(floorsNumController.text),
-                                      numRecamaras:
-                                          int.parse(bedroomsNumController.text),
-                                      numBanos: int.parse(
-                                          bathroomsNumController.text),
-                                      sizeCochera:
-                                          int.parse(garageSizeController.text),
-                                      mtsJardin:
-                                          int.parse(gardenMtsController.text),
-                                      gas: ["natural"],
-                                      comodidades: ["clima", "aljibe"],
-                                      extras: ["alberca", "jardin", "techada"],
-                                      utilidades: ["agua", "luz", "internet"],
-                                      observaciones:
-                                          observationsController.text,
-                                      idTipoPropiedad: 1,
-                                      idPropietario: 1,
-                                      idUsuario: 2,
-                                    );
-                                    EstadoPropiedad estadoPropiedad =
-                                        EstadoPropiedad(
-                                      idEstadoPropiedad: 0,
-                                      tipoTransaccion: "'renta'",
-                                      estado: "disponible",
-                                      fechaCambioEstado: null,
-                                      idPropiedad: 0,
-                                    );
+                                    if (_formKey.currentState!.validate()) {
+                                      if (hasClima) {
+                                        comodidades.add("clima");
+                                      }
+                                      if (hasCalefaccion) {
+                                        comodidades.add("calefacción");
+                                      }
+                                      if (hasHidroneumatico) {
+                                        comodidades.add("aljibe");
+                                      }
+                                      if (hasTinaco) {
+                                        comodidades.add("tinaco");
+                                      }
+                                      if (hasAgua) {
+                                        utilidades.add("agua");
+                                      }
+                                      if (hasLuz) {
+                                        utilidades.add("luz");
+                                      }
+                                      if (hasInternet) {
+                                        utilidades.add("internet");
+                                      }
+                                      if (isGasNatural) {
+                                        gases.add("natural");
+                                      }
+                                      if (isGasEstacionario) {
+                                        gases.add("estacionario");
+                                      }
+                                      if (hasAlberca) {
+                                        extras.add("jardin");
+                                      }
+                                      if (hasTechada) {
+                                        extras.add("techada");
+                                      }
+                                      if (hasCocineta) {
+                                        extras.add("cocineta");
+                                      }
+                                      if (hasCuartoServicio) {
+                                        extras.add("cuarto_servicio");
+                                      }
 
-                                    await propiedadService.insertPropiedad(
-                                        propiedad, estadoPropiedad);
-                                    Provider.of<PropertiesNotifier>(
-                                            navigatorKey.currentContext!,
-                                            listen: false)
-                                        .shouldRefresh();
-                                    Navigator.of(context).pop();
+                                      String formattedDate = DateTime.now()
+                                          .toString()
+                                          .split(' ')[0];
+
+                                      Propiedad propiedad = Propiedad(
+                                        idPropiedad: 0,
+                                        titulo: titleController.text,
+                                        fechaAlta: formattedDate,
+                                        direccion: addressController.text,
+                                        colonia: residenceController.text,
+                                        ciudad: cityController.text,
+                                        referencia: referenceController.text,
+                                        precio:
+                                            double.parse(priceController.text),
+                                        mtsConstruccion:
+                                            int.parse(constrMtsController.text),
+                                        mtsTerreno:
+                                            int.parse(lotMtsController.text),
+                                        habitada: isOccupied,
+                                        amueblada: isFurnished,
+                                        numPlantas:
+                                            int.parse(floorsNumController.text),
+                                        numRecamaras: int.parse(
+                                            bedroomsNumController.text),
+                                        numBanos: int.parse(
+                                            bathroomsNumController.text),
+                                        sizeCochera: int.parse(
+                                            garageSizeController.text),
+                                        mtsJardin:
+                                            int.parse(gardenMtsController.text),
+                                        gas: gases,
+                                        comodidades: comodidades,
+                                        extras: extras,
+                                        utilidades: utilidades,
+                                        observaciones:
+                                            observationsController.text,
+                                        idTipoPropiedad: 1,
+                                        idPropietario: 1,
+                                        idUsuario: 2,
+                                      );
+
+                                      EstadoPropiedad estadoPropiedad =
+                                          EstadoPropiedad(
+                                        idEstadoPropiedad: 0,
+                                        tipoTransaccion: "renta",
+                                        estado: "disponible",
+                                        fechaCambioEstado: null,
+                                        idPropiedad: 0,
+                                      );
+
+                                      await propiedadService.insertPropiedad(
+                                          propiedad, estadoPropiedad);
+                                      Provider.of<PropertiesNotifier>(
+                                              navigatorKey.currentContext!,
+                                              listen: false)
+                                          .shouldRefresh();
+                                      Navigator.of(context).pop();
+                                    }
                                   },
                                   child: Text('Agregar propiedad')),
                             ),
@@ -273,6 +470,27 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
         if (value == null || value.isEmpty) {
           return 'Este campo es obligatorio';
         }
+        return null;
+      },
+    );
+  }
+
+  Widget customNumberFormFieldWidget(
+      TextEditingController controller, String? labelText) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Este campo es obligatorio';
+        }
+        if (int.tryParse(value) == null) {
+          return 'Solo se permiten números';
+        }
+
         return null;
       },
     );

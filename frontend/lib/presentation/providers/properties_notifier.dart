@@ -4,14 +4,14 @@ import 'package:frontend/models/propiedad_modelo.dart';
 import 'package:frontend/services/propiedad_service.dart';
 
 class PropertiesNotifier with ChangeNotifier {
-  late Future<List<Propiedad>> _properties;
+  late Future<List<PropiedadMenu>> _properties;
   final PropiedadService propiedadService = PropiedadService();
 
-  Future<List<Propiedad>> get property {
+  Future<List<PropiedadMenu>> get property {
     return _properties;
   }
 
-  set properties(Future<List<Propiedad>> properties) {
+  set properties(Future<List<PropiedadMenu>> properties) {
     this._properties = properties;
     notifyListeners();
   }

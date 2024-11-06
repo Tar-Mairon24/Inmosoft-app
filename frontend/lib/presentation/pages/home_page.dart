@@ -38,8 +38,20 @@ class HomePage extends StatelessWidget {
                 Image.asset('assets/images/images11.jpg'),
                 Image.asset('assets/images/images12.jpeg'),
                 Image.asset('assets/images/images13.jpeg'),
+                Image.asset('assets/images/images.jpeg'),
+                Image.asset('assets/images/images2.jpg'),
+                Image.asset('assets/images/images10.jpeg'),
+                Image.asset('assets/images/images11.jpg'),
+                Image.asset('assets/images/images12.jpeg'),
+                Image.asset('assets/images/images13.jpeg'),
               ];
               List<PropiedadMenu>? propiedades = snapshot.data!.data;
+
+              print(propiedades![0].estado);
+
+              for (int i = 0; i < propiedades.length; i++) {
+                print(propiedades[i].titulo);
+              }
               return Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -48,14 +60,6 @@ class HomePage extends StatelessWidget {
                   children: [
                     HomeFiltersBarWidget(),
                     Expanded(
-                      // child: GridView.count(
-                      //   crossAxisSpacing:
-                      //       MediaQuery.of(context).size.width * 0.06,
-                      //   mainAxisSpacing:
-                      //       MediaQuery.of(context).size.height * 0.06,
-                      //   crossAxisCount: 4,
-                      //   children: properties,
-                      // ),
                       child: GridView.builder(
                           itemCount: propiedades!.length + 1,
                           gridDelegate:
@@ -87,22 +91,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-// Padding(
-//         padding: EdgeInsets.symmetric(
-//           horizontal: MediaQuery.of(context).size.width * 0.06,
-//         ),
-//         child: Column(
-//           children: [
-//             HomeFiltersBarWidget(),
-//             Expanded(
-//               child: GridView.count(
-//                 crossAxisSpacing: MediaQuery.of(context).size.width * 0.06,
-//                 mainAxisSpacing: MediaQuery.of(context).size.height * 0.06,
-//                 crossAxisCount: 4,
-//                 children: properties,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
