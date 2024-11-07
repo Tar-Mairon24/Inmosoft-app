@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/pages/detailed_property_page.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
@@ -69,7 +70,7 @@ class MyApp extends StatelessWidget {
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-        home: HomePage(),
+        home: LoginPage(),
         navigatorKey: navigatorKey,
       ),
     );

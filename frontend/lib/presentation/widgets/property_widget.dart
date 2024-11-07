@@ -9,10 +9,6 @@ import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
 class PropertyWidget extends StatelessWidget {
-  // final Image image;
-  // final String title;
-  // final String status;
-  // final double price;
   final PropiedadMenu property;
   final Image image;
 
@@ -30,6 +26,7 @@ class PropertyWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailedPropertyPage(
+                image: image,
                 propertyID: property.idPropiedad,
               ))),
       child: Container(
