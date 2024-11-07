@@ -92,15 +92,15 @@ class PropertyWidget extends StatelessWidget {
                                   actions: [
                                     TextButton(
                                       onPressed: () async {
-                                        Provider.of<PropertiesNotifier>(
-                                                navigatorKey.currentContext!,
-                                                listen: false)
-                                            .shouldRefresh();
                                         await estadoPropiedadService
                                             .deleteEstadoPropiedad(
                                                 property.idPropiedad);
                                         await propiedadService.deletePropiedad(
                                             property.idPropiedad);
+                                        Provider.of<PropertiesNotifier>(
+                                                navigatorKey.currentContext!,
+                                                listen: false)
+                                            .shouldRefresh();
 
                                         Navigator.pop(context);
                                       },

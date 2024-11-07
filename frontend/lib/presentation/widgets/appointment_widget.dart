@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/citas_modelo.dart';
+import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/providers/appointments_notifier.dart';
+import 'package:frontend/services/cita_service.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentWidget extends StatelessWidget {
   const AppointmentWidget({
@@ -12,6 +16,7 @@ class AppointmentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CitaService citaService = CitaService();
     return Container(
       decoration: BoxDecoration(
         border: Border.all(),
@@ -69,8 +74,16 @@ class AppointmentWidget extends StatelessWidget {
                           "¿Está seguro de que desea eliminar esta cita?"),
                       actions: [
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             //! Eliminar el contrato de la base de datos y actualizar el estado
+
+                            await citaService.deleteCita(appointment.id);
+                            Provider.of<AppointmentsNotifier>(
+                                    navigatorKey.currentContext!,
+                                    listen: false)
+                                .shouldRefresh();
+
+                            Navigator.pop(context);
                           },
                           child: const Text("SI"),
                         ),

@@ -225,7 +225,7 @@ class CitaService {
     String? errorMessage;
     try {
       final response =
-          await _dio.delete('http://localhost:8080/delete/cita:$idCita');
+          await _dio.delete('http://localhost:8080/eliminar/cita/$idCita');
       if (response.statusCode == 200) {
         log.i('Cita deleted successfully');
         return Result(success: true);
