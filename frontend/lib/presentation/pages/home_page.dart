@@ -38,6 +38,12 @@ class HomePage extends StatelessWidget {
                 Image.asset('assets/images/properties/images4.jpg'),
                 Image.asset('assets/images/properties/images5.jpeg'),
                 Image.asset('assets/images/properties/images6.jpeg'),
+                Image.asset('assets/images/properties/images1.jpeg'),
+                Image.asset('assets/images/properties/images2.jpg'),
+                Image.asset('assets/images/properties/images3.jpeg'),
+                Image.asset('assets/images/properties/images4.jpg'),
+                Image.asset('assets/images/properties/images5.jpeg'),
+                Image.asset('assets/images/properties/images6.jpeg'),
               ];
               List<PropiedadMenu>? propiedades = snapshot.data!.data;
 
