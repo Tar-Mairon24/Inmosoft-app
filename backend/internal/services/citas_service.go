@@ -50,6 +50,50 @@ func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.CitaMenu,
 	return citas, nil
 }
 
+func (service *CitasService) GetAllCitasUserMonth(IdUsuario int, Mes int) ([]*models.CitaMenu, error) {
+	var citas []*models.CitaMenu
+	// Modificación de la consulta para filtrar por mes, asumiendo que fecha_cita es un string en formato 'yyyy-mm-dd'
+	query := `
+		SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto, 
+		       apellido_paterno_prospecto, apellido_materno_prospecto 
+		FROM Citas
+		JOIN Prospecto ON Prospecto.id_cliente = Citas.id_cliente
+		WHERE id_usuario = ? 
+		AND MONTH(STR_TO_DATE(fecha_cita, '%Y-%m-%d')) = ?`
+
+	// Ejecutamos la consulta, pasando el ID del usuario y el mes
+	rows, err := service.DB.Query(query, IdUsuario, Mes)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Println("No rows found")
+			return nil, nil
+		}
+		log.Println("Error fetching all citas:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Recorremos las filas devueltas por la consulta
+	for rows.Next() {
+		var cita models.CitaMenu
+		err := rows.Scan(&cita.IDCita, &cita.Titulo, &cita.FechaCita, &cita.HoraCita,
+			&cita.NombreCliente, &cita.ApellidoPaternoCliente, &cita.ApellidoMaternoCliente)
+		if err != nil {
+			log.Println("Error scanning cita:", err)
+			return nil, err
+		}
+		citas = append(citas, &cita)
+	}
+
+	// Verificamos si hubo algún error mientras leíamos las filas
+	if err = rows.Err(); err != nil {
+		log.Println("Error with rows:", err)
+		return nil, err
+	}
+
+	return citas, nil
+}
+
 func (service *CitasService) GetCita(id int) (*models.Cita, error) {
 	var cita models.Cita
 	query := "SELECT * FROM Citas WHERE id_citas = ?"

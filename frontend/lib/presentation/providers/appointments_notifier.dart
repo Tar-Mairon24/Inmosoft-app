@@ -15,8 +15,9 @@ class AppointmentsNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Result<List<CitaMenu>>> loadData(int idUsuario) async {
-    return await citaService.getAllCitasUser(idUsuario);
+  Future<Result<List<CitaMenu>>> loadData(int idUsuario, int mes) async {
+    print("mes del notifier: ${mes}");
+    return await citaService.getAllCitasUserMonth(idUsuario, mes);
   }
 
   void shouldRefresh() {
