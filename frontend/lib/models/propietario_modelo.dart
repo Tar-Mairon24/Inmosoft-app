@@ -1,4 +1,4 @@
-class Propietario{
+class Propietario {
   int idPropietario;
   String nombre;
   String apellidoPaterno;
@@ -19,8 +19,8 @@ class Propietario{
     return Propietario(
       idPropietario: json['id_propietario'],
       nombre: json['nombre'],
-      apellidoPaterno: json['apellido_paterno'],
-      apellidoMaterno: json['apellido_materno'],
+      apellidoPaterno: json['apellido_p'],
+      apellidoMaterno: json['apellido_m'],
       telefono: json['telefono'],
       correo: json['correo'],
     );
@@ -30,8 +30,8 @@ class Propietario{
     return {
       'id_propietario': idPropietario,
       'nombre': nombre,
-      'apellido_paterno': apellidoPaterno,
-      'apellido_materno': apellidoMaterno,
+      'apellido_p': apellidoPaterno,
+      'apellido_m': apellidoMaterno,
       'telefono': telefono,
       'correo': correo,
     };

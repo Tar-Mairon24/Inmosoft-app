@@ -17,15 +17,14 @@ class CitaService {
   Future<Result<List<CitaMenu>>> getAllCitasUser(int idUsuario) async {
     String? errorMessage;
     try {
-      final response = await _dio.get('http://localhost:8080/all/citas/$idUsuario');
+      final response =
+          await _dio.get('http://localhost:8080/all/citas/$idUsuario');
       if (response.statusCode == 200) {
         final List<dynamic> citas = response.data;
         log.i('Citas fetched successfully');
         return Result(
           success: true,
-          data: citas
-              .map((cita) => CitaMenu.fromJson(cita))
-              .toList(),
+          data: citas.map((cita) => CitaMenu.fromJson(cita)).toList(),
         );
       } else {
         errorMessage = 'Failed to get citas: ${response.statusCode}';
@@ -58,7 +57,7 @@ class CitaService {
     }
   }
 
-  Future <Result> getCita(int idCita) async {
+  Future<Result> getCita(int idCita) async {
     String? errorMessage;
     try {
       final response = await _dio.get('http://localhost:8080/cita:$idCita');
@@ -103,7 +102,8 @@ class CitaService {
   Future<Result> createCita(CitaMenu cita) async {
     String? errorMessage;
     try {
-      final response = await _dio.post('http://localhost:8080/create/cita', data: cita.toJson());
+      final response = await _dio.post('http://localhost:8080/create/cita',
+          data: cita.toJson());
       if (response.statusCode == 201) {
         log.i('Cita created successfully');
         return Result(success: true);
@@ -141,7 +141,8 @@ class CitaService {
   Future<Result> updateCita(CitaMenu cita) async {
     String? errorMessage;
     try {
-      final response = await _dio.put('http://localhost:8080/update/cita', data: cita.toJson());
+      final response = await _dio.put('http://localhost:8080/update/cita',
+          data: cita.toJson());
       if (response.statusCode == 200) {
         log.i('Cita updated successfully');
         return Result(success: true);
@@ -179,7 +180,8 @@ class CitaService {
   Future<Result> deleteCita(int idCita) async {
     String? errorMessage;
     try {
-      final response = await _dio.delete('http://localhost:8080/delete/cita:$idCita');
+      final response =
+          await _dio.delete('http://localhost:8080/delete/cita:$idCita');
       if (response.statusCode == 200) {
         log.i('Cita deleted successfully');
         return Result(success: true);
@@ -213,5 +215,4 @@ class CitaService {
       return Result(success: false, errorMessage: errorMessage);
     }
   }
-
 }

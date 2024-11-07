@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/services/cita_service.dart';
 import 'package:frontend/models/citas_modelo.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
@@ -13,51 +15,12 @@ class AppointmentsPage extends StatefulWidget {
 }
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
-   final CitaService citaService = CitaService();
+  final CitaService citaService = CitaService();
   List<Widget> appointments = [];
 
   @override
   void initState() {
     super.initState();
-    getCitasUser();
-  }
-
-  void getCitasUser() async {
-    final result = await citaService.getAllCitasUser(1);
-
-    if (result.success) {
-      final citas = result.data;
-      final appointments = createAppointmentWidgets(citas ?? []);
-      setState(() {
-        this.appointments = appointments;
-      });
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: Text(
-            result.errorMessage ?? 'Checar la conexion con el servidor',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            )
-          ],
-        ),
-      );
-    }
-  }
-
-  List<Widget> createAppointmentWidgets(List<CitaMenu> citas) {
-    return citas.map((cita) {
-      return AppointmentWidget(
-        title: cita.titulo,
-        name: cita.nombre + cita.apellidoPaterno + cita.apellidoMaterno,
-        fecha: cita.fecha,
-        hour: cita.hora,
-      );
-    }).toList();
   }
 
   @override
@@ -66,58 +29,90 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
       appBar: AppBar(
         title: const Text('Citas'),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.04,
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
+      body: Consumer(builder: (BuildContext context,
+          AppointmentsNotifier appointmentsNotifier, Widget? child) {
+        return FutureBuilder(
+            future: appointmentsNotifier.loadData(1),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                    child: Text("error: ${snapshot.error.toString()}"));
+              }
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              List<Image> images = [
+                Image.asset('assets/images/prospects/images1.jpg'),
+                Image.asset('assets/images/prospects/images2.jpeg'),
+                Image.asset('assets/images/prospects/images3.jpeg'),
+                Image.asset('assets/images/prospects/images4.jpeg'),
+                Image.asset('assets/images/prospects/images5.jpeg'),
+                Image.asset('assets/images/prospects/images6.jpg'),
+              ];
+              List<CitaMenu>? appointments = snapshot.data!.data;
+
+              return Padding(
                 padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.02),
-                child: FilledButton(
-                  onPressed: () {},
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.04,
-                      vertical: MediaQuery.of(context).size.height * 0.018,
-                    ),
-                    child: Text('Agendar cita'),
-                  ),
+                  horizontal: MediaQuery.of(context).size.width * 0.04,
                 ),
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: ListView.separated(
-                      itemCount: appointments.length,
-                      itemBuilder: (context, i) {
-                        return appointments[i];
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical:
+                                MediaQuery.of(context).size.height * 0.02),
+                        child: FilledButton(
+                          onPressed: () {},
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.04,
+                              vertical:
+                                  MediaQuery.of(context).size.height * 0.018,
+                            ),
+                            child: Text('Agendar cita'),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.06,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: AppointmentsCalendarWidget(),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: ListView.separated(
+                              itemCount: appointments!.length,
+                              itemBuilder: (context, i) {
+                                return AppointmentWidget(
+                                  image: images[i],
+                                  appointment: appointments[i],
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) => SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.04,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.06,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: AppointmentsCalendarWidget(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            });
+      }),
       drawer: NavigationDrawerWidget(),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/pages/appointments_page.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
+import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<PropertiesNotifier>(
             create: (context) => PropertiesNotifier()),
+        ChangeNotifierProvider<AppointmentsNotifier>(
+            create: (context) => AppointmentsNotifier()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -70,7 +74,7 @@ class MyApp extends StatelessWidget {
           popupMenuTheme: PopupMenuThemeData(color: Colors.white),
           drawerTheme: DrawerThemeData(backgroundColor: Colors.indigo[800]),
         ),
-        home: LoginPage(),
+        home: AppointmentsPage(),
         navigatorKey: navigatorKey,
       ),
     );

@@ -7,7 +7,7 @@ class PropertiesNotifier with ChangeNotifier {
   late Future<List<PropiedadMenu>> _properties;
   final PropiedadService propiedadService = PropiedadService();
 
-  Future<List<PropiedadMenu>> get property {
+  Future<List<PropiedadMenu>> get properties {
     return _properties;
   }
 
