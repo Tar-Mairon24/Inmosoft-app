@@ -72,7 +72,7 @@ func main() {
 
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
-	//router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
+	router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
 	router.POST("/create/propietario", propietarioController.CreatePropietario)
 	router.POST("/create/tipoPropiedad", tipoPropiedadController.CreateTipoPropiedad)
 	router.POST("/create/cita", citasController.InsertCita)

@@ -59,9 +59,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           switchTheme: SwitchThemeData(
-            thumbColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.selected)) {
+            thumbColor: WidgetStateProperty.resolveWith<Color>(
+                (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
                 return Colors.indigo; // Color del "thumb" cuando está activo
               }
               return Colors.white; // Color del "thumb" cuando está inactivo

@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                     HomeFiltersBarWidget(),
                     Expanded(
                       child: GridView.builder(
-                          itemCount: propiedades!.length + 1,
+                          itemCount: propiedades.length + 1,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
