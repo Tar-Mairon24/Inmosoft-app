@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/models/propietario_modelo.dart';
+import 'package:frontend/domain/models/propietario_modelo.dart';
 import 'package:logger/logger.dart';
 
 class Result<T> {
@@ -14,7 +14,7 @@ class PropietarioService {
   final Dio _dio = Dio();
   final Logger log = Logger();
 
-    Future<Result<Propietario>> getPropiedad(int idPropiedad) async {
+  Future<Result<Propietario>> getPropiedad(int idPropiedad) async {
     String? errorMessage;
     try {
       final response =
@@ -53,8 +53,4 @@ class PropietarioService {
       return Result(success: false, errorMessage: errorMessage);
     }
   }
-
-  
-
-
 }

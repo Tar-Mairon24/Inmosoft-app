@@ -46,7 +46,8 @@ class LoginService {
             errorMessage = 'Bad Request';
             break;
           case 401:
-            errorMessage = 'Credenciales invalidas. Comprobar Usuario y Contraseña';
+            errorMessage =
+                'Credenciales invalidas. Comprobar Usuario y Contraseña';
             break;
           case 403:
             errorMessage = 'Forbidden';
@@ -58,7 +59,8 @@ class LoginService {
             errorMessage = 'Internal Server Error';
             break;
           default:
-            errorMessage = 'Received invalid status code: ${e.response?.statusCode}';
+            errorMessage =
+                'Received invalid status code: ${e.response?.statusCode}';
             break;
         }
         log.e('Bad Response: $errorMessage\n${e.response?.data}');
@@ -76,5 +78,4 @@ class LoginService {
       return LoginReuslt(success: false, errorMessage: errorMessage);
     }
   }
-  
 }

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/models/citas_modelo.dart';
+import 'package:frontend/domain/models/citas_modelo.dart';
 import 'package:logger/logger.dart';
 
 class Result<T> {

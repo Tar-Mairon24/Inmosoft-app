@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:frontend/models/estado_propiedad_modelo.dart';
+import 'package:frontend/domain/models/estado_propiedad_modelo.dart';
 import 'package:logger/logger.dart';
 
 class Result<T> {

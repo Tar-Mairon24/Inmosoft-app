@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/propiedad_modelo.dart';
+import 'package:frontend/domain/models/propiedad_modelo.dart';
 import 'package:frontend/services/propiedad_service.dart';
 
 class DetailedPropertyPage extends StatelessWidget {

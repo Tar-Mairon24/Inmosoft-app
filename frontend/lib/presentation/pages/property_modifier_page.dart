@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/estado_propiedad_modelo.dart';
-import 'package:frontend/models/propiedad_modelo.dart';
+import 'package:frontend/domain/models/estado_propiedad_modelo.dart';
+import 'package:frontend/domain/models/propiedad_modelo.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
 import 'package:frontend/services/propiedad_service.dart';
 

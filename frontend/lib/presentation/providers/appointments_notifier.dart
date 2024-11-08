@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/citas_modelo.dart';
+import 'package:frontend/domain/models/citas_modelo.dart';
 import 'package:frontend/services/cita_service.dart';
 
 class AppointmentsNotifier with ChangeNotifier {

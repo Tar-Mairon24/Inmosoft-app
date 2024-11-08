@@ -6,7 +6,7 @@ import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/services/cita_service.dart';
-import 'package:frontend/models/citas_modelo.dart';
+import 'package:frontend/domain/models/citas_modelo.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
