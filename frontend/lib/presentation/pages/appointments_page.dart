@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/pages/appointment_adder_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
@@ -30,20 +31,6 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   int _selectedMonth = DateTime.now().month;
-
-  Future<void> _loadAppointmentDates(int selectedMonth) async {
-    // Cargar citas del mes seleccionado y extraer las fechas.
-    final appointmentsNotifier =
-        Provider.of<AppointmentsNotifier>(context, listen: false);
-    final response = await appointmentsNotifier.loadData(1, selectedMonth);
-
-    setState(() {
-      _appointmentDates = response.data!
-          .map((cita) => DateTime.parse(cita.fecha))
-          .where((date) => date.month == selectedMonth)
-          .toList();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +79,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                             vertical:
                                 MediaQuery.of(context).size.height * 0.02),
                         child: FilledButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AppointmentAdderPage())),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal:
