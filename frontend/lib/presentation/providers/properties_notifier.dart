@@ -12,7 +12,7 @@ class PropertiesNotifier with ChangeNotifier {
   }
 
   set properties(Future<List<PropiedadMenu>> properties) {
-    this._properties = properties;
+    _properties = properties;
     notifyListeners();
   }
 

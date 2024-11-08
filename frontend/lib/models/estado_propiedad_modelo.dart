@@ -2,14 +2,14 @@ class EstadoPropiedad {
   int idEstadoPropiedad;
   String tipoTransaccion;
   String estado;
-  DateTime? fechaCambioEstado;
+  DateTime? fechaTransaccion;
   int idPropiedad;
 
   EstadoPropiedad({
     required this.idEstadoPropiedad,
     required this.tipoTransaccion,
     required this.estado,
-    this.fechaCambioEstado,
+    this.fechaTransaccion,
     required this.idPropiedad,
   });
 
@@ -18,8 +18,8 @@ class EstadoPropiedad {
       idEstadoPropiedad: json['id_estado_propiedades'],
       tipoTransaccion: json['tipo_transaccion'],
       estado: json['estado'],
-      fechaCambioEstado: json['fecha_cambio_estado'] != null
-          ? DateTime.parse(json['fecha_cambio_estado'])
+      fechaTransaccion: json['fecha_transaccion'] != null
+          ? DateTime.parse(json['fecha_transaccion'])
           : null,
       idPropiedad: json['id_propiedad'],
     );
@@ -30,7 +30,7 @@ class EstadoPropiedad {
       'id_estado_propiedades': idEstadoPropiedad,
       'tipo_transaccion': tipoTransaccion,
       'estado': estado,
-      'fecha_cambio_estado': fechaCambioEstado?.toIso8601String(),
+      'fecha_transaccion': fechaTransaccion?.toIso8601String(),
       'id_propiedad': idPropiedad,
     };
   }

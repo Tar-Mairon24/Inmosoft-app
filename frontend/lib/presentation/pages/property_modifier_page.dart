@@ -484,7 +484,7 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                               idEstadoPropiedad: 0,
                                               tipoTransaccion: "renta",
                                               estado: "disponible",
-                                              fechaCambioEstado: null,
+                                              fechaTransaccion: null,
                                               idPropiedad: 0,
                                             );
 
