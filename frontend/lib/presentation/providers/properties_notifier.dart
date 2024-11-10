@@ -20,6 +20,14 @@ class PropertiesNotifier with ChangeNotifier {
     return await propiedadService.getAllPropiedades();
   }
 
+  Future<Result<List<PropiedadMenu>>> loadDataByPrice() async {
+    return await propiedadService.getAllPropiedadesByPrice();
+  }
+
+  Future<Result<List<PropiedadMenu>>> loadDataByBedrooms() async {
+    return await propiedadService.getAllPropiedadesByPrice();
+  }
+
   void shouldRefresh() {
     notifyListeners();
   }

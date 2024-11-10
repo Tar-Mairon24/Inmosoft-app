@@ -80,12 +80,8 @@ class _HomeFiltersBarWidgetState extends State<HomeFiltersBarWidget> {
                           width: MediaQuery.of(context).size.width * 0.01,
                         ),
                         Switch(
-                          value: filterByLocation,
-                          onChanged: (value) {
-                            setState(() {
-                              filterByLocation = value;
-                            });
-                          },
+                          value: false,
+                          onChanged: null,
                         ),
                       ],
                     ),

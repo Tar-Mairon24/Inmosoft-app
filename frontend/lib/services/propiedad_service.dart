@@ -46,6 +46,64 @@ class PropiedadService {
     }
   }
 
+  Future<Result<List<PropiedadMenu>>> getAllPropiedadesByPrice() async {
+    String? errorMessage;
+    try {
+      final response = await _dio.get('http://localhost:8080/all/propiedades');
+      if (response.statusCode == 200) {
+        final List<dynamic> propiedades = response.data;
+        log.i('Propiedades fetched successfully');
+        return Result(
+          success: true,
+          data: propiedades
+              .map((propiedad) => PropiedadMenu.fromJson(propiedad))
+              .toList(),
+        );
+      } else {
+        errorMessage = 'Failed to get propiedades: ${response.statusCode}';
+        log.w('Failed to get propiedades');
+        return Result(success: false, errorMessage: errorMessage);
+      }
+    } on DioException catch (e) {
+      errorMessage = _handleDioError(e);
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    } catch (e) {
+      final errorMessage = 'Unexpected error: $e';
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    }
+  }
+
+  Future<Result<List<PropiedadMenu>>> getAllPropiedadesByBedrooms() async {
+    String? errorMessage;
+    try {
+      final response = await _dio.get('http://localhost:8080/all/propiedades');
+      if (response.statusCode == 200) {
+        final List<dynamic> propiedades = response.data;
+        log.i('Propiedades fetched successfully');
+        return Result(
+          success: true,
+          data: propiedades
+              .map((propiedad) => PropiedadMenu.fromJson(propiedad))
+              .toList(),
+        );
+      } else {
+        errorMessage = 'Failed to get propiedades: ${response.statusCode}';
+        log.w('Failed to get propiedades');
+        return Result(success: false, errorMessage: errorMessage);
+      }
+    } on DioException catch (e) {
+      errorMessage = _handleDioError(e);
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    } catch (e) {
+      final errorMessage = 'Unexpected error: $e';
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    }
+  }
+
   // Método para obtener una propiedad por ID
   Future<Result<Propiedad>> getPropiedad(int idPropiedad) async {
     String? errorMessage;
