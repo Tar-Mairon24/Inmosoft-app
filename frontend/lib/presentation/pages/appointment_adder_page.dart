@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
+import 'package:frontend/domain/models/prospecto_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
@@ -132,7 +133,18 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                           idCliente: 0,
                         );
 
-                        await citaService.createCita(cita);
+                        Prospecto prospecto = Prospecto(
+                          idCliente: 0,
+                          nombreProspecto: nameController.text,
+                          apellidoPaternoProspecto:
+                              apellidoPaternoController.text,
+                          apellidoMaternoProspecto:
+                              apellidoMaternoController.text,
+                          telefonoProspecto: phoneNumController.text,
+                          correoProspecto: emailController.text,
+                        );
+
+                        await citaService.createCita(cita, prospecto);
                         Provider.of<AppointmentsNotifier>(
                                 navigatorKey.currentContext!,
                                 listen: false)
