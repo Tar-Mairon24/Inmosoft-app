@@ -98,7 +98,7 @@ func (service *CitasService) GetCita(id int) (*models.Cita, error) {
 	var cita models.Cita
 	query := "SELECT * FROM Citas WHERE id_citas = ?"
 	row := service.DB.QueryRow(query, id)
-	err := row.Scan(&cita.IDCita, &cita.Titulo, &cita.FechaCita, &cita.HoraCita, &cita.Descripcion, &cita.IdUsuario, &cita.IdCliente, &cita.IdPropiedad)
+	err := row.Scan(&cita.IDCita, &cita.Titulo, &cita.FechaCita, &cita.HoraCita, &cita.Descripcion, &cita.IdUsuario, &cita.IdCliente)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Println("No rows found")
@@ -119,8 +119,8 @@ func (service *CitasService) InsertCita(cita *models.Cita) error {
 		return err
 	}
 	cita.IDCita = lastId + 1
-	query := "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente, id_propiedad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-	result, err := service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente, cita.IdPropiedad)
+	query := "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)"
+	result, err := service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
 	if err != nil {
 		log.Println("Error inserting cita:", err)
 		return err
@@ -150,8 +150,8 @@ func (service *CitasService) UpdateCita(cita *models.Cita) error {
 		log.Println("Invalid propiedad ID:", cita.IDCita)
 		return err
 	}
-	query := "UPDATE Citas SET titulo_cita = ?, fecha_cita = ?, hora_cita = ?, descripcion_cita = ?, id_usuario = ?, id_cliente = ?, id_propiedad = ? WHERE id_citas = ?"
-	result, err := service.DB.Exec(query, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente, cita.IdPropiedad, cita.IDCita)
+	query := "UPDATE Citas SET titulo_cita = ?, fecha_cita = ?, hora_cita = ?, descripcion_cita = ?, id_usuario = ?, id_cliente = ? WHERE id_citas = ?"
+	result, err := service.DB.Exec(query, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente, cita.IDCita)
 	if err != nil {
 		log.Println("Error updating cita:", err)
 		return err

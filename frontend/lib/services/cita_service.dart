@@ -143,9 +143,10 @@ class CitaService {
     }
   }
 
-  Future<Result> createCita(CitaMenu cita) async {
+  Future<Result> createCita(Cita cita) async {
     String? errorMessage;
     try {
+      log.w(cita.toJson());
       final response = await _dio.post('http://localhost:8080/create/cita',
           data: cita.toJson());
       if (response.statusCode == 201) {
