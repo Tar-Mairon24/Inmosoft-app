@@ -41,10 +41,10 @@ func main() {
 	}))
 
 	// Set the Content-Type header to application/json; charset=utf-8
-    router.Use(func(c *gin.Context) {
-        c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-        c.Next()
-    })
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+		c.Next()
+	})
 
 	router.RemoveExtraSlash = true
 
@@ -57,6 +57,10 @@ func main() {
 
 	// ruta para agarrar la informacion importante de todas las propiedades
 	router.GET("/all/propiedades", propiedadController.GetAllPropiedades)
+	// ruta para agarrar la informacion importante de todas las propiedades ordenadas por precio
+	router.GET("/all/propiedadesByPrice", propiedadController.GetAllPropiedadesByPrice)
+	// ruta para agarrar la informacion importante de todas las propiedades ordenadas por habitaciones
+	router.GET("/all/propiedadesByBedrooms", propiedadController.GetAllPropiedades)
 	// ruta para agarrar toda la informacion de una propiedad en específico
 	router.GET("/propiedad/:id", propiedadController.GetPropiedad)
 	// ruta para agarrar el estado de una propiedad en específico
@@ -79,8 +83,8 @@ func main() {
 
 	// ruta para actualizar una propiedad
 	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)
-	router.PUT("/update/estadoPropiedad/:id", estadoPropiedadController.UpdateEstadoPropiedad)
-	router.PUT("/update/cita" , citasController.UpdateCita)
+	// router.PUT("/update/estadoPropiedad/:id", estadoPropiedadController.UpdateEstadoPropiedad)
+	router.PUT("/update/cita", citasController.UpdateCita)
 
 	// rutas para borrar una propiedad
 	router.DELETE("/eliminar/propiedad/:id", propiedadController.DeletePropiedad)

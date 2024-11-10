@@ -84,7 +84,10 @@ class _HomePageState extends State<HomePage> {
                                     setState(() {
                                       filterByPrice = value;
                                     });
-                                    if (filterByPrice) {}
+                                    Provider.of<PropertiesNotifier>(
+                                            navigatorKey.currentContext!,
+                                            listen: false)
+                                        .shouldRefresh();
                                   },
                                 ),
                               ],
@@ -160,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                 PropertiesNotifier propertiesNotifier, Widget? child) {
               futureData() {
                 if (filterByPrice) {
-                  return propertiesNotifier.loadData();
+                  return propertiesNotifier.loadDataByPrice();
                 } else if (filterByBedrooms) {
                   return propertiesNotifier.loadDataByBedrooms();
                 } else {

@@ -11,20 +11,50 @@ import (
 
 // UserController is the controller for the User model
 type Propiedad_Controller struct {
-	PropiedadService *services.PropiedadService
+	PropiedadService       *services.PropiedadService
 	EstadoPropiedadService *services.EstadoPropiedadService
 }
 
 // NewUserController is the constructor for the UserController
 func NewPropiedadController(propiedadService *services.PropiedadService, estadoPropiedadService *services.EstadoPropiedadService) *Propiedad_Controller {
 	return &Propiedad_Controller{
-		PropiedadService: propiedadService,
+		PropiedadService:       propiedadService,
 		EstadoPropiedadService: estadoPropiedadService,
 	}
 }
 
 // GET /all/propiedades/
 func (ctrl *Propiedad_Controller) GetAllPropiedades(c *gin.Context) {
+	propiedades, err := ctrl.PropiedadService.GetAllPropiedades()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve propiedades"})
+		return
+	}
+
+	if propiedades == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No propiedades found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, propiedades)
+}
+
+func (ctrl *Propiedad_Controller) GetAllPropiedadesByPrice(c *gin.Context) {
+	propiedades, err := ctrl.PropiedadService.GetAllPropiedadesByPrice()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve propiedades"})
+		return
+	}
+
+	if propiedades == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No propiedades found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, propiedades)
+}
+
+func (ctrl *Propiedad_Controller) GetAllPropiedadesByBedrooms(c *gin.Context) {
 	propiedades, err := ctrl.PropiedadService.GetAllPropiedades()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve propiedades"})
@@ -65,30 +95,30 @@ func (ctrl *Propiedad_Controller) GetPropiedad(c *gin.Context) {
 // POST /propiedad/
 // POST /propiedad/
 func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
-    var request struct {
-        Propiedad         models.Propiedad         `json:"propiedad"`
-        EstadoPropiedades models.EstadoPropiedades `json:"estado_propiedades"`
-    }
+	var request struct {
+		Propiedad         models.Propiedad         `json:"propiedad"`
+		EstadoPropiedades models.EstadoPropiedades `json:"estado_propiedades"`
+	}
 
-    // Print the request payload
-    //fmt.Printf("Request payload before binding: %+v\n", request)
+	// Print the request payload
+	//fmt.Printf("Request payload before binding: %+v\n", request)
 
-    if err := c.ShouldBindJSON(&request); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload", "details": err.Error()})
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload", "details": err.Error()})
 		print(err.Error())
-        return
-    }
+		return
+	}
 
-    // Print the request payload after binding
-    //fmt.Printf("Request payload after binding: %+v\n", request)
+	// Print the request payload after binding
+	//fmt.Printf("Request payload after binding: %+v\n", request)
 
-    IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.InsertPropiedad(&request.Propiedad, &request.EstadoPropiedades)
-    if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad", "details": err.Error()})
-        return
-    }
+	IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.InsertPropiedad(&request.Propiedad, &request.EstadoPropiedades)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad", "details": err.Error()})
+		return
+	}
 
-    c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "id_estado_propiedades": IDEstadoPropiedad})
+	c.JSON(http.StatusCreated, gin.H{"id_propiedad": IDPropiedad, "id_estado_propiedades": IDEstadoPropiedad})
 }
 
 // PUT /propiedad/:id

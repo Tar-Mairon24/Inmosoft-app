@@ -51,6 +51,74 @@ func (service *PropiedadService) GetAllPropiedades() ([]*models.MenuPropiedades,
 	return propiedades, nil
 }
 
+func (service *PropiedadService) GetAllPropiedadesByPrice() ([]*models.MenuPropiedades, error) {
+	var propiedades []*models.MenuPropiedades
+	query := `
+		SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, 
+		       Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado 
+		FROM Propiedades, Estado_Propiedades 
+		WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad
+		ORDER BY Propiedades.precio DESC` // Orden descendente por precio
+
+	rows, err := service.DB.Query(query)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Println("No rows found")
+			return nil, nil
+		}
+		log.Println("Error fetching all propiedades:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var propiedad models.MenuPropiedades
+		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.TipoTransaccion, &propiedad.Estado)
+		if err != nil {
+			log.Println("Error scanning propiedad:", err)
+			return nil, err
+		}
+		propiedades = append(propiedades, &propiedad)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Println("Error with rows:", err)
+		return nil, err
+	}
+	return propiedades, nil
+}
+
+func (service *PropiedadService) GetAllPropiedadesByBedrooms() ([]*models.MenuPropiedades, error) {
+	var propiedades []*models.MenuPropiedades
+	query := "SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado FROM Propiedades, Estado_Propiedades WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad"
+	rows, err := service.DB.Query(query)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Println("No rows found")
+			return nil, nil
+		}
+		log.Println("Error fetching all propiedades:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var propiedad models.MenuPropiedades
+		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.TipoTransaccion, &propiedad.Estado)
+		if err != nil {
+			log.Println("Error scanning propiedad:", err)
+			return nil, err
+		}
+		propiedades = append(propiedades, &propiedad)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Println("Error with rows:", err)
+		return nil, err
+	}
+	return propiedades, nil
+}
+
 // GET /propiedad/:id
 // Funcion que recupera todos los campos de una propiedad en específico
 func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error) {
