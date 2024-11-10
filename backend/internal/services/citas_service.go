@@ -111,30 +111,100 @@ func (service *CitasService) GetCita(id int) (*models.Cita, error) {
 }
 
 // Funcion que inserta una cita en la base de datos
-func (service *CitasService) InsertCita(cita *models.Cita) error {
-	utils := database.NewDbUtilities(service.DB)
-	lastId, err := utils.GetLastId("Citas", "id_citas")
+// func (service *CitasService) InsertCita(cita *models.Cita) error {
+// 	utils := database.NewDbUtilities(service.DB)
+// 	lastId, err := utils.GetLastId("Citas", "id_citas")
+// 	if err != nil {
+// 		log.Println("Error getting last Id:", err)
+// 		return err
+// 	}
+// 	cita.IDCita = lastId + 1
+// 	query := "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)"
+// 	result, err := service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
+// 	if err != nil {
+// 		log.Println("Error inserting cita:", err)
+// 		return err
+// 	}
+// 	rows, err := result.RowsAffected()
+// 	if err != nil {
+// 		log.Println("Error getting rows affected:", err)
+// 		return err
+// 	}
+// 	if rows != 1 {
+// 		log.Println("Error inserting cita, no rows affected")
+// 		return err
+// 	}
+// 	return nil
+// }
+
+func (service *CitasService) InsertCita(prospecto *models.Prospecto, cita *models.Cita) (int, int, error) {
+	// Iniciar la transacción
+	tx, err := service.DB.Begin()
 	if err != nil {
-		log.Println("Error getting last Id:", err)
-		return err
+		log.Println("Error starting transaction:", err)
+		return 0, 0, err
 	}
-	cita.IDCita = lastId + 1
-	query := "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)"
-	result, err := service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
+
+	utils := database.NewDbUtilities(service.DB)
+
+	// Obtener el último ID de Prospecto
+	lastProspectoID, err := utils.GetLastId("Prospectos", "id_prospecto")
 	if err != nil {
-		log.Println("Error inserting cita:", err)
-		return err
+		log.Println("Error getting last Prospecto ID:", err)
+		tx.Rollback()
+		return 0, 0, err
+	}
+	prospecto.IDPropietario = lastProspectoID + 1
+
+	// Insertar Prospecto
+	query := "INSERT INTO Prospectos (id_cliente, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto, telefono_prospecto, correo_prospecto) VALUES (?, ?, ?, ?, ?, ?)"
+	result, err := tx.Exec(query, prospecto.IDPropietario, prospecto.Nombre, prospecto.ApellidoP, prospecto.ApellidoM, prospecto.Telefono, prospecto.Correo)
+	if err != nil {
+		log.Println("Error inserting prospecto:", err)
+		tx.Rollback()
+		return 0, 0, err
 	}
 	rows, err := result.RowsAffected()
+	if err != nil || rows != 1 {
+		log.Println("Error inserting prospecto, no rows affected")
+		tx.Rollback()
+		return 0, 0, err
+	}
+
+	// Obtener el último ID de Cita
+	lastCitaID, err := utils.GetLastId("Citas", "id_citas")
 	if err != nil {
-		log.Println("Error getting rows affected:", err)
-		return err
+		log.Println("Error getting last Cita ID:", err)
+		tx.Rollback()
+		return 0, 0, err
 	}
-	if rows != 1 {
+	cita.IDCita = lastCitaID + 1
+	cita.IdCliente = prospecto.IDPropietario // Asociar la cita con el ID del nuevo prospecto
+
+	// Insertar Cita
+	query = "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)"
+	result, err = tx.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
+	if err != nil {
+		log.Println("Error inserting cita:", err)
+		tx.Rollback()
+		return 0, 0, err
+	}
+	rows, err = result.RowsAffected()
+	if err != nil || rows != 1 {
 		log.Println("Error inserting cita, no rows affected")
-		return err
+		tx.Rollback()
+		return 0, 0, err
 	}
-	return nil
+
+	// Confirmar la transacción
+	err = tx.Commit()
+	if err != nil {
+		log.Println("Error committing transaction:", err)
+		return 0, 0, err
+	}
+
+	// Retornar los IDs de Prospecto y Cita
+	return prospecto.IDPropietario, cita.IDCita, nil
 }
 
 // Funcion que actualiza una cita en la base de datos
