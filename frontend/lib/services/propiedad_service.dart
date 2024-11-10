@@ -105,9 +105,10 @@ class PropiedadService {
   Future<Result<void>> updatePropiedad(
       Propiedad propiedad, int idPropiedad) async {
     String? errorMessage;
+    log.w(idPropiedad);
     try {
       final response = await _dio.put(
-        'http://localhost:8080/propiedad/$idPropiedad',
+        'http://localhost:8080/update/propiedad/$idPropiedad',
         data: propiedad.toJson(),
       );
       if (response.statusCode == 200) {

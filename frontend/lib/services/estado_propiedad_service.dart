@@ -70,31 +70,32 @@ class EstadoPropiedadService {
   }
 
   // Método para actualizar el estado de una propiedad
-  // Future<Result<void>> updateEstadoPropiedad(EstadoPropiedad estado) async {
-  //   String? errorMessage;
-  //   try {
-  //     final response = await _dio.put(
-  //         'http://localhost:8080/estadoPropiedad/${estado.IDEstadoPropiedades}',
-  //         data: estado.toJson());
-  //     if (response.statusCode == 200) {
-  //       log.i('Estado de propiedad updated successfully');
-  //       return Result(success: true);
-  //     } else {
-  //       errorMessage =
-  //           'Failed to update estado de propiedad: ${response.statusCode}';
-  //       log.w(errorMessage);
-  //       return Result(success: false, errorMessage: errorMessage);
-  //     }
-  //   } on DioException catch (e) {
-  //     errorMessage = _handleDioError(e);
-  //     log.e(errorMessage);
-  //     return Result(success: false, errorMessage: errorMessage);
-  //   } catch (e) {
-  //     final errorMessage = 'Unexpected error: $e';
-  //     log.e(errorMessage);
-  //     return Result(success: false, errorMessage: errorMessage);
-  //   }
-  // }
+  Future<Result<void>> updateEstadoPropiedad(EstadoPropiedad estado) async {
+    String? errorMessage;
+    log.w("Este es el estadp de la propiedad: ${estado.idPropiedad}");
+    try {
+      final response = await _dio.put(
+          'http://localhost:8080/update/estadoPropiedad/${estado.idPropiedad}',
+          data: estado.toJson());
+      if (response.statusCode == 200) {
+        log.i('Estado de propiedad updated successfully');
+        return Result(success: true);
+      } else {
+        errorMessage =
+            'Failed to update estado de propiedad: ${response.statusCode}';
+        log.w(errorMessage);
+        return Result(success: false, errorMessage: errorMessage);
+      }
+    } on DioException catch (e) {
+      errorMessage = _handleDioError(e);
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    } catch (e) {
+      final errorMessage = 'Unexpected error: $e';
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    }
+  }
 
   // Método para eliminar un estado de propiedad
   Future<Result<void>> deleteEstadoPropiedad(int idEstadoPropiedad) async {

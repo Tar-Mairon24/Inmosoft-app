@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/estado_propiedad_modelo.dart';
 import 'package:frontend/domain/models/propiedad_modelo.dart';
+import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
+import 'package:frontend/services/estado_propiedad_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
+import 'package:provider/provider.dart';
 
 class PropertyModifierPage extends StatefulWidget {
   const PropertyModifierPage({super.key, required this.propertyID});
@@ -55,6 +59,8 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
   @override
   Widget build(BuildContext context) {
     final PropiedadService propiedadService = PropiedadService();
+    final EstadoPropiedadService estadoPropiedadService =
+        EstadoPropiedadService();
     double separation = MediaQuery.of(context).size.height * 0.02;
     List<Widget> photos = [
       AddPhotoWidget(),
@@ -479,14 +485,34 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                               idUsuario: 2,
                                             );
 
+                                            String fechaCambioEstado =
+                                                DateTime.now()
+                                                    .toString()
+                                                    .split(" ")[0];
                                             EstadoPropiedad estadoPropiedad =
                                                 EstadoPropiedad(
                                               idEstadoPropiedad: 0,
                                               tipoTransaccion: "renta",
                                               estado: "disponible",
                                               fechaCambioEstado: null,
-                                              idPropiedad: 0,
+                                              idPropiedad: property.idPropiedad,
                                             );
+
+                                            print(estadoPropiedad.idPropiedad);
+
+                                            await propiedadService
+                                                .updatePropiedad(propiedad,
+                                                    property.idPropiedad);
+
+                                            await estadoPropiedadService
+                                                .updateEstadoPropiedad(
+                                                    estadoPropiedad);
+
+                                            Provider.of<PropertiesNotifier>(
+                                                    navigatorKey
+                                                        .currentContext!,
+                                                    listen: false)
+                                                .shouldRefresh();
 
                                             Navigator.of(context).pop();
                                           }

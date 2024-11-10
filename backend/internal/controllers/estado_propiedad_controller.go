@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"backend/internal/services"
 	"backend/internal/models"
+	"backend/internal/services"
+	"log"
 	"net/http"
 	"strconv"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -61,8 +61,8 @@ func (ctrl *EstadoPropiedadController) CreateEstadoPropiedad(c *gin.Context) {
 	c.JSON(http.StatusCreated, estadoPropiedad)
 }
 
-//PUT /Update/EstadoPropiedad/:id
-//Function that updates the state of the property
+// PUT /Update/EstadoPropiedad/:id
+// Function that updates the state of the property
 func (ctrl *EstadoPropiedadController) UpdateEstadoPropiedad(c *gin.Context) {
 	var estadoPropiedad models.EstadoPropiedades
 	if err := c.ShouldBindJSON(&estadoPropiedad); err != nil {
@@ -98,5 +98,3 @@ func (ctrl *EstadoPropiedadController) DeleteEstadoPropiedad(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Estado propiedad deleted successfully"})
 }
-
-

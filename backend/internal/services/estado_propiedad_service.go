@@ -65,9 +65,9 @@ func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.Esta
 
 // PUT /estadoPropiedad/:id
 // Funcion que actualiza el estado de la propiedad
-func(service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.EstadoPropiedades) error {
-	query := "UPDATE Estado_Propiedades SET tipo_transaccion = ?, estado = ?, fecha_transaccion = ?, id_propiedad = ? WHERE id_estado_propiedades = ?"
-	result, err := service.DB.Exec(query, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, estado.IDPropiedad, estado.IDEstadoPropiedades)
+func (service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.EstadoPropiedades, id int) error {
+	query := "UPDATE Estado_Propiedades SET tipo_transaccion = ?, estado = ?, fecha_transaccion = ? WHERE id_estado_propiedades = ?"
+	result, err := service.DB.Exec(query, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, id)
 	if err != nil {
 		log.Println("Error updating estado de la propiedad:", err)
 		return err
@@ -85,7 +85,7 @@ func(service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.Estad
 }
 
 // DELETE /eliminar/estadoPropiedad
-//Function that deletes a EstadoPropiedad from the database
+// Function that deletes a EstadoPropiedad from the database
 func (service *EstadoPropiedadService) DeleteEstadoPropiedad(id int) error {
 	utils := database.NewDbUtilities(service.DB)
 	lastId, err := utils.GetLastId("Estado_Propiedades", "id_estado_propiedades")

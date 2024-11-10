@@ -101,6 +101,10 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.01,
                             ),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Datos de la propiedad")),
+                            Divider(),
                             customTextFormFieldWidget(
                                 titleController, 'título'),
                             SizedBox(height: separation),
