@@ -179,15 +179,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Citas` (
   `id_citas` INT NOT NULL,
-  `titulo_cita` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `titulo_cita` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `fecha_cita` DATE NULL,
   `hora_cita` INT NULL,
-  `descripcion_cita` VARCHAR(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `descripcion_cita` VARCHAR(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NULL,
   `id_usuario` INT NOT NULL,
   `id_cliente` INT NOT NULL,
+  `id_propiedad` INT NOT NULL,
   PRIMARY KEY (`id_citas`),
   INDEX `fk_Citas_Usuarios1_idx` (`id_usuario` ASC) VISIBLE,
   INDEX `fk_Citas_Prospecto1_idx` (`id_cliente` ASC) VISIBLE,
+  INDEX `fk_Citas_Propiedades1_idx` (`id_propiedad` ASC) VISIBLE,
   CONSTRAINT `fk_Citas_Usuarios1`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `inmosoftDB`.`Usuarios` (`id_usuario`)
@@ -197,8 +199,13 @@ CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Citas` (
     FOREIGN KEY (`id_cliente`)
     REFERENCES `inmosoftDB`.`Prospecto` (`id_cliente`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-) ENGINE = InnoDB;
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Citas_Propiedades1`
+    FOREIGN KEY (`id_propiedad`)
+    REFERENCES `inmosoftDB`.`Propiedades` (`id_propiedad`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

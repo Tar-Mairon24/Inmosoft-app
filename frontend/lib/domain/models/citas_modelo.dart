@@ -6,38 +6,40 @@ class Cita {
   String descripcion;
   int idUsuario;
   int idCliente;
+  int idPropiedad;
 
-  Cita({
-    required this.id,
-    required this.titulo,
-    required this.fecha,
-    required this.hora,
-    required this.descripcion,
-    required this.idUsuario,
-    required this.idCliente,
-  });
+  Cita(
+      {required this.id,
+      required this.titulo,
+      required this.fecha,
+      required this.hora,
+      required this.descripcion,
+      required this.idUsuario,
+      required this.idCliente,
+      required this.idPropiedad});
 
   factory Cita.fromJson(Map<String, dynamic> json) {
     return Cita(
-      id: json['id_citas'],
-      titulo: json['titulo_cita'],
-      fecha: json['fecha_cita'],
-      hora: json['hora_cita'],
-      descripcion: json['descripcion_cita'],
-      idUsuario: json['id_usuario'],
-      idCliente: json['id_cliente'],
-    );
+        id: json['id_cita'],
+        titulo: json['titulo'],
+        fecha: json['fecha_cita'],
+        hora: json['hora_cita'],
+        descripcion: json['descripcion'],
+        idUsuario: json['id_usuario'],
+        idCliente: json['id_cliente'],
+        idPropiedad: json['id_propiedad']);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id_citas': id,
-      'titulo_cita': titulo,
+      'id_cita': id,
+      'titulo': titulo,
       'fecha_cita': fecha,
       'hora_cita': hora,
       'descripcion': descripcion,
       'id_usuario': idUsuario,
       'id_cliente': idCliente,
+      'id_propiedad': idPropiedad
     };
   }
 }
@@ -63,25 +65,25 @@ class CitaMenu {
 
   factory CitaMenu.fromJson(Map<String, dynamic> json) {
     return CitaMenu(
-      id: json['id_citas'] ?? 0,
-      titulo: json['titulo_cita'] ?? '',
+      id: json['id_cita'] ?? 0,
+      titulo: json['titulo'] ?? '',
       fecha: json['fecha_cita'] ?? '',
       hora: json['hora_cita'] ?? 0,
-      nombre: json['nombre_prospecto'] ?? '',
-      apellidoPaterno: json['apellido_paterno_prospecto'] ?? '',
-      apellidoMaterno: json['apellido_materno_prospecto'] ?? '',
+      nombre: json['nombre_cliente'] ?? '',
+      apellidoPaterno: json['apellido_paterno_cliente'] ?? '',
+      apellidoMaterno: json['apellido_materno_cliente'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id_citas': id,
-      'titulo_cita': titulo,
+      'id_cita': id,
+      'titulo': titulo,
       'fecha_cita': fecha,
       'hora_cita': hora,
-      'nombre_prospecto': nombre,
-      'apellido_paterno_prospecto': apellidoPaterno,
-      'apellido_materno_prospecto': apellidoMaterno,
+      'nombre_cliente': nombre,
+      'apellido_paterno_cliente': apellidoPaterno,
+      'apellido_materno_cliente': apellidoMaterno,
     };
   }
 }

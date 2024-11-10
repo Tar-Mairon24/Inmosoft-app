@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
-import 'package:frontend/presentation/navigator_key.dart';
-import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
 import 'package:frontend/presentation/widgets/add_pdf_agreement_widget.dart';
-import 'package:frontend/services/cita_service.dart';
-import 'package:provider/provider.dart';
 
 class AppointmentAdderPage extends StatefulWidget {
   const AppointmentAdderPage({super.key});
@@ -30,7 +26,6 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final CitaService citaService = CitaService();
     double separation = MediaQuery.of(context).size.height * 0.02;
     List<Widget> images = [
       AddAppointmentImageWidget(),
@@ -97,7 +92,7 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                       Divider(),
                       customTextFormFieldWidget(nameController, "Nombre"),
                       SizedBox(height: separation),
-                      customTextFormFieldWidget(
+                      customNumberFormFieldWidget(
                           apellidoPaternoController, "Apellido paterno"),
                       SizedBox(height: separation),
                       customTextFormFieldWidget(
@@ -123,21 +118,14 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         Cita cita = Cita(
-                          id: 0,
-                          titulo: titleController.text,
-                          fecha: "fecha",
-                          hora: hourController.text,
-                          descripcion: descriptionController.text,
-                          idUsuario: 1,
-                          idCliente: 0,
-                        );
-
-                        await citaService.createCita(cita);
-                        Provider.of<AppointmentsNotifier>(
-                                navigatorKey.currentContext!,
-                                listen: false)
-                            .shouldRefresh();
-                        Navigator.of(context).pop();
+                            id: 0,
+                            titulo: titleController.text,
+                            fecha: "fecha",
+                            hora: hourController.text,
+                            descripcion: descriptionController.text,
+                            idUsuario: 1,
+                            idCliente: 0,
+                            idPropiedad: 0);
                       }
                     },
                     child: Text('Agendar cita'),
