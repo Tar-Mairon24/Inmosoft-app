@@ -194,12 +194,24 @@ class _HomePageState extends State<HomePage> {
                       Image.asset('assets/images/properties/images4.jpg'),
                       Image.asset('assets/images/properties/images5.jpeg'),
                       Image.asset('assets/images/properties/images6.jpeg'),
+                      Image.asset('assets/images/properties/images1.jpeg'),
+                      Image.asset('assets/images/properties/images2.jpg'),
+                      Image.asset('assets/images/properties/images3.jpeg'),
+                      Image.asset('assets/images/properties/images4.jpg'),
+                      Image.asset('assets/images/properties/images5.jpeg'),
+                      Image.asset('assets/images/properties/images6.jpeg'),
+                      Image.asset('assets/images/properties/images1.jpeg'),
+                      Image.asset('assets/images/properties/images2.jpg'),
+                      Image.asset('assets/images/properties/images3.jpeg'),
+                      Image.asset('assets/images/properties/images4.jpg'),
+                      Image.asset('assets/images/properties/images5.jpeg'),
+                      Image.asset('assets/images/properties/images6.jpeg'),
                     ];
                     List<PropiedadMenu>? propiedades = snapshot.data!.data;
 
                     return Expanded(
                       child: GridView.builder(
-                          itemCount: propiedades.length + 1,
+                          itemCount: (propiedades?.length ?? 0) + 1,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
@@ -215,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                               return PropertyWidget(
                                 // image: Image.asset('assets/images/images.jpeg'),
                                 image: images[i],
-                                property: propiedades[i - 1],
+                                property: propiedades![i - 1],
                               );
                             }
                           }),

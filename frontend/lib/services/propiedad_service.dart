@@ -145,14 +145,14 @@ class PropiedadService {
         'http://localhost:8080/create/propiedad',
         data: {
           'propiedad': propiedadData,
-          'estado_propiedad': estadoPropiedadData,
+          'estado_propiedades': estadoPropiedadData,
         },
       );
 
       if (response.statusCode == 200) {
         log.i('Propiedad y estado insertados correctamente');
       } else {
-        log.w(
+        log.e(
             'Error al insertar la propiedad y estado: ${response.statusCode}');
       }
     } catch (e) {
