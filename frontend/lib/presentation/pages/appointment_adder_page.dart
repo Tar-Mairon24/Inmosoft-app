@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
-import 'package:frontend/presentation/widgets/add_pdf_agreement_widget.dart';
 
 class AppointmentAdderPage extends StatefulWidget {
   const AppointmentAdderPage({super.key});

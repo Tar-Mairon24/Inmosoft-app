@@ -23,7 +23,7 @@ func NewEstadoPropiedadService(db *sql.DB) *EstadoPropiedadService {
 func (service *EstadoPropiedadService) GetEstadoPropiedad(id int) (*models.EstadoPropiedades, error) {
 	var estado models.EstadoPropiedades
 	query := "SELECT * FROM Estado_Propiedades WHERE id_propiedad = ?"
-	err := service.DB.QueryRow(query, id).Scan(&estado.IDEstadoPropiedades, &estado.TipoTransaccion, &estado.Estado, &estado.FechaCambioEstado)
+	err := service.DB.QueryRow(query, id).Scan(&estado.IDEstadoPropiedades, &estado.TipoTransaccion, &estado.Estado, &estado.FechaTransaccion)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Println("No rows found")
@@ -45,8 +45,8 @@ func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.Esta
 		return 0, err
 	}
 	estado.IDEstadoPropiedades = lastId + 1
-	query := "INSERT INTO Estado_Propiedades (id_estado_propiedades, tipo_transaccion, estado, fecha_transaccion, id_propiedad) VALUES (?, ?, ?, ?, ?)"
-	result, err := service.DB.Exec(query, estado.IDEstadoPropiedades, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, estado.IDPropiedad)
+	query := "INSERT INTO Estado_Propiedades (id_estado_propiedades, tipo_transaccion, estado, fecha_cambio_estado, id_propiedad) VALUES (?, ?, ?, ?, ?)"
+	result, err := service.DB.Exec(query, estado.IDEstadoPropiedades, estado.TipoTransaccion, estado.Estado, estado.FechaTransaccion, estado.IDPropiedad)
 	if err != nil {
 		log.Println("Error inserting estado de la propiedad:", err)
 		return 0, err
@@ -65,9 +65,9 @@ func (service *EstadoPropiedadService) CreateEstadoPropiedad(estado *models.Esta
 
 // PUT /estadoPropiedad/:id
 // Funcion que actualiza el estado de la propiedad
-func (service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.EstadoPropiedades, id int) error {
-	query := "UPDATE Estado_Propiedades SET tipo_transaccion = ?, estado = ?, fecha_transaccion = ? WHERE id_estado_propiedades = ?"
-	result, err := service.DB.Exec(query, estado.TipoTransaccion, estado.Estado, estado.FechaCambioEstado, id)
+func(service *EstadoPropiedadService) UpdateEstadoPropiedad(estado *models.EstadoPropiedades) error {
+	query := "UPDATE Estado_Propiedades SET tipo_transaccion = ?, estado = ?, fecha_transaccion = ?, id_propiedad = ? WHERE id_estado_propiedades = ?"
+	result, err := service.DB.Exec(query, estado.TipoTransaccion, estado.Estado, estado.FechaTransaccion, estado.IDPropiedad, estado.IDEstadoPropiedades)
 	if err != nil {
 		log.Println("Error updating estado de la propiedad:", err)
 		return err

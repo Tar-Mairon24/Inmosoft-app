@@ -150,7 +150,7 @@ func (service *PropiedadService) GetPropiedad(id int) (*models.Propiedad, error)
 	return &propiedad, nil
 }
 
-func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, estadoPropiedad *models.EstadoPropiedades) (int, int, error) {
+func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, estado *models.EstadoPropiedades) (int, int, error) {
 	utils := database.NewDbUtilities(service.DB)
 	lastID, err := utils.GetLastId("Propiedades", "id_propiedad")
 	if err != nil {
@@ -185,12 +185,12 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, es
 		return 0, 0, err
 	}
 
-	estadoPropiedad.IDPropiedad = propiedad.IDPropiedad
-	estadoPropiedad.IDEstadoPropiedades = lastID + 1
-	query = "INSERT INTO Estado_Propiedades(id_estado_propiedades, tipo_transaccion, estado, fecha_cambio_estado, id_propiedad) VALUES(?,?,?,?,?)"
-	result, err = service.DB.Exec(query, estadoPropiedad.IDEstadoPropiedades, estadoPropiedad.TipoTransaccion, estadoPropiedad.Estado, estadoPropiedad.FechaCambioEstado, estadoPropiedad.IDPropiedad)
+	estado.IDPropiedad = propiedad.IDPropiedad
+	estado.IDEstadoPropiedades = lastID + 1
+	query = "INSERT INTO Estado_Propiedades (id_estado_propiedades, tipo_transaccion, estado, fecha_cambio_estado, id_propiedad) VALUES (?, ?, ?, ?, ?)"
+	result, err = service.DB.Exec(query, estado.IDEstadoPropiedades, estado.TipoTransaccion, estado.Estado, estado.FechaTransaccion, estado.IDPropiedad)
 	if err != nil {
-		log.Println("Error inserting estado:", err)
+		log.Println("Error inserting estado de la propiedad:", err)
 		return 0, 0, err
 	}
 	rows, err = result.RowsAffected()
@@ -202,7 +202,7 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, es
 		log.Println("Error inserting estado: no rows affected")
 		return 0, 0, err
 	}
-	return propiedad.IDPropiedad, estadoPropiedad.IDEstadoPropiedades, nil
+	return propiedad.IDPropiedad, estado.IDEstadoPropiedades, nil
 }
 
 // UpdatePropiedad updates a Propiedad in the database

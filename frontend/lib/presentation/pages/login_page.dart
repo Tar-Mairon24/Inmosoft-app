@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import '../../services/login_service.dart';
 import '../../services/propiedad_service.dart';
 import '../widgets/property_widget.dart';

@@ -485,17 +485,13 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                               idUsuario: 2,
                                             );
 
-                                            String fechaCambioEstado =
-                                                DateTime.now()
-                                                    .toString()
-                                                    .split(" ")[0];
                                             EstadoPropiedad estadoPropiedad =
                                                 EstadoPropiedad(
                                               idEstadoPropiedad: 0,
                                               tipoTransaccion: "renta",
                                               estado: "disponible",
                                               fechaCambioEstado: null,
-                                              idPropiedad: property.idPropiedad,
+                                              idPropiedad: 0,
                                             );
 
                                             print(estadoPropiedad.idPropiedad);
