@@ -92,12 +92,12 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
             bathroomsNumController.text = property.numBanos.toString();
             garageSizeController.text = property.sizeCochera.toString();
             gardenMtsController.text = property.mtsJardin.toString();
-            observationsController.text = property.observaciones;
+            observationsController.text = property.observaciones ?? '';
 
-            List<String> gases = property.gas;
-            List<String> comodidades = property.comodidades;
-            List<String> utilidades = property.utilidades;
-            List<String> extras = property.extras;
+            List<String> gases = property.gas ?? [];
+            List<String> comodidades = property.comodidades ?? [];
+            List<String> utilidades = property.utilidades ?? [];
+            List<String> extras = property.extras ?? [];
             isOccupied = false;
             isFurnished = false;
             hasClima = comodidades.contains("clima") ? true : false;

@@ -16,11 +16,11 @@ class Propiedad {
   int numBanos;
   int sizeCochera;
   int mtsJardin;
-  List<String> gas;
-  List<String> comodidades;
-  List<String> extras;
-  List<String> utilidades;
-  String observaciones;
+  List<String>? gas;
+  List<String>? comodidades;
+  List<String>? extras;
+  List<String>? utilidades;
+  String? observaciones;
   int idTipoPropiedad;
   int idPropietario;
   int idUsuario;
@@ -43,11 +43,11 @@ class Propiedad {
     required this.numBanos,
     required this.sizeCochera,
     required this.mtsJardin,
-    required this.gas,
-    required this.comodidades,
-    required this.extras,
-    required this.utilidades,
-    required this.observaciones,
+    this.gas,
+    this.comodidades,
+    this.extras,
+    this.utilidades,
+    this.observaciones,
     required this.idTipoPropiedad,
     required this.idPropietario,
     required this.idUsuario,
@@ -72,10 +72,10 @@ class Propiedad {
       numBanos: json['num_banos'],
       sizeCochera: json['size_cochera'],
       mtsJardin: json['mts_jardin'],
-      gas: List<String>.from(json['gas']),
-      comodidades: List<String>.from(json['comodidades']),
-      extras: List<String>.from(json['extras']),
-      utilidades: List<String>.from(json['utilidades']),
+      gas: json['gas'] != null ? List<String>.from(json['gas']) : null,
+      comodidades: json['comodidades'] != null ? List<String>.from(json['comodidades']) : null,
+      extras: json['extras'] != null ? List<String>.from(json['extras']) : null,
+      utilidades: json['utilidades'] != null ? List<String>.from(json['utilidades']) : null,
       observaciones: json['observaciones'],
       idTipoPropiedad: json['id_tipo_propiedad'],
       idPropietario: json['id_propietario'],

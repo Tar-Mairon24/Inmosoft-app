@@ -112,6 +112,7 @@ class PropiedadService {
       final response =
           await _dio.get('http://localhost:8080/propiedad/$idPropiedad');
       if (response.statusCode == 200) {
+        log.w(response.data);
         final propiedad = Propiedad.fromJson(response.data);
         log.i('Propiedad fetched successfully');
         return Result(success: true, data: propiedad);
