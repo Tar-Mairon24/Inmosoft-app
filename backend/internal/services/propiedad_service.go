@@ -206,44 +206,90 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, es
 }
 
 // UpdatePropiedad updates a Propiedad in the database
-func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, id int) error {
-	utils := database.NewDbUtilities(service.DB)
-	lastId, err := utils.GetLastId("Propiedades", "id_propiedad")
+func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, estado *models.EstadoPropiedades, id int) (int, int, error) {
+	propiedad.IDPropiedad = id
+	estado.IDEstadoPropiedades = id
+
+	query := `
+		UPDATE inmosoftDB.Propiedades
+		SET
+			titulo = COALESCE(?, titulo),
+			fecha_alta = COALESCE(?, fecha_alta),
+			direccion = COALESCE(?, direccion),
+			colonia = COALESCE(?, colonia),
+			ciudad = COALESCE(?, ciudad),
+			referencia = COALESCE(?, referencia),
+			precio = COALESCE(?, precio),
+			mts_construccion = COALESCE(?, mts_construccion),
+			mts_terreno = COALESCE(?, mts_terreno),
+			habitada = COALESCE(?, habitada),
+			amueblada = COALESCE(?, amueblada),
+			num_plantas = COALESCE(?, num_plantas),
+			num_recamaras = COALESCE(?, num_recamaras),
+			num_banos = COALESCE(?, num_banos),
+			size_cochera = COALESCE(?, size_cochera),
+			mts_jardin = COALESCE(?, mts_jardin),
+			gas = COALESCE(?, gas),
+			comodidades = COALESCE(?, comodidades),
+			extras = COALESCE(?, extras),
+			utilidades = COALESCE(?, utilidades),
+			observaciones = COALESCE(?, observaciones),
+			id_tipo_propiedad = COALESCE(?, id_tipo_propiedad),
+			id_propietario = COALESCE(?, id_propietario),
+			id_usuario = COALESCE(?, id_usuario)
+		WHERE id_propiedad = ?
+	`
+
+	result, err := service.DB.Exec(query,
+		propiedad.Titulo, propiedad.FechaAlta, propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad,
+		propiedad.Referencia, propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno,
+		propiedad.Habitada, propiedad.Amueblada, propiedad.NumPlantas, propiedad.NumRecamaras,
+		propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin, propiedad.Gas,
+		propiedad.Comodidades, propiedad.Extras, propiedad.Utilidades, propiedad.Observaciones,
+		propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario, propiedad.IDPropiedad,
+	)
 	if err != nil {
-		log.Println("Error getting last ID:", err)
-		return err
-	}
-	println(lastId)
-	if id <= 0 || id > lastId {
-		log.Println("Invalid propiedad ID:", id)
-		return err
-	}
-	println(id)
-	query := "UPDATE Propiedades SET titulo=?, fecha_alta=?, direccion=?, colonia=?, ciudad=?, referencia=?, " +
-		"precio=?, mts_construccion=?, mts_terreno=?, habitada=?, amueblada=?, " +
-		"num_plantas=?, num_recamaras=?, num_banos=?, size_cochera=?, mts_jardin=?, " +
-		"gas=?, comodidades=?, extras=?, utilidades=?, observaciones=?, id_tipo_propiedad=?, " +
-		"id_propietario=?, id_usuario=? WHERE id_propiedad=?"
-	result, err := service.DB.Exec(query, propiedad.Titulo, propiedad.FechaAlta,
-		propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad, propiedad.Referencia,
-		propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno, propiedad.Habitada, propiedad.Amueblada,
-		propiedad.NumPlantas, propiedad.NumRecamaras, propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin,
-		strings.Join(propiedad.Gas, ","), strings.Join(propiedad.Comodidades, ","), strings.Join(propiedad.Extras, ","),
-		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones, propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario, id)
-	if err != nil {
-		log.Println("Error updating propiedad:", err)
-		return err
+		log.Println("Error inserting propiedad:", err)
+		return 0, 0, err
 	}
 	rows, err := result.RowsAffected()
 	if err != nil {
 		log.Println("Error getting rows affected:", err)
-		return err
+		return 0, 0, err
 	}
 	if rows != 1 {
-		log.Println("Error updating propiedad: no rows affected")
-		return err
+
+		log.Println("Error inserting estado: no rows affected")
+		return 0, 0, err
 	}
-	return nil
+
+	query = `
+		UPDATE inmosoftDB.Estado_Propiedades
+		SET
+			tipo_transaccion = COALESCE(?, tipo_transaccion),
+			estado = COALESCE(?, estado),
+			fecha_cambio_estado = COALESCE(?, fecha_cambio_estado),
+			id_propiedad = COALESCE(?, id_propiedad)
+		WHERE id_estado_propiedades = ?
+	`
+
+	result, err = service.DB.Exec(query,
+		estado.TipoTransaccion, estado.Estado, estado.FechaTransaccion, estado.IDPropiedad, estado.IDEstadoPropiedades,
+	)
+	if err != nil {
+		log.Println("Error inserting estado de la propiedad:", err)
+		return 0, 0, err
+	}
+	rows, err = result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return 0, 0, err
+	}
+	if rows != 1 {
+		log.Println("Error inserting estado: no rows affected")
+		return 0, 0, err
+	}
+	return propiedad.IDPropiedad, estado.IDEstadoPropiedades, nil
 }
 
 // DeletePropiedad deletes a Propiedad from the database
