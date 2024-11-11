@@ -3,7 +3,7 @@ package controllers
 import (
 	"backend/internal/models"
 	"backend/internal/services"
-	"fmt"
+
 	"net/http"
 	"strconv"
 
@@ -102,7 +102,7 @@ func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
 	}
 
 	// Print the request payload
-	fmt.Printf("Request payload before binding: %+v\n", request)
+	//fmt.Printf("Request payload before binding: %+v\n", request)
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload", "details": err.Error()})
@@ -111,7 +111,7 @@ func (ctrl *Propiedad_Controller) CreatePropiedad(c *gin.Context) {
 	}
 
 	// Print the request payload after binding
-	fmt.Printf("Request payload after binding: %+v\n", request)
+	//fmt.Printf("Request payload after binding: %+v\n", request)
 
 	IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.InsertPropiedad(&request.Propiedad, &request.EstadoPropiedades)
 	if err != nil {

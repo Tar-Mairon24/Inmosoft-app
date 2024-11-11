@@ -27,7 +27,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     super.initState();
   }
 
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   int _selectedMonth = DateTime.now().month;

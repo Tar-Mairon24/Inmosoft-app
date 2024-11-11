@@ -11,12 +11,12 @@ class AppointmentsNotifier with ChangeNotifier {
   }
 
   set appointments(Future<List<CitaMenu>> appointments) {
-    this._appointments = appointments;
+    _appointments = appointments;
     notifyListeners();
   }
 
   Future<Result<List<CitaMenu>>> loadData(int idUsuario, int mes) async {
-    print("mes del notifier: ${mes}");
+    print("mes del notifier: $mes");
     return await citaService.getAllCitasUserMonth(idUsuario, mes);
   }
 

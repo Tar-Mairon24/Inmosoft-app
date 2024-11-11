@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/appointments_page.dart';
-import 'package:frontend/presentation/pages/detailed_property_page.dart';
-import 'package:frontend/presentation/pages/home_page.dart';
-import 'package:frontend/presentation/pages/login_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';

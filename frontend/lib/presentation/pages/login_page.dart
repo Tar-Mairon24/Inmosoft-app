@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../services/login_service.dart';
 import '../../services/propiedad_service.dart';
-import '../widgets/property_widget.dart';
-import '../../domain/models/propiedad_menu_modelo.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
