@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                     HomeFiltersBarWidget(),
                     Expanded(
                       child: GridView.builder(
-                          itemCount: propiedades.length + 1,
+                          itemCount: (propiedades?.length ?? 0) + 1,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                               return PropertyWidget(
                                 // image: Image.asset('assets/images/images.jpeg'),
                                 image: images[i],
-                                property: propiedades[i - 1],
+                                property: propiedades![i - 1],
                               );
                             }
                           }),
