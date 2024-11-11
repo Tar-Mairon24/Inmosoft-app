@@ -4,6 +4,7 @@ import (
 	"backend/internal/controllers"
 	"backend/internal/database"
 	"backend/internal/services"
+	"backend/internal/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -35,10 +36,13 @@ func main() {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization", "User-ID"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	// Add middleware
+	router.Use(middleware.UserIDMiddleware())
 
 	// Set the Content-Type header to application/json; charset=utf-8
 	router.Use(func(c *gin.Context) {
