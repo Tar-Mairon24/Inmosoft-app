@@ -497,12 +497,8 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                             print(estadoPropiedad.idPropiedad);
 
                                             await propiedadService
-                                                .updatePropiedad(propiedad,
+                                                .updatePropiedad(propiedad, estadoPropiedad,
                                                     property.idPropiedad);
-
-                                            await estadoPropiedadService
-                                                .updateEstadoPropiedad(
-                                                    estadoPropiedad);
 
                                             Provider.of<PropertiesNotifier>(
                                                     navigatorKey

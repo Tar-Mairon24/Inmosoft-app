@@ -23,7 +23,7 @@ func GetConfig() *Config {
 		log.Fatalf("Error getting working directory")
 	}
 
-	envPath := filepath.Join(wd, "..", ".env")
+	envPath := filepath.Join(wd, ".env")
 
 	err = godotenv.Load(envPath)
 	if err != nil {

@@ -138,9 +138,6 @@ class PropiedadService {
     try {
       final propiedadData = propiedad.toJson();
       final estadoPropiedadData = estadoPropiedad.toJson();
-      log.w(propiedadData);
-      log.w(estadoPropiedadData);
-      log.w(estadoPropiedadData.toString());
 
       final response = await _dio.post(
         'http://localhost:8080/create/propiedad',
@@ -163,13 +160,17 @@ class PropiedadService {
 
   // Método para actualizar una propiedad
   Future<Result<void>> updatePropiedad(
-      Propiedad propiedad, int idPropiedad) async {
+      Propiedad propiedad, EstadoPropiedad estado, int idPropiedad) async {
     String? errorMessage;
-    log.w(idPropiedad);
     try {
+      final propiedadData = propiedad.toJson();
+      final estadoPropiedadData = estado.toJson();
       final response = await _dio.put(
         'http://localhost:8080/update/propiedad/$idPropiedad',
-        data: propiedad.toJson(),
+        data: {
+          'propiedad': propiedadData,
+          'estado_propiedades': estadoPropiedadData,
+        }
       );
       if (response.statusCode == 200) {
         log.i('Propiedad updated successfully');

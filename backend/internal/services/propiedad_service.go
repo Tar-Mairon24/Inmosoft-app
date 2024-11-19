@@ -244,12 +244,12 @@ func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, es
 		propiedad.Titulo, propiedad.FechaAlta, propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad,
 		propiedad.Referencia, propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno,
 		propiedad.Habitada, propiedad.Amueblada, propiedad.NumPlantas, propiedad.NumRecamaras,
-		propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin, propiedad.Gas,
-		propiedad.Comodidades, propiedad.Extras, propiedad.Utilidades, propiedad.Observaciones,
+		propiedad.NumBanos, propiedad.SizeCochera, propiedad.MtsJardin, strings.Join(propiedad.Gas, ","), strings.Join(propiedad.Comodidades, ","), strings.Join(propiedad.Extras, ","),
+		strings.Join(propiedad.Utilidades, ","), propiedad.Observaciones,
 		propiedad.IDTipoPropiedad, propiedad.IDPropietario, propiedad.IDUsuario, propiedad.IDPropiedad,
 	)
 	if err != nil {
-		log.Println("Error inserting propiedad:", err)
+		log.Println("Error updating propiedad:", err)
 		return 0, 0, err
 	}
 	rows, err := result.RowsAffected()
@@ -277,7 +277,7 @@ func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, es
 		estado.TipoTransaccion, estado.Estado, estado.FechaTransaccion, estado.IDPropiedad, estado.IDEstadoPropiedades,
 	)
 	if err != nil {
-		log.Println("Error inserting estado de la propiedad:", err)
+		log.Println("Error updating estado de la propiedad:", err)
 		return 0, 0, err
 	}
 	rows, err = result.RowsAffected()

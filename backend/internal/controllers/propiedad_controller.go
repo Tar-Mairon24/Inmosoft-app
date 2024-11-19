@@ -148,7 +148,7 @@ func (ctrl *Propiedad_Controller) UpdatePropiedad(c *gin.Context) {
 
 	IDPropiedad, IDEstadoPropiedad, err := ctrl.PropiedadService.UpdatePropiedad(&request.Propiedad, &request.EstadoPropiedades, id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad", "details": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update propiedad", "details": err.Error()})
 		return
 	}
 
