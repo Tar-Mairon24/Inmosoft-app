@@ -130,26 +130,21 @@ VALUES
 
 
 INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`) 
 VALUES 
-(1, 'Primera visita de inspección', '2024-11-10', 1000, 'Primera inspección para revisar el estado de la propiedad.', 1, 3, 5);
+(1, 'Primera visita de inspección', '2024-11-10', 1000, 'Primera inspección para revisar el estado de la propiedad.', 1, 3);
 
 INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`) 
 VALUES 
-(2, 'Reunión de negociación', '2024-11-12', 1500, 'Reunión con el cliente para discutir términos de negociación.', 1, 4, 6);
+(2, 'Reunión de negociación', '2024-11-12', 1500, 'Reunión con el cliente para discutir términos de negociación.', 1, 4);
 
 INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`) 
 VALUES 
-(3, 'Firma de contrato', '2024-11-15', 1100, 'Cita para la firma de contrato de arrendamiento.', 1, 2, 1);
+(3, 'Firma de contrato', '2024-11-15', 1100, 'Cita para la firma de contrato de arrendamiento.', 1, 2);
 
 INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
+(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`) 
 VALUES 
-(4, 'Segunda visita de inspección', '2024-11-17', 1600, 'Inspección para verificar reparaciones y estado final.', 2, 2, 2);
-
-INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`, `id_propiedad`) 
-VALUES 
-(5, 'Evaluación de cliente', '2024-11-20', 1400, 'Reunión con el cliente para evaluar la propiedad y su interés en la misma.', 2, 1, 4);
+(4, 'Segunda visita de inspección', '2024-11-17', 1600, 'Inspección para verificar reparaciones y estado final.', 2, 2);

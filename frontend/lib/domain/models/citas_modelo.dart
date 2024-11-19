@@ -2,44 +2,42 @@ class Cita {
   int id;
   String titulo;
   String fecha;
-  String hora;
+  int hora;
   String descripcion;
   int idUsuario;
   int idCliente;
-  int idPropiedad;
 
-  Cita(
-      {required this.id,
-      required this.titulo,
-      required this.fecha,
-      required this.hora,
-      required this.descripcion,
-      required this.idUsuario,
-      required this.idCliente,
-      required this.idPropiedad});
+  Cita({
+    required this.id,
+    required this.titulo,
+    required this.fecha,
+    required this.hora,
+    required this.descripcion,
+    required this.idUsuario,
+    required this.idCliente,
+  });
 
   factory Cita.fromJson(Map<String, dynamic> json) {
     return Cita(
-        id: json['id_cita'],
-        titulo: json['titulo'],
-        fecha: json['fecha_cita'],
-        hora: json['hora_cita'],
-        descripcion: json['descripcion'],
-        idUsuario: json['id_usuario'],
-        idCliente: json['id_cliente'],
-        idPropiedad: json['id_propiedad']);
+      id: json['id_citas'],
+      titulo: json['titulo_cita'],
+      fecha: json['fecha_cita'],
+      hora: json['hora_cita'],
+      descripcion: json['descripcion_cita'],
+      idUsuario: json['id_usuario'],
+      idCliente: json['id_cliente'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id_cita': id,
-      'titulo': titulo,
+      'id_citas': id,
+      'titulo_cita': titulo,
       'fecha_cita': fecha,
       'hora_cita': hora,
-      'descripcion': descripcion,
+      'descripcion_cita': descripcion,
       'id_usuario': idUsuario,
       'id_cliente': idCliente,
-      'id_propiedad': idPropiedad
     };
   }
 }
@@ -65,7 +63,7 @@ class CitaMenu {
 
   factory CitaMenu.fromJson(Map<String, dynamic> json) {
     return CitaMenu(
-      id: json['id_cita'] ?? 0,
+      id: json['id_citas'] ?? 0,
       titulo: json['titulo'] ?? '',
       fecha: json['fecha_cita'] ?? '',
       hora: json['hora_cita'] ?? 0,
@@ -77,7 +75,7 @@ class CitaMenu {
 
   Map<String, dynamic> toJson() {
     return {
-      'id_cita': id,
+      'id_citas': id,
       'titulo': titulo,
       'fecha_cita': fecha,
       'hora_cita': hora,

@@ -3,6 +3,7 @@ package controllers
 import (
 	"backend/internal/models"
 	"backend/internal/services"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -70,18 +71,28 @@ func (ctrl *CitasController) GetCita(c *gin.Context) {
 
 // POST /citas
 func (ctrl *CitasController) InsertCita(c *gin.Context) {
-	var cita models.Cita
-	if err := c.ShouldBindJSON(&cita); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+	// var cita models.Cita
+	var request struct {
+		Cita      models.Cita      `json:"cita"`
+		Prospecto models.Prospecto `json:"prospecto"`
+	}
+
+	fmt.Printf("Request payload before binding: %+v\n", request)
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload", "details": err.Error()})
+		print(err.Error())
 		return
 	}
 
-	if err := ctrl.CitasService.InsertCita(&cita); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert cita"})
+	fmt.Printf("Request payload after binding: %+v\n", request)
+
+	IDCita, IDProspecto, err := ctrl.CitasService.InsertCita(&request.Cita, &request.Prospecto)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create propiedad", "details": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, cita)
+	c.JSON(http.StatusCreated, gin.H{"id_cita": IDCita, "id_cliente": IDProspecto})
 }
 
 // PUT /citas
