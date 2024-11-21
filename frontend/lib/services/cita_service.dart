@@ -145,18 +145,12 @@ class CitaService {
     }
   }
 
-  Future<Result> createCita(Cita cita, Prospecto prospecto) async {
+  Future<Result> createCita(Cita cita) async {
     String? errorMessage;
     try {
-      final citaData = cita.toJson();
-      final prospectoData = prospecto.toJson();
       log.w(cita.toJson());
-      log.w(prospecto.toJson());
-      final response =
-          await _dio.post('http://localhost:8080/create/cita', data: {
-        'cita': citaData,
-        'prospecto': prospectoData,
-      });
+      final response = await _dio.post('http://localhost:8080/create/cita',
+          data: cita.toJson());
       if (response.statusCode == 201) {
         log.i('Cita created successfully');
         return Result(success: true);

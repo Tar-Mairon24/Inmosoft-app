@@ -1,7 +1,7 @@
 class Cita {
   int id;
   String titulo;
-  String fecha;
+  String? fecha;
   int hora;
   String descripcion;
   int idUsuario;

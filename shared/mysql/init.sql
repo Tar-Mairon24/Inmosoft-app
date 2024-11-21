@@ -58,7 +58,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Propiedades` (
   `id_propiedad` INT NOT NULL,
   `titulo` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
-  `fecha_alta` DATE NULL,
+  `fecha_alta` VARCHAR(100) NULL,
   `direccion` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `colonia` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `ciudad` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
@@ -129,7 +129,7 @@ ENGINE = InnoDB;
     `id_estado_propiedades` INT NOT NULL,
     `tipo_transaccion` VARCHAR(255) NOT NULL,
     `estado` VARCHAR(255) NOT NULL,
-    `fecha_cambio_estado` DATE NULL,
+    `fecha_cambio_estado` VARCHAR(100) NULL,
     `id_propiedad` INT NOT NULL,
     PRIMARY KEY (`id_estado_propiedades`),
     INDEX `fk_Estado_Propiedades_Propiedades1_idx` (`id_propiedad` ASC) VISIBLE,
@@ -180,7 +180,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Citas` (
   `id_citas` INT NOT NULL,
   `titulo_cita` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
-  `fecha_cita` DATE NULL,
+  `fecha_cita` VARCHAR(100) NULL,
   `hora_cita` INT NULL,
   `descripcion_cita` VARCHAR(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   `id_usuario` INT NOT NULL,

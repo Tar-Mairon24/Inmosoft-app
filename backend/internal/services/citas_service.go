@@ -111,49 +111,77 @@ func (service *CitasService) GetCita(id int) (*models.Cita, error) {
 }
 
 // Funcion que inserta una cita en la base de datos
-func (service *CitasService) InsertCita(cita *models.Cita, prospecto *models.Prospecto) (int, int, error) {
+// func (service *CitasService) InsertCita(cita *models.Cita, prospecto *models.Prospecto) (int, int, error) {
+// 	utils := database.NewDbUtilities(service.DB)
+// 	lastId, err := utils.GetLastId("Citas", "id_citas")
+// 	if err != nil {
+// 		log.Println("Error getting last Id:", err)
+// 		return 0, 0, err
+// 	}
+// 	cita.IDCita = lastId + 1
+// 	prospecto.IdCliente = cita.IDCita
+// 	cita.IdCliente = prospecto.IdCliente
+
+// 	query := "INSERT INTO Prospecto (id_cliente, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto, telefono_prospecto, correo_prospecto) VALUES (?, ?, ?, ?, ?, ?)"
+// 	result, err := service.DB.Exec(query, prospecto.IdCliente, prospecto.Nombre, prospecto.ApellidoP, prospecto.ApellidoM, prospecto.Telefono, prospecto.Correo)
+
+// 	if err != nil {
+// 		log.Println("Error inserting prospecto:", err)
+// 		return 0, 0, err
+// 	}
+// 	rows, err := result.RowsAffected()
+// 	if err != nil {
+// 		log.Println("Error getting rows affected:", err)
+// 		return 0, 0, err
+// 	}
+// 	if rows != 1 {
+// 		log.Println("Error inserting prospecto: no rows affected")
+// 		return 0, 0, err
+// 	}
+// 	query = "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)"
+// 	result, err = service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
+// 	if err != nil {
+// 		log.Println("Error inserting cita:", err)
+// 		return 0, 0, err
+// 	}
+// 	rows, err = result.RowsAffected()
+// 	if err != nil {
+// 		log.Println("Error getting rows affected:", err)
+// 		return 0, 0, err
+// 	}
+// 	if rows != 1 {
+// 		log.Println("Error inserting cita, no rows affected")
+// 		return 0, 0, err
+// 	}
+// 	return cita.IDCita, prospecto.IdCliente, nil
+// }
+
+func (service *CitasService) InsertCita(cita *models.Cita) (int, error) {
 	utils := database.NewDbUtilities(service.DB)
 	lastId, err := utils.GetLastId("Citas", "id_citas")
 	if err != nil {
 		log.Println("Error getting last Id:", err)
-		return 0, 0, err
+		return 0, err
 	}
 	cita.IDCita = lastId + 1
-	prospecto.IdCliente = cita.IDCita
-	cita.IdCliente = prospecto.IdCliente
+	cita.IdCliente = cita.IDCita
 
-	query := "INSERT INTO Prospecto (id_cliente, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto, telefono_prospecto, correo_prospecto) VALUES (?, ?, ?, ?, ?, ?)"
-	result, err := service.DB.Exec(query, prospecto.IdCliente, prospecto.Nombre, prospecto.ApellidoP, prospecto.ApellidoM, prospecto.Telefono, prospecto.Correo)
-
+	query := "INSERT INTO Citas(id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES(?,?,?,?,?,?,?)"
+	result, err := service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
 	if err != nil {
-		log.Println("Error inserting prospecto:", err)
-		return 0, 0, err
+		log.Println("Error inserting cita:", err)
+		return 0, err
 	}
 	rows, err := result.RowsAffected()
 	if err != nil {
 		log.Println("Error getting rows affected:", err)
-		return 0, 0, err
-	}
-	if rows != 1 {
-		log.Println("Error inserting prospecto: no rows affected")
-		return 0, 0, err
-	}
-	query = "INSERT INTO Citas (id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)"
-	result, err = service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
-	if err != nil {
-		log.Println("Error inserting cita:", err)
-		return 0, 0, err
-	}
-	rows, err = result.RowsAffected()
-	if err != nil {
-		log.Println("Error getting rows affected:", err)
-		return 0, 0, err
+		return 0, err
 	}
 	if rows != 1 {
 		log.Println("Error inserting cita, no rows affected")
-		return 0, 0, err
+		return 0, err
 	}
-	return cita.IDCita, prospecto.IdCliente, nil
+	return cita.IDCita, nil
 }
 
 // Funcion que actualiza una cita en la base de datos

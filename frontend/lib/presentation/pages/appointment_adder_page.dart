@@ -123,7 +123,7 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                         Cita cita = Cita(
                           id: 0,
                           titulo: titleController.text,
-                          fecha: "fecha",
+                          fecha: null,
                           hora: int.parse(hourController.text),
                           descripcion: descriptionController.text,
                           idUsuario: 1,
@@ -137,7 +137,7 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                             telefono: phoneNumController.text,
                             correo: emailController.text);
 
-                        await citaService.createCita(cita, prospecto);
+                        await citaService.createCita(cita);
                       }
                     },
                     child: Text('Agendar cita'),
