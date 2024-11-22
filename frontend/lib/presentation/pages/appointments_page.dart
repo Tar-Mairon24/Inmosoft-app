@@ -95,6 +95,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                         ),
                       ),
                     ),
+                    Divider(),
                     Expanded(
                       child: Row(
                         children: [

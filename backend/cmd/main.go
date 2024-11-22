@@ -65,6 +65,8 @@ func main() {
 	router.GET("/all/propiedadesByBedrooms", propiedadController.GetAllPropiedades)
 	// ruta para agarrar toda la informacion de una propiedad en específico
 	router.GET("/propiedad/:id", propiedadController.GetPropiedad)
+	// ruta para agarrar toda la informacion de una propiedad en específico
+	router.GET("/prospecto/:id", prospectoController.GetProspecto)
 	// ruta para agarrar el estado de una propiedad en específico
 	router.GET("/estadopropiedad/:id", estadoPropiedadController.GetEstadoPropiedad)
 	// ruta para agarrar el propietario de una propiedad en específico
@@ -87,7 +89,8 @@ func main() {
 	// ruta para actualizar una propiedad
 	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)
 	// router.PUT("/update/estadoPropiedad/:id", estadoPropiedadController.UpdateEstadoPropiedad)
-	router.PUT("/update/cita", citasController.UpdateCita)
+	router.PUT("/update/cita/:id", citasController.UpdateCita)
+	router.PUT("/update/prospecto/:id", prospectoController.UpdateProspecto)
 
 	// rutas para borrar una propiedad
 	router.DELETE("/eliminar/propiedad/:id", propiedadController.DeletePropiedad)

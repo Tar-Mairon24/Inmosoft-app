@@ -17,7 +17,7 @@ class AppointmentsNotifier with ChangeNotifier {
 
   Future<Result<List<CitaMenu>>> loadData(int idUsuario, int mes) async {
     print("mes del notifier: ${mes}");
-    return await citaService.getAllCitasUser(idUsuario);
+    return await citaService.getAllCitasUserMonth(idUsuario, mes);
   }
 
   void shouldRefresh() {

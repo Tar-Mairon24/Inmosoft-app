@@ -106,13 +106,13 @@ class CitaService {
   Future<Result> getCita(int idCita) async {
     String? errorMessage;
     try {
-      final response = await _dio.get('http://localhost:8080/cita:$idCita');
+      final response = await _dio.get('http://localhost:8080/cita/$idCita');
       if (response.statusCode == 200) {
         final dynamic cita = response.data;
         log.i('Cita fetched successfully');
         return Result(
           success: true,
-          data: CitaMenu.fromJson(cita),
+          data: Cita.fromJson(cita),
         );
       } else {
         errorMessage = 'Failed to get cita: ${response.statusCode}';
@@ -185,10 +185,11 @@ class CitaService {
     }
   }
 
-  Future<Result> updateCita(CitaMenu cita) async {
+  Future<Result> updateCita(Cita cita, int idCita) async {
     String? errorMessage;
     try {
-      final response = await _dio.put('http://localhost:8080/update/cita',
+      final response = await _dio.put(
+          'http://localhost:8080/update/cita/$idCita',
           data: cita.toJson());
       if (response.statusCode == 200) {
         log.i('Cita updated successfully');

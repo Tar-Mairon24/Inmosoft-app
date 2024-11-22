@@ -185,20 +185,19 @@ func (service *CitasService) InsertCita(cita *models.Cita) (int, error) {
 }
 
 // Funcion que actualiza una cita en la base de datos
-func (service *CitasService) UpdateCita(cita *models.Cita) error {
-	print(cita.Titulo)
+func (service *CitasService) UpdateCita(cita *models.Cita, id int) error {
 	utils := database.NewDbUtilities(service.DB)
 	lastId, err := utils.GetLastId("Citas", "id_citas")
 	if err != nil {
 		log.Println("Error getting last ID:", err)
 		return err
 	}
-	if cita.IDCita <= 0 || cita.IDCita > lastId {
-		log.Println("Invalid propiedad ID:", cita.IDCita)
+	if id <= 0 || id > lastId {
+		log.Println("Invalid cita ID:", id)
 		return err
 	}
-	query := "UPDATE Citas SET titulo_cita = ?, fecha_cita = ?, hora_cita = ?, descripcion_cita = ?, id_usuario = ?, id_cliente = ? WHERE id_citas = ?"
-	result, err := service.DB.Exec(query, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente, cita.IDCita)
+	query := "UPDATE Citas SET titulo_cita=?, fecha_cita=?, hora_cita=?, descripcion_cita=?, id_usuario=?, id_cliente=? WHERE id_citas=?"
+	result, err := service.DB.Exec(query, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente, id)
 	if err != nil {
 		log.Println("Error updating cita:", err)
 		return err

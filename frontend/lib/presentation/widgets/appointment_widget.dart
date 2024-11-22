@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/pages/appointment_modifier_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/services/cita_service.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +63,13 @@ class AppointmentWidget extends StatelessWidget {
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) => [
               PopupMenuItem<String>(
-                onTap: () {},
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AppointmentModifierPage(
+                      appointmentId: appointment.id,
+                    ),
+                  ),
+                ),
                 child: const Text('Editar'),
               ),
               PopupMenuItem<String>(

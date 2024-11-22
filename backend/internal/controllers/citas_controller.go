@@ -94,13 +94,20 @@ func (ctrl *CitasController) InsertCita(c *gin.Context) {
 
 // PUT /citas
 func (ctrl *CitasController) UpdateCita(c *gin.Context) {
+
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid cita ID"})
+		return
+	}
 	var cita models.Cita
 	if err := c.ShouldBindJSON(&cita); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
-	if err := ctrl.CitasService.UpdateCita(&cita); err != nil {
+	if err := ctrl.CitasService.UpdateCita(&cita, id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update cita"})
 		return
 	}

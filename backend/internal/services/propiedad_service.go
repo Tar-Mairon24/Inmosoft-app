@@ -218,7 +218,6 @@ func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, id
 		log.Println("Invalid propiedad ID:", id)
 		return err
 	}
-	println(id)
 	query := "UPDATE Propiedades SET titulo=?, fecha_alta=?, direccion=?, colonia=?, ciudad=?, referencia=?, " +
 		"precio=?, mts_construccion=?, mts_terreno=?, habitada=?, amueblada=?, " +
 		"num_plantas=?, num_recamaras=?, num_banos=?, size_cochera=?, mts_jardin=?, " +
