@@ -132,11 +132,14 @@ class DetailedPropertyPage extends StatelessWidget {
                           Text("Habitada: ${property.habitada ? 'Sí' : 'No'}"),
                           Text(
                               "Amueblada: ${property.amueblada ? 'Sí' : 'No'}"),
-                          Text("Gas: ${property.gas?.join(', ') ?? 'No especificado'}"),
+                          Text(
+                              "Gas: ${property.gas?.join(', ') ?? 'No especificado'}"),
                           Text(
                               "Comodidades: ${property.comodidades?.join(', ') ?? 'No especificado'}"),
-                          Text("Utilidades: ${property.utilidades?.join(', ') ?? 'No especificado'}"),
-                          Text("Extras: ${property.extras?.join(', ') ?? 'No especificado'}"),
+                          Text(
+                              "Utilidades: ${property.utilidades?.join(', ') ?? 'No especificado'}"),
+                          Text(
+                              "Extras: ${property.extras?.join(', ') ?? 'No especificado'}"),
                           SizedBox(height: separation),
                           const Divider(),
                           SizedBox(height: separation),
