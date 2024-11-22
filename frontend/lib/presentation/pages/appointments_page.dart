@@ -52,10 +52,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              _appointmentDates = snapshot.data!.data!
-                  .map((cita) => DateTime.parse(cita.fecha))
-                  .where((date) => date.month == _selectedMonth)
-                  .toList();
+              // _appointmentDates = snapshot.data!.data!
+              //     .map((cita) => DateTime.parse(cita.fecha))
+              //     .where((date) => date.month == _selectedMonth)
+              //     .toList();
               List<Image> images = [
                 Image.asset('assets/images/prospects/images1.jpg'),
                 Image.asset('assets/images/prospects/images2.jpeg'),

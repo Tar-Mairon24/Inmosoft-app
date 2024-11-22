@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
 import 'package:frontend/domain/models/propietario_modelo.dart';
 import 'package:frontend/domain/models/prospecto_modelo.dart';
+import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
 import 'package:frontend/services/cita_service.dart';
+import 'package:frontend/services/prospecto_service.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentAdderPage extends StatefulWidget {
   const AppointmentAdderPage({super.key});
@@ -29,6 +33,7 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
   @override
   Widget build(BuildContext context) {
     final CitaService citaService = CitaService();
+    final ProspectoService prospectoService = ProspectoService();
     double separation = MediaQuery.of(context).size.height * 0.02;
     List<Widget> images = [
       AddAppointmentImageWidget(),
@@ -137,7 +142,13 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                             telefono: phoneNumController.text,
                             correo: emailController.text);
 
+                        await prospectoService.createProspecto(prospecto);
                         await citaService.createCita(cita);
+                        Provider.of<AppointmentsNotifier>(
+                                navigatorKey.currentContext!,
+                                listen: false)
+                            .shouldRefresh();
+                        Navigator.of(context).pop();
                       }
                     },
                     child: Text('Agendar cita'),

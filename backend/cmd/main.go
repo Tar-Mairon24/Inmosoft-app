@@ -20,6 +20,7 @@ func main() {
 	PropietarioService := services.NewPropietarioService(database.DB)
 	TipoPropiedadService := services.NewTipoPropiedadService(database.DB)
 	citasService := services.NewCitasService(database.DB)
+	prospectoService := services.NewProspectoService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
@@ -28,6 +29,7 @@ func main() {
 	propietarioController := controllers.NewPropietarioController(PropietarioService)
 	tipoPropiedadController := controllers.NewTipoPropiedadController(TipoPropiedadService)
 	citasController := controllers.NewCitasController(citasService)
+	prospectoController := controllers.NewProspectoController(prospectoService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -80,6 +82,7 @@ func main() {
 	router.POST("/create/propietario", propietarioController.CreatePropietario)
 	router.POST("/create/tipoPropiedad", tipoPropiedadController.CreateTipoPropiedad)
 	router.POST("/create/cita", citasController.InsertCita)
+	router.POST("/create/prospecto", prospectoController.InsertProspecto)
 
 	// ruta para actualizar una propiedad
 	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)
