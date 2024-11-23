@@ -77,6 +77,7 @@ func main() {
 	router.GET("/all/citas/:id", citasController.GetAllCitas)
 	// ruta para agarrar una cita en específico
 	router.GET("/cita/:id", citasController.GetCita)
+	router.GET("/all/citas/:id/:day", citasController.GetAllCitasDay)
 
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)

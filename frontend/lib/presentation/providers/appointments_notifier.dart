@@ -15,9 +15,20 @@ class AppointmentsNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Result<List<CitaMenu>>> loadData(int idUsuario, int mes) async {
-    print("mes del notifier: ${mes}");
-    return await citaService.getAllCitasUserMonth(idUsuario, mes);
+  Future<Result<List<CitaMenu>>> loadData(int idUsuario) async {
+    return await citaService.getAllCitasUser(idUsuario);
+  }
+
+  Future<Result<List<CitaMenu>>> loadDataByDate(
+      int idUsuario, String date) async {
+    final result = await citaService.getAllCitasUserDay(idUsuario, date);
+
+    // Si el resultado o los datos son null, retorna un objeto Result con una lista vacía.
+    if (result.data == null) {
+      return Result(success: true, data: []);
+    }
+
+    return result;
   }
 
   void shouldRefresh() {

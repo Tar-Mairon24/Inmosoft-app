@@ -59,6 +59,51 @@ class CitaService {
     }
   }
 
+  Future<Result<List<CitaMenu>>> getAllCitasUserDay(
+      int idUsuario, String day) async {
+    String? errorMessage;
+    try {
+      final response =
+          await _dio.get('http://localhost:8080/all/citas/$idUsuario/$day');
+      if (response.statusCode == 200) {
+        // Manejar caso donde response.data sea null
+        final List<dynamic> citas = response.data ?? [];
+        log.i('Citas fetched successfully');
+        return Result(
+          success: true,
+          data: citas.map((cita) => CitaMenu.fromJson(cita)).toList(),
+        );
+      } else {
+        errorMessage = 'Failed to get citas: ${response.statusCode}';
+        log.w('Failed to get citas');
+        return Result(success: false, errorMessage: errorMessage);
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout) {
+        errorMessage = 'Connection Timeout Exception';
+      } else if (e.type == DioExceptionType.sendTimeout) {
+        errorMessage = 'Send Timeout Exception';
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        errorMessage = 'Receive Timeout Exception';
+      } else if (e.type == DioExceptionType.badResponse) {
+        errorMessage =
+            'Received invalid status code: ${e.response?.statusCode}';
+      } else if (e.type == DioExceptionType.cancel) {
+        errorMessage = 'Request to API server was cancelled';
+      } else if (e.type == DioExceptionType.unknown) {
+        errorMessage = 'Unexpected error: ${e.message}';
+      } else {
+        errorMessage = 'Unexpected error';
+      }
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    } catch (e) {
+      final errorMessage = 'Unexpected error: $e';
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    }
+  }
+
   Future<Result<List<CitaMenu>>> getAllCitasUserMonth(
       int idUsuario, int mes) async {
     String? errorMessage;

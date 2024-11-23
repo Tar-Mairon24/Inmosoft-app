@@ -19,17 +19,10 @@ class AppointmentsPage extends StatefulWidget {
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
   final CitaService citaService = CitaService();
-  List<Widget> appointments = [];
-  List<DateTime> _appointmentDates = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
   int _selectedMonth = DateTime.now().month;
 
   @override
@@ -38,90 +31,125 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
       appBar: AppBar(
         title: const Text('Citas'),
       ),
-      body: Consumer<AppointmentsNotifier>(
-        builder: (BuildContext context, appointmentsNotifier, Widget? child) {
-          print(_selectedMonth);
-          return FutureBuilder(
-            future: appointmentsNotifier.loadData(1, _selectedMonth),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                    child: Text("error: ${snapshot.error.toString()}"));
-              }
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              // _appointmentDates = snapshot.data!.data!
-              //     .map((cita) => DateTime.parse(cita.fecha))
-              //     .where((date) => date.month == _selectedMonth)
-              //     .toList();
-              List<Image> images = [
-                Image.asset('assets/images/prospects/images1.jpg'),
-                Image.asset('assets/images/prospects/images2.jpeg'),
-                Image.asset('assets/images/prospects/images3.jpeg'),
-                Image.asset('assets/images/prospects/images4.jpeg'),
-                Image.asset('assets/images/prospects/images5.jpeg'),
-                Image.asset('assets/images/prospects/images6.jpg'),
-              ];
-              List<CitaMenu>? appointments = snapshot.data!.data;
-
-              return Padding(
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.04,
+        ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.04,
+                  vertical: MediaQuery.of(context).size.height * 0.02,
                 ),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical:
-                                MediaQuery.of(context).size.height * 0.02),
-                        child: FilledButton(
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AppointmentAdderPage())),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.04,
-                              vertical:
-                                  MediaQuery.of(context).size.height * 0.018,
-                            ),
-                            child: Text('Agendar cita'),
-                          ),
-                        ),
-                      ),
+                child: FilledButton(
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AppointmentAdderPage())),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.04,
+                      vertical: MediaQuery.of(context).size.height * 0.018,
                     ),
-                    Divider(),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: ListView.separated(
-                              itemCount: appointments!.length,
-                              itemBuilder: (context, i) {
-                                return AppointmentWidget(
-                                  image: images[i],
-                                  appointment: appointments[i],
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) => SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.04,
-                              ),
-                            ),
+                    child: Text('Agendar cita'),
+                  ),
+                ),
+              ),
+            ),
+            Divider(),
+            Expanded(
+              child: Row(
+                children: [
+                  // Primer Expanded con Consumer y FutureBuilder
+                  Expanded(
+                    flex: 1,
+                    child: Consumer<AppointmentsNotifier>(
+                      builder:
+                          (BuildContext context, appointmentsNotifier, child) {
+                        return FutureBuilder(
+                          future: appointmentsNotifier.loadDataByDate(
+                            1,
+                            _selectedDay!.toIso8601String().split('T')[0],
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.06,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: TableCalendar(
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text(
+                                      "error: ${snapshot.error.toString()}"));
+                            }
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+
+                            List<Image> images = [
+                              Image.asset(
+                                  'assets/images/prospects/images1.jpg'),
+                              Image.asset(
+                                  'assets/images/prospects/images2.jpeg'),
+                              Image.asset(
+                                  'assets/images/prospects/images3.jpeg'),
+                              Image.asset(
+                                  'assets/images/prospects/images4.jpeg'),
+                              Image.asset(
+                                  'assets/images/prospects/images5.jpeg'),
+                              Image.asset(
+                                  'assets/images/prospects/images6.jpg'),
+                            ];
+                            List<CitaMenu>? appointments = snapshot.data!.data;
+
+                            if (appointments!.isEmpty) {
+                              return Center(
+                                child: Text("No hay citas"),
+                              );
+                            } else {
+                              return ListView.separated(
+                                itemCount: appointments.length,
+                                itemBuilder: (context, i) {
+                                  return AppointmentWidget(
+                                    image: images[i],
+                                    appointment: appointments[i],
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Segundo Expanded con TableCalendar fuera del FutureBuilder
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.06,
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: FutureBuilder(
+                          future: citaService.getAllCitasUser(1),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text(
+                                      "error: ${snapshot.error.toString()}"));
+                            }
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                            List<DateTime> appointmentDates = [];
+
+                            appointmentDates = snapshot.data!.data!
+                                .map((cita) => DateTime.parse(cita.fecha))
+                                .where((date) => date.month == _selectedMonth)
+                                .toList();
+                            return TableCalendar(
                               headerStyle:
                                   HeaderStyle(formatButtonVisible: false),
                               rowHeight:
@@ -130,17 +158,6 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                               calendarFormat: _calendarFormat,
                               firstDay: DateTime.utc(2010),
                               lastDay: DateTime.utc(2040),
-                              onPageChanged: (focusedDay) {
-                                setState(() {
-                                  _focusedDay = focusedDay;
-                                  _selectedMonth = focusedDay.month;
-                                });
-
-                                Provider.of<AppointmentsNotifier>(
-                                        navigatorKey.currentContext!,
-                                        listen: false)
-                                    .shouldRefresh();
-                              },
                               selectedDayPredicate: (day) =>
                                   isSameDay(_selectedDay, day),
                               onDaySelected: (selectedDay, focusedDay) {
@@ -148,16 +165,19 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                                   _selectedDay = selectedDay;
                                   _focusedDay = focusedDay;
                                 });
+                                Provider.of<AppointmentsNotifier>(
+                                        navigatorKey.currentContext!,
+                                        listen: false)
+                                    .shouldRefresh();
                               },
                               calendarBuilders: CalendarBuilders(
-                                // Decorador personalizado para los días con citas
                                 defaultBuilder: (context, day, focusedDay) {
-                                  if (_appointmentDates.any((appointmentDate) =>
+                                  if (appointmentDates.any((appointmentDate) =>
                                       isSameDay(appointmentDate, day))) {
                                     return Container(
                                       decoration: BoxDecoration(
                                         color:
-                                            Colors.redAccent.withOpacity(0.5),
+                                            Colors.redAccent.withOpacity(0.8),
                                         shape: BoxShape.circle,
                                       ),
                                       margin: EdgeInsets.all(6.0),
@@ -171,17 +191,13 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                                   return null;
                                 },
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
+                            );
+                          })),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       drawer: NavigationDrawerWidget(),
     );

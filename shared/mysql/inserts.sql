@@ -146,4 +146,4 @@ VALUES
 INSERT INTO `inmosoftDB`.`Citas` 
 (`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `id_usuario`, `id_cliente`) 
 VALUES 
-(4, 'Segunda visita de inspeccion', null, 1600, 'Inspeccion para verificar reparaciones y estado final.', 2, 2);
+(4, 'Segunda visita de inspeccion', '2024-11-15', 1600, 'Inspeccion para verificar reparaciones y estado final.', 2, 2);

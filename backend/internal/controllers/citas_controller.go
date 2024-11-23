@@ -46,6 +46,36 @@ func (ctrl *CitasController) GetAllCitas(c *gin.Context) {
 	c.JSON(http.StatusOK, citas)
 }
 
+func (ctrl *CitasController) GetAllCitasDay(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	dayParam := c.Param("day")
+	day := dayParam
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid day"})
+		return
+	}
+
+	citas, err := ctrl.CitasService.GetAllCitasUserDay(id, day)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve citas"})
+		return
+	}
+
+	if citas == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No citas found"})
+		return
+	}
+
+	c.Header("Content-Type", "application/json; charset=utf-8")
+	c.JSON(http.StatusOK, citas)
+}
+
 // GET /cita/:id
 func (ctrl *CitasController) GetCita(c *gin.Context) {
 	idParam := c.Param("id")
