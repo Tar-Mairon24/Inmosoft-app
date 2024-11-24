@@ -4,6 +4,7 @@ import 'package:frontend/domain/models/propietario_modelo.dart';
 import 'package:frontend/domain/models/prospecto_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
+import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
 import 'package:frontend/services/cita_service.dart';
 import 'package:frontend/services/prospecto_service.dart';
@@ -34,6 +35,7 @@ class _AppointmentModifierPageState extends State<AppointmentModifierPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     final CitaService citaService = CitaService();
     final ProspectoService prospectoService = ProspectoService();
     double separation = MediaQuery.of(context).size.height * 0.02;
@@ -61,11 +63,11 @@ class _AppointmentModifierPageState extends State<AppointmentModifierPage> {
                 return const Center(child: CircularProgressIndicator());
               }
               final Prospecto prospecto = snapshot.data![0].data;
-              final Cita cita = snapshot.data![1].data;
+              final Cita citaData = snapshot.data![1].data;
 
-              titleController.text = cita.titulo;
-              descriptionController.text = cita.descripcion;
-              hourController.text = cita.hora.toString();
+              titleController.text = citaData.titulo;
+              descriptionController.text = citaData.descripcion;
+              hourController.text = citaData.hora.toString();
               nameController.text = prospecto.nombre;
               apellidoPaternoController.text = prospecto.apellidoPaterno;
               apellidoMaternoController.text = prospecto.apellidoMaterno;
@@ -167,10 +169,10 @@ class _AppointmentModifierPageState extends State<AppointmentModifierPage> {
                                 Cita cita = Cita(
                                   id: widget.appointmentId,
                                   titulo: titleController.text,
-                                  fecha: null,
+                                  fecha: citaData.fecha,
                                   hora: int.parse(hourController.text),
                                   descripcion: descriptionController.text,
-                                  idUsuario: 1,
+                                  idUsuario: authProvider.userId!,
                                   idCliente: widget.appointmentId,
                                 );
                                 Prospecto prospecto = Prospecto(

@@ -22,7 +22,7 @@ func NewUserService(db *sql.DB) *UserService {
 func (service *UserService) GetUserByID(id int) (*models.User, error) {
 	user := &models.User{}
 	query := "SELECT * FROM Usuarios WHERE id_usuario = ?"
-	err := service.DB.QueryRow(query, id).Scan(&user.ID, &user.Email, &user.Password)
+	err := service.DB.QueryRow(query, id).Scan(&user.Email, &user.Password)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -37,7 +37,7 @@ func (service *UserService) GetUserByID(id int) (*models.User, error) {
 func (service *UserService) Login(email, password string) (*models.User, error) {
 	user := &models.User{}
 	query := "select * from Usuarios where usuario = ? and password_usuario = ?;"
-	err := service.DB.QueryRow(query, email, password).Scan(&user.ID, &user.Email, &user.Password)
+	err := service.DB.QueryRow(query, email, password).Scan(&user.Email, &user.Password)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return user, errors.New("invalid credentials")

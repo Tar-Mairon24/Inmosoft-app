@@ -19,9 +19,9 @@ func NewCitasService(db *sql.DB) *CitasService {
 }
 
 // Funcion que recupera todas las citas de la base de datos
-func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.CitaMenu, error) {
+func (service *CitasService) GetAllCitasUser(IdUsuario string) ([]*models.CitaMenu, error) {
 	var citas []*models.CitaMenu
-	query := "SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto FROM Citas, Prospecto where id_usuario = ? and Prospecto.id_cliente = Citas.id_cliente"
+	query := "SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto FROM Citas, Prospecto where usuario = ? and Prospecto.id_cliente = Citas.id_cliente"
 	rows, err := service.DB.Query(query, IdUsuario)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -50,13 +50,13 @@ func (service *CitasService) GetAllCitasUser(IdUsuario int) ([]*models.CitaMenu,
 	return citas, nil
 }
 
-func (service *CitasService) GetAllCitasUserDay(IdUsuario int, day string) ([]*models.CitaMenu, error) {
+func (service *CitasService) GetAllCitasUserDay(IdUsuario string, day string) ([]*models.CitaMenu, error) {
 	var citas []*models.CitaMenu
 	query := `
 		SELECT id_citas, titulo_cita, fecha_cita, hora_cita, nombre_prospecto, apellido_paterno_prospecto, apellido_materno_prospecto
 		FROM Citas
 		INNER JOIN Prospecto ON Prospecto.id_cliente = Citas.id_cliente
-		WHERE id_usuario = ? AND fecha_cita = ?
+		WHERE usuario = ? AND fecha_cita = ?
 	`
 	rows, err := service.DB.Query(query, IdUsuario, day)
 	if err != nil {
@@ -202,7 +202,7 @@ func (service *CitasService) InsertCita(cita *models.Cita) (int, error) {
 	cita.IDCita = lastId + 1
 	cita.IdCliente = cita.IDCita
 
-	query := "INSERT INTO Citas(id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, id_usuario, id_cliente) VALUES(?,?,?,?,?,?,?)"
+	query := "INSERT INTO Citas(id_citas, titulo_cita, fecha_cita, hora_cita, descripcion_cita, usuario, id_cliente) VALUES(?,?,?,?,?,?,?)"
 	result, err := service.DB.Exec(query, cita.IDCita, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente)
 	if err != nil {
 		log.Println("Error inserting cita:", err)
@@ -232,7 +232,7 @@ func (service *CitasService) UpdateCita(cita *models.Cita, id int) error {
 		log.Println("Invalid cita ID:", id)
 		return err
 	}
-	query := "UPDATE Citas SET titulo_cita=?, fecha_cita=?, hora_cita=?, descripcion_cita=?, id_usuario=?, id_cliente=? WHERE id_citas=?"
+	query := "UPDATE Citas SET titulo_cita=?, fecha_cita=?, hora_cita=?, descripcion_cita=?, usuario=?, id_cliente=? WHERE id_citas=?"
 	result, err := service.DB.Exec(query, cita.Titulo, cita.FechaCita, cita.HoraCita, cita.Descripcion, cita.IdUsuario, cita.IdCliente, id)
 	if err != nil {
 		log.Println("Error updating cita:", err)

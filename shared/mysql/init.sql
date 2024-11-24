@@ -45,10 +45,9 @@ ENGINE = InnoDB;
 -- Table `inmosoftDB`.`Usuarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Usuarios` (
-  `id_usuario` INT NOT NULL,
-  `usuario` VARCHAR(100)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `usuario` VARCHAR(100)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL,
   `password_usuario` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
-  PRIMARY KEY (`id_usuario`))
+  PRIMARY KEY (`usuario`))
 ENGINE = InnoDB;
 
 
@@ -80,11 +79,11 @@ CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Propiedades` (
   `observaciones` VARCHAR(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NULL,
   `id_tipo_propiedad` INT NOT NULL,
   `id_propietario` INT NOT NULL,
-  `id_usuario` INT NOT NULL,
+  `usuario` VARCHAR(100)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL,
   PRIMARY KEY (`id_propiedad`),
   INDEX `fk_Propiedades_Tipo_propiedad2_idx` (`id_tipo_propiedad` ASC) VISIBLE,
   INDEX `fk_Propiedades_Propietario2_idx` (`id_propietario` ASC) VISIBLE,
-  INDEX `fk_Propiedades_Usuarios1_idx` (`id_usuario` ASC) VISIBLE,
+  INDEX `fk_Propiedades_Usuarios1_idx` (`usuario` ASC) VISIBLE,
   CONSTRAINT `fk_Propiedades_Tipo_propiedad2`
     FOREIGN KEY (`id_tipo_propiedad`)
     REFERENCES `inmosoftDB`.`Tipo_Propiedad` (`id_tipo_propiedad`)
@@ -96,8 +95,8 @@ CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Propiedades` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Propiedades_Usuarios1`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `inmosoftDB`.`Usuarios` (`id_usuario`)
+    FOREIGN KEY (`usuario`)
+    REFERENCES `inmosoftDB`.`Usuarios` (`usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -183,14 +182,14 @@ CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Citas` (
   `fecha_cita` VARCHAR(100) NULL,
   `hora_cita` INT NULL,
   `descripcion_cita` VARCHAR(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
-  `id_usuario` INT NOT NULL,
+  `usuario` VARCHAR(100)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL,
   `id_cliente` INT NOT NULL,
   PRIMARY KEY (`id_citas`),
-  INDEX `fk_Citas_Usuarios1_idx` (`id_usuario` ASC) VISIBLE,
+  INDEX `fk_Citas_Usuarios1_idx` (`usuario` ASC) VISIBLE,
   INDEX `fk_Citas_Prospecto1_idx` (`id_cliente` ASC) VISIBLE,
   CONSTRAINT `fk_Citas_Usuarios1`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `inmosoftDB`.`Usuarios` (`id_usuario`)
+    FOREIGN KEY (`usuario`)
+    REFERENCES `inmosoftDB`.`Usuarios` (`usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Citas_Prospecto1`

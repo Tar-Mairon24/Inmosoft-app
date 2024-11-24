@@ -16,7 +16,7 @@ class CitaService {
   final Dio _dio = Dio();
   final Logger log = Logger();
 
-  Future<Result<List<CitaMenu>>> getAllCitasUser(int idUsuario) async {
+  Future<Result<List<CitaMenu>>> getAllCitasUser(String idUsuario) async {
     String? errorMessage;
     try {
       final response =
@@ -60,7 +60,7 @@ class CitaService {
   }
 
   Future<Result<List<CitaMenu>>> getAllCitasUserDay(
-      int idUsuario, String day) async {
+      String idUsuario, String day) async {
     String? errorMessage;
     try {
       final response =

@@ -163,7 +163,7 @@ func (service *PropiedadService) InsertPropiedad(propiedad *models.Propiedad, es
 		"precio, mts_construccion, mts_terreno, habitada, amueblada, " +
 		"num_plantas, num_recamaras, num_banos, size_cochera, mts_jardin, " +
 		"gas, comodidades, extras, utilidades, observaciones, id_tipo_propiedad, " +
-		"id_propietario, id_usuario) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+		"id_propietario, usuario) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 	result, err := service.DB.Exec(query, propiedad.IDPropiedad, propiedad.Titulo, propiedad.FechaAlta,
 		propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad, propiedad.Referencia,
 		propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno, propiedad.Habitada, propiedad.Amueblada,
@@ -222,7 +222,7 @@ func (service *PropiedadService) UpdatePropiedad(propiedad *models.Propiedad, id
 		"precio=?, mts_construccion=?, mts_terreno=?, habitada=?, amueblada=?, " +
 		"num_plantas=?, num_recamaras=?, num_banos=?, size_cochera=?, mts_jardin=?, " +
 		"gas=?, comodidades=?, extras=?, utilidades=?, observaciones=?, id_tipo_propiedad=?, " +
-		"id_propietario=?, id_usuario=? WHERE id_propiedad=?"
+		"id_propietario=?, usuario=? WHERE id_propiedad=?"
 	result, err := service.DB.Exec(query, propiedad.Titulo, propiedad.FechaAlta,
 		propiedad.Direccion, propiedad.Colonia, propiedad.Ciudad, propiedad.Referencia,
 		propiedad.Precio, propiedad.MtsConstruccion, propiedad.MtsTerreno, propiedad.Habitada, propiedad.Amueblada,

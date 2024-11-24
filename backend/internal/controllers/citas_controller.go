@@ -25,11 +25,11 @@ func NewCitasController(citasService *services.CitasService) *CitasController {
 // GET /all/citas/:id)user
 func (ctrl *CitasController) GetAllCitas(c *gin.Context) {
 	idParam := c.Param("id")
-	id, err := strconv.Atoi(idParam)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
-		return
-	}
+	id := idParam
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+	// 	return
+	// }
 
 	citas, err := ctrl.CitasService.GetAllCitasUser(id)
 	if err != nil {
@@ -48,18 +48,18 @@ func (ctrl *CitasController) GetAllCitas(c *gin.Context) {
 
 func (ctrl *CitasController) GetAllCitasDay(c *gin.Context) {
 	idParam := c.Param("id")
-	id, err := strconv.Atoi(idParam)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
-		return
-	}
+	id := idParam
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+	// 	return
+	// }
 
 	dayParam := c.Param("day")
 	day := dayParam
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid day"})
-		return
-	}
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid day"})
+	// 	return
+	// }
 
 	citas, err := ctrl.CitasService.GetAllCitasUserDay(id, day)
 	if err != nil {

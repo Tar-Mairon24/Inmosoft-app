@@ -5,6 +5,7 @@ import 'package:frontend/presentation/pages/detailed_property_page.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/login_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
+import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<AuthProvider>(
+            create: (context) => AuthProvider()),
         ChangeNotifierProvider<PropertiesNotifier>(
             create: (context) => PropertiesNotifier()),
         ChangeNotifierProvider<AppointmentsNotifier>(

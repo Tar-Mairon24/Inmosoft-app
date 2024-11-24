@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/appointment_adder_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
+import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
 import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
@@ -22,11 +23,13 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay = DateTime.now();
+  DateTime _selectedDay = DateTime.now();
   int _selectedMonth = DateTime.now().month;
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Citas'),
@@ -45,7 +48,9 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                 ),
                 child: FilledButton(
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => AppointmentAdderPage())),
+                      builder: (context) => AppointmentAdderPage(
+                            day: _selectedDay,
+                          ))),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.04,
@@ -68,7 +73,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                           (BuildContext context, appointmentsNotifier, child) {
                         return FutureBuilder(
                           future: appointmentsNotifier.loadDataByDate(
-                            1,
+                            authProvider.userId!,
                             _selectedDay!.toIso8601String().split('T')[0],
                           ),
                           builder: (context, snapshot) {
@@ -132,7 +137,8 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   Expanded(
                       flex: 1,
                       child: FutureBuilder(
-                          future: citaService.getAllCitasUser(1),
+                          future:
+                              citaService.getAllCitasUser(authProvider.userId!),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
                               return Center(
@@ -147,7 +153,6 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
 
                             appointmentDates = snapshot.data!.data!
                                 .map((cita) => DateTime.parse(cita.fecha))
-                                .where((date) => date.month == _selectedMonth)
                                 .toList();
                             return TableCalendar(
                               headerStyle:

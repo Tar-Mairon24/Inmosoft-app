@@ -4,7 +4,7 @@ class Cita {
   String? fecha;
   int hora;
   String descripcion;
-  int idUsuario;
+  String idUsuario;
   int idCliente;
 
   Cita({
@@ -24,7 +24,7 @@ class Cita {
       fecha: json['fecha_cita'],
       hora: json['hora_cita'],
       descripcion: json['descripcion_cita'],
-      idUsuario: json['id_usuario'],
+      idUsuario: json['usuario'],
       idCliente: json['id_cliente'],
     );
   }
@@ -36,7 +36,7 @@ class Cita {
       'fecha_cita': fecha,
       'hora_cita': hora,
       'descripcion_cita': descripcion,
-      'id_usuario': idUsuario,
+      'usuario': idUsuario,
       'id_cliente': idCliente,
     };
   }

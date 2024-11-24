@@ -4,13 +4,15 @@ import 'package:frontend/domain/models/propietario_modelo.dart';
 import 'package:frontend/domain/models/prospecto_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
+import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
 import 'package:frontend/services/cita_service.dart';
 import 'package:frontend/services/prospecto_service.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentAdderPage extends StatefulWidget {
-  const AppointmentAdderPage({super.key});
+  const AppointmentAdderPage({super.key, required this.day});
+  final DateTime day;
 
   @override
   State<AppointmentAdderPage> createState() => _AppointmentAdderPageState();
@@ -32,6 +34,7 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     final CitaService citaService = CitaService();
     final ProspectoService prospectoService = ProspectoService();
     double separation = MediaQuery.of(context).size.height * 0.02;
@@ -128,10 +131,10 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                         Cita cita = Cita(
                           id: 0,
                           titulo: titleController.text,
-                          fecha: null,
+                          fecha: widget.day.toIso8601String().split('T')[0],
                           hora: int.parse(hourController.text),
                           descripcion: descriptionController.text,
-                          idUsuario: 1,
+                          idUsuario: authProvider.userId!,
                           idCliente: 0,
                         );
                         Prospecto prospecto = Prospecto(

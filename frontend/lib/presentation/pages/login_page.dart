@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 import '../../services/login_service.dart';
 import '../../services/propiedad_service.dart';
 import '../widgets/property_widget.dart';
@@ -85,6 +87,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double separation = MediaQuery.of(context).size.height * 0.04;
+    final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       body: Align(
@@ -148,6 +151,7 @@ class LoginPage extends StatelessWidget {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 _login(context);
+                                authProvider.login(emailController.text);
                               }
                             },
                             child: Text(

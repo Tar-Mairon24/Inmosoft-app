@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/estado_propiedad_modelo.dart';
 import 'package:frontend/domain/models/propiedad_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_photo_widget.dart';
 import 'package:frontend/services/estado_propiedad_service.dart';
@@ -58,6 +59,7 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     final PropiedadService propiedadService = PropiedadService();
     final EstadoPropiedadService estadoPropiedadService =
         EstadoPropiedadService();
@@ -482,7 +484,7 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                                   observationsController.text,
                                               idTipoPropiedad: 1,
                                               idPropietario: 1,
-                                              idUsuario: 2,
+                                              idUsuario: authProvider.userId!,
                                             );
 
                                             EstadoPropiedad estadoPropiedad =

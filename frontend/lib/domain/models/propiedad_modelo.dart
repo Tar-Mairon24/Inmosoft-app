@@ -23,7 +23,7 @@ class Propiedad {
   String? observaciones;
   int idTipoPropiedad;
   int idPropietario;
-  int idUsuario;
+  String idUsuario;
 
   Propiedad({
     required this.idPropiedad,
@@ -73,13 +73,17 @@ class Propiedad {
       sizeCochera: json['size_cochera'],
       mtsJardin: json['mts_jardin'],
       gas: json['gas'] != null ? List<String>.from(json['gas']) : null,
-      comodidades: json['comodidades'] != null ? List<String>.from(json['comodidades']) : null,
+      comodidades: json['comodidades'] != null
+          ? List<String>.from(json['comodidades'])
+          : null,
       extras: json['extras'] != null ? List<String>.from(json['extras']) : null,
-      utilidades: json['utilidades'] != null ? List<String>.from(json['utilidades']) : null,
+      utilidades: json['utilidades'] != null
+          ? List<String>.from(json['utilidades'])
+          : null,
       observaciones: json['observaciones'],
       idTipoPropiedad: json['id_tipo_propiedad'],
       idPropietario: json['id_propietario'],
-      idUsuario: json['id_usuario'],
+      idUsuario: json['usuario'],
     );
   }
 
@@ -109,7 +113,7 @@ class Propiedad {
       'observaciones': observaciones,
       'id_tipo_propiedad': idTipoPropiedad,
       'id_propietario': idPropietario,
-      'id_usuario': idUsuario,
+      'usuario': idUsuario,
     };
   }
 }
