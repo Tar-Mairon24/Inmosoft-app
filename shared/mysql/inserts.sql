@@ -147,3 +147,11 @@ INSERT INTO `inmosoftDB`.`Citas`
 (`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
 VALUES 
 (4, 'Segunda visita de inspeccion', '2024-11-15', 1600, 'Inspeccion para verificar reparaciones y estado final.', 'Admin', 4);
+
+INSERT INTO `inmosoftDB`.`Imagenes` (`id_imagen`, `ruta_imagen`, `descripcion_imagen`, `principal`, `id_propiedad`) 
+VALUES 
+(1, '/imagenes/propiedad1/frontal.jpg', 'Fachada principal de la propiedad.', 1, 1),
+(2, '/imagenes/propiedad1/sala.jpg', 'Vista de la sala de estar.', 0, 1),
+(3, '/imagenes/propiedad2/cocina.jpg', 'Cocina con diseño moderno.', 1, 2),
+(4, '/imagenes/propiedad2/jardin.jpg', 'Vista del jardín trasero.', 0, 2),
+(5, '/imagenes/propiedad3/dormitorio.jpg', 'Dormitorio principal con baño en suite.', 1, 3);

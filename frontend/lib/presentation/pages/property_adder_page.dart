@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/estado_propiedad_modelo.dart';
+import 'package:frontend/domain/models/imagen_modelo.dart';
 import 'package:frontend/domain/models/propiedad_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/auth_provider.dart';
+import 'package:frontend/presentation/providers/images_notifier.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
-import 'package:frontend/presentation/widgets/add_photo_widget.dart';
+import 'package:frontend/presentation/widgets/add_property_photo_widget.dart';
+import 'package:frontend/presentation/widgets/property_image_widget.dart';
+import 'package:frontend/presentation/widgets/property_images_row.dart';
+import 'package:frontend/services/imagen_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +21,16 @@ class PropertyAdderPage extends StatefulWidget {
 }
 
 class _PropertyAdderPageState extends State<PropertyAdderPage> {
+  List<String> rutasImagenes =
+      []; // Store image paths as strings (or objects if needed)
+
+  // Callback function to handle the new photo paths
+  void _updatePhotos(List<String> updatedPhotos) {
+    setState(() {
+      rutasImagenes = updatedPhotos;
+    });
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController titleController = TextEditingController();
@@ -59,11 +74,9 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final PropiedadService propiedadService = PropiedadService();
+    final ImagenService imagenService = ImagenService();
 
     double separation = MediaQuery.of(context).size.height * 0.02;
-    List<Widget> photos = [
-      AddPhotoWidget(),
-    ];
 
     return Scaffold(
       appBar: AppBar(),
@@ -75,15 +88,8 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
           children: [
             Expanded(
               flex: 1,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, i) {
-                  return photos[i];
-                },
-                separatorBuilder: (context, i) => SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.02,
-                ),
-                itemCount: photos.length,
+              child: PropertyImagesRow(
+                onPhotosUpdated: _updatePhotos,
               ),
             ),
             SizedBox(
@@ -424,6 +430,21 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                       await propiedadService.insertPropiedad(
                                           propiedad, estadoPropiedad);
                                       Provider.of<PropertiesNotifier>(
+                                              navigatorKey.currentContext!,
+                                              listen: false)
+                                          .shouldRefresh();
+                                      for (String ruta in rutasImagenes) {
+                                        Imagen imagen = Imagen(
+                                          idImagen: 0,
+                                          rutaImagen: ruta,
+                                          descripcion: "desc",
+                                          principal: false,
+                                          idPropiedad: 0,
+                                        );
+                                        await imagenService
+                                            .insertImagen(imagen);
+                                      }
+                                      Provider.of<ImagesNotifier>(
                                               navigatorKey.currentContext!,
                                               listen: false)
                                           .shouldRefresh();

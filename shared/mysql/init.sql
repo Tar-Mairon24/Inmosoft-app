@@ -107,7 +107,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Imagenes` (
   `id_imagen` INT NOT NULL,
-  `ruta_imagen` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `ruta_imagen` VARCHAR(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `descripcion_imagen` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `principal` TINYINT NULL,
   `id_propiedad` INT NOT NULL,

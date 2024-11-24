@@ -21,6 +21,7 @@ func main() {
 	TipoPropiedadService := services.NewTipoPropiedadService(database.DB)
 	citasService := services.NewCitasService(database.DB)
 	prospectoService := services.NewProspectoService(database.DB)
+	imagenesService := services.NewImagenesService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
@@ -30,6 +31,7 @@ func main() {
 	tipoPropiedadController := controllers.NewTipoPropiedadController(TipoPropiedadService)
 	citasController := controllers.NewCitasController(citasService)
 	prospectoController := controllers.NewProspectoController(prospectoService)
+	imagenesController := controllers.NewImagenesController(imagenesService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -79,6 +81,8 @@ func main() {
 	router.GET("/cita/:id", citasController.GetCita)
 	router.GET("/all/citas/:id/:day", citasController.GetAllCitasDay)
 
+	router.GET("/all/imagenes/propiedad/:id", imagenesController.GetImagenesByPropiedad)
+
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
 	router.POST("/create/estadopropiedad", estadoPropiedadController.CreateEstadoPropiedad)
@@ -86,6 +90,8 @@ func main() {
 	router.POST("/create/tipoPropiedad", tipoPropiedadController.CreateTipoPropiedad)
 	router.POST("/create/cita", citasController.InsertCita)
 	router.POST("/create/prospecto", prospectoController.InsertProspecto)
+
+	router.POST("/create/imagen", imagenesController.InsertImagen)
 
 	// ruta para actualizar una propiedad
 	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)
@@ -97,6 +103,7 @@ func main() {
 	router.DELETE("/eliminar/propiedad/:id", propiedadController.DeletePropiedad)
 	router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
 	router.DELETE("/eliminar/cita/:id", citasController.DeleteCita)
+	router.DELETE("/eliminar/imagen/:id", imagenesController.DeleteImagen)
 
 	// Start the server
 	router.Run(":8080")
