@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/models/imagen_modelo.dart';
 import 'package:frontend/domain/models/propiedad_modelo.dart';
+import 'package:frontend/services/imagen_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 
 class DetailedPropertyPage extends StatelessWidget {
@@ -11,6 +16,7 @@ class DetailedPropertyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PropiedadService propiedadService = PropiedadService();
+    final ImagenService imagenService = ImagenService();
     return Scaffold(
       appBar: AppBar(),
       body: FutureBuilder(
@@ -38,10 +44,48 @@ class DetailedPropertyPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          flex: 3,
-                          child:
-                              Container(color: Colors.grey[400], child: image),
-                        ),
+                            flex: 3,
+                            child:
+                                // Container(color: Colors.grey[400], child: image),
+                                FutureBuilder(
+                                    future: imagenService
+                                        .getImagenesByPropiedad(propertyID),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Center(
+                                          child: Text(
+                                              "Error: ${snapshot.error.toString()}"),
+                                        );
+                                      }
+                                      if (!snapshot.hasData) {
+                                        return const Center(
+                                            child: CircularProgressIndicator());
+                                      }
+
+                                      List<Imagen>? images =
+                                          snapshot.data!.data;
+                                      return CarouselSlider(
+                                        items: images!.map((image) {
+                                          return Builder(
+                                            builder: (BuildContext context) {
+                                              return ClipRRect(
+                                                child: Image.file(
+                                                  File(image.rutaImagen),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }).toList(),
+                                        options: CarouselOptions(
+                                          autoPlay: true,
+                                          enlargeCenterPage: true,
+                                          enableInfiniteScroll: true,
+                                          autoPlayInterval:
+                                              Duration(seconds: 5),
+                                        ),
+                                      );
+                                    })),
                         Expanded(
                           flex: 1,
                           child: Padding(
