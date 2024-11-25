@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"backend/internal/services"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -55,6 +56,7 @@ func (ctrl *UserController) Login(c *gin.Context) {
 		return
 	}
 
+	log.Print("Login data:", loginData)
 	user, err := ctrl.UserService.Login(loginData.Email, loginData.Password)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})

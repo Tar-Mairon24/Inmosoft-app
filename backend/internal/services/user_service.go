@@ -36,8 +36,10 @@ func (service *UserService) GetUserByID(id int) (*models.User, error) {
 // Function to retrieve a user by email and password
 func (service *UserService) Login(email, password string) (*models.User, error) {
 	user := &models.User{}
-	query := "select * from Usuarios where usuario = ? and password_usuario = ?;"
+	query := "select usuario, password_usuario from Usuarios where usuario = ? and password_usuario = ?;"
 	err := service.DB.QueryRow(query, email, password).Scan(&user.Email, &user.Password)
+	log.Println("User:", user.Email + " " + user.Password)
+	log.Println("Error:", err)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return user, errors.New("invalid credentials")
