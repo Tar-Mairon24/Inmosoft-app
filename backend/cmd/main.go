@@ -22,6 +22,7 @@ func main() {
 	citasService := services.NewCitasService(database.DB)
 	prospectoService := services.NewProspectoService(database.DB)
 	imagenesService := services.NewImagenesService(database.DB)
+	contratoService := services.NewContratosService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
@@ -32,6 +33,7 @@ func main() {
 	citasController := controllers.NewCitasController(citasService)
 	prospectoController := controllers.NewProspectoController(prospectoService)
 	imagenesController := controllers.NewImagenesController(imagenesService)
+	contratosController := controllers.NewContratosController(contratoService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -104,6 +106,12 @@ func main() {
 	router.DELETE("/eliminar/estadoPropiedad/:id", estadoPropiedadController.DeleteEstadoPropiedad)
 	router.DELETE("/eliminar/cita/:id", citasController.DeleteCita)
 	router.DELETE("/eliminar/imagen/:id", imagenesController.DeleteImagen)
+
+	router.GET("/contratos/:id", contratosController.GetContrato)
+	router.GET("/contratos/propiedad/:id_propiedad", contratosController.GetContratosByPropiedad)
+	router.POST("/contratos", contratosController.CreateContrato)
+	router.PUT("/contratos/:id", contratosController.UpdateContrato)
+	router.DELETE("/contratos/:id", contratosController.DeleteContrato)
 
 	// Start the server
 	router.Run(":8080")
