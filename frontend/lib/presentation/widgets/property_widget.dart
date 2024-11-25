@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/models/imagen_modelo.dart';
 import 'package:frontend/domain/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/detailed_property_page.dart';
 import 'package:frontend/presentation/pages/property_modifier_page.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/services/estado_propiedad_service.dart';
+import 'package:frontend/services/imagen_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +27,7 @@ class PropertyWidget extends StatelessWidget {
     final PropiedadService propiedadService = PropiedadService();
     final EstadoPropiedadService estadoPropiedadService =
         EstadoPropiedadService();
+    final ImagenService imagenService = ImagenService();
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailedPropertyPage(
@@ -38,7 +43,23 @@ class PropertyWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: image),
+              Expanded(
+                  child: FutureBuilder(
+                      future: imagenService
+                          .getImagenPrincipal(property.idPropiedad),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                              child:
+                                  Text("error: ${snapshot.error.toString()}"));
+                        }
+                        if (!snapshot.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        Imagen? image = snapshot.data!.data;
+                        return Image.file(File(image!.rutaImagen));
+                      })),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(

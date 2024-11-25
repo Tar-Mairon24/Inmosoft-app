@@ -35,6 +35,22 @@ func (service *ImagenesService) GetImagen(id int) (*models.Imagen, error) {
 	return &imagen, nil
 }
 
+func (service *ImagenesService) GetImagenPrincipal(id int) (*models.Imagen, error) {
+	var imagen models.Imagen
+	query := "SELECT id_imagen, ruta_imagen, descripcion_imagen, principal, id_propiedad FROM Imagenes WHERE id_propiedad = ? AND principal = 1"
+	row := service.DB.QueryRow(query, id)
+	err := row.Scan(&imagen.IDImagen, &imagen.RutaImagen, &imagen.Descripcion, &imagen.Principal, &imagen.IDPropiedad)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Println("No se encontró la imagen")
+			return nil, nil
+		}
+		log.Println("Error recuperando la imagen:", err)
+		return nil, err
+	}
+	return &imagen, nil
+}
+
 // Recupera todas las imágenes de una propiedad
 func (service *ImagenesService) GetImagenesByPropiedad(idPropiedad int) ([]*models.Imagen, error) {
 	var imagenes []*models.Imagen

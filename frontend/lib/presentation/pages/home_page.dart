@@ -98,33 +98,6 @@ class _HomePageState extends State<HomePage> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.02,
                                 ),
-                                Icon(Icons.location_on_outlined),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                ),
-                                Text(
-                                  "Locación",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyMedium,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                ),
-                                Switch(
-                                  value: false,
-                                  onChanged: null,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02,
-                                ),
                                 Icon(Icons.bed_outlined),
                                 SizedBox(
                                   width:
@@ -147,6 +120,33 @@ class _HomePageState extends State<HomePage> {
                                       filterByBedrooms = value;
                                     });
                                   },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                                Icon(Icons.location_on_outlined),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                ),
+                                Text(
+                                  "Locación",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyMedium,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                ),
+                                Switch(
+                                  value: false,
+                                  onChanged: null,
                                 ),
                               ],
                             ),

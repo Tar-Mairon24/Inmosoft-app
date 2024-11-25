@@ -45,6 +45,28 @@ func (ctrl *ImagenesController) GetImagen(c *gin.Context) {
 	c.JSON(http.StatusOK, imagen)
 }
 
+func (ctrl *ImagenesController) GetImagenPrincipal(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID de imagen inválido"})
+		return
+	}
+
+	imagen, err := ctrl.ImagenesService.GetImagenPrincipal(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al obtener la imagen"})
+		return
+	}
+
+	if imagen == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Imagen no encontrada"})
+		return
+	}
+
+	c.JSON(http.StatusOK, imagen)
+}
+
 // GET /imagenes/propiedad/:id
 func (ctrl *ImagenesController) GetImagenesByPropiedad(c *gin.Context) {
 	idParam := c.Param("id")

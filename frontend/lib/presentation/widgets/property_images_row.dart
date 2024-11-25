@@ -46,35 +46,6 @@ class _PropertyImagesRowState extends State<PropertyImagesRow> {
   }
 
   // Widget para el botón de "Agregar fotografía"
-  Widget _buildAddPhotoWidget() {
-    return GestureDetector(
-      onTap: _pickImage, // Llama a la función para seleccionar la imagen
-      child: Container(
-        decoration: BoxDecoration(border: Border.all()),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.01),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.add,
-                  color: Theme.of(context).iconTheme.color,
-                  size: MediaQuery.of(context).size.height * 0.1,
-                ),
-                Text(
-                  "Agregar fotografía",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).primaryTextTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

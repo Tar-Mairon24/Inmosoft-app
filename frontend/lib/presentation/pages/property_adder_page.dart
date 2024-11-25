@@ -433,17 +433,25 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                               navigatorKey.currentContext!,
                                               listen: false)
                                           .shouldRefresh();
+                                      bool isFirst = true;
+
                                       for (String ruta in rutasImagenes) {
                                         Imagen imagen = Imagen(
                                           idImagen: 0,
                                           rutaImagen: ruta,
                                           descripcion: "desc",
-                                          principal: false,
+                                          principal:
+                                              isFirst, // True para el primer elemento
                                           idPropiedad: 0,
                                         );
+
                                         await imagenService
                                             .insertImagen(imagen);
+
+                                        isFirst =
+                                            false; // Después del primer elemento, todos serán false
                                       }
+
                                       Provider.of<ImagesNotifier>(
                                               navigatorKey.currentContext!,
                                               listen: false)

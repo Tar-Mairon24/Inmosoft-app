@@ -84,6 +84,7 @@ func main() {
 	router.GET("/all/citas/:id/:day", citasController.GetAllCitasDay)
 
 	router.GET("/all/imagenes/propiedad/:id", imagenesController.GetImagenesByPropiedad)
+	router.GET("/all/imagenes/principal/:id", imagenesController.GetImagenPrincipal)
 
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)

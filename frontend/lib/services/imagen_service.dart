@@ -37,6 +37,29 @@ class ImagenService {
     }
   }
 
+  Future<Result<Imagen>> getImagenPrincipal(int idPropiedad) async {
+    String? errorMessage;
+    try {
+      final response = await _dio
+          .get('http://localhost:8080/all/imagenes/principal/$idPropiedad');
+      if (response.statusCode == 200) {
+        log.i('Imagen fetched successfully');
+        return Result(
+          success: true,
+          data: Imagen.fromJson(response.data),
+        );
+      } else {
+        errorMessage = 'Failed to fetch imagen: ${response.statusCode}';
+        log.w(errorMessage);
+        return Result(success: false, errorMessage: errorMessage);
+      }
+    } catch (e) {
+      errorMessage = 'Error fetching imagen: $e';
+      log.e(errorMessage);
+      return Result(success: false, errorMessage: errorMessage);
+    }
+  }
+
   Future<Result<List<Imagen>>> getImagenesByPropiedad(int idPropiedad) async {
     String? errorMessage;
     try {

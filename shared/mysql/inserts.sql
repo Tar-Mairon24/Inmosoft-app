@@ -150,8 +150,27 @@ VALUES
 
 INSERT INTO `inmosoftDB`.`Imagenes` (`id_imagen`, `ruta_imagen`, `descripcion_imagen`, `principal`, `id_propiedad`) 
 VALUES 
-(1, '/imagenes/propiedad1/frontal.jpg', 'Fachada principal de la propiedad.', 1, 1),
-(2, '/imagenes/propiedad1/sala.jpg', 'Vista de la sala de estar.', 0, 1),
-(3, '/imagenes/propiedad2/cocina.jpg', 'Cocina con diseño moderno.', 1, 2),
-(4, '/imagenes/propiedad2/jardin.jpg', 'Vista del jardín trasero.', 0, 2),
-(5, '/imagenes/propiedad3/dormitorio.jpg', 'Dormitorio principal con baño en suite.', 1, 3);
+(1, 'C:\\Users\\josel\\Desktop\\Imagenes\\images1.jpeg', 'Fachada principal de la propiedad.', 1, 1),
+(2, 'C:\\Users\\josel\\Desktop\\Imagenes\\images2.jpg', 'Fachada principal de la propiedad.', 0, 1),
+(3, 'C:\\Users\\josel\\Desktop\\Imagenes\\images3.jpeg', 'Fachada principal de la propiedad.', 0, 1),
+(4, 'C:\\Users\\josel\\Desktop\\Imagenes\\images4.jpg', 'Fachada principal de la propiedad.', 0, 1),
+(5, 'C:\\Users\\josel\\Desktop\\Imagenes\\images5.jpeg', 'Fachada principal de la propiedad.', 1, 2),
+(6, 'C:\\Users\\josel\\Desktop\\Imagenes\\images6.jpg', 'Fachada principal de la propiedad.', 0, 2),
+(7, 'C:\\Users\\josel\\Desktop\\Imagenes\\images7.jpg', 'Fachada principal de la propiedad.', 0, 2),
+(8, 'C:\\Users\\josel\\Desktop\\Imagenes\\images8.jpg', 'Fachada principal de la propiedad.', 0, 2),
+(9, 'C:\\Users\\josel\\Desktop\\Imagenes\\images9.jpg', 'Fachada principal de la propiedad.', 1, 3),
+(10, 'C:\\Users\\josel\\Desktop\\Imagenes\\images10.jpg', 'Fachada principal de la propiedad.', 0, 3),
+(11, 'C:\\Users\\josel\\Desktop\\Imagenes\\images11.jpg', 'Fachada principal de la propiedad.', 0, 3),
+(12, 'C:\\Users\\josel\\Desktop\\Imagenes\\images12.jpg', 'Fachada principal de la propiedad.', 0, 3),
+(13, 'C:\\Users\\josel\\Desktop\\Imagenes\\images13.jpg', 'Fachada principal de la propiedad.', 1, 4),
+(14, 'C:\\Users\\josel\\Desktop\\Imagenes\\images14.jpg', 'Fachada principal de la propiedad.', 0, 4),
+(15, 'C:\\Users\\josel\\Desktop\\Imagenes\\images15.jpg', 'Fachada principal de la propiedad.', 0, 4),
+(16, 'C:\\Users\\josel\\Desktop\\Imagenes\\images16.jpg', 'Fachada principal de la propiedad.', 0, 4),
+(17, 'C:\\Users\\josel\\Desktop\\Imagenes\\images17.jpg', 'Fachada principal de la propiedad.', 1, 5),
+(18, 'C:\\Users\\josel\\Desktop\\Imagenes\\images18.jpg', 'Fachada principal de la propiedad.', 0, 5),
+(19, 'C:\\Users\\josel\\Desktop\\Imagenes\\images19.jpg', 'Fachada principal de la propiedad.', 0, 5),
+(20, 'C:\\Users\\josel\\Desktop\\Imagenes\\images20.jpg', 'Fachada principal de la propiedad.', 0, 5),
+(21, 'C:\\Users\\josel\\Desktop\\Imagenes\\images21.jpg', 'Fachada principal de la propiedad.', 1, 6),
+(22, 'C:\\Users\\josel\\Desktop\\Imagenes\\images22.jpg', 'Fachada principal de la propiedad.', 0, 6),
+(23, 'C:\\Users\\josel\\Desktop\\Imagenes\\images23.jpg', 'Fachada principal de la propiedad.', 0, 6),
+(24, 'C:\\Users\\josel\\Desktop\\Imagenes\\images24.jpg', 'Fachada principal de la propiedad.', 0, 6);

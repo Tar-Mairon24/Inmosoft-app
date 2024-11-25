@@ -82,7 +82,7 @@ class DetailedPropertyPage extends StatelessWidget {
                                           enlargeCenterPage: true,
                                           enableInfiniteScroll: true,
                                           autoPlayInterval:
-                                              Duration(seconds: 5),
+                                              Duration(seconds: 3),
                                         ),
                                       );
                                     })),
