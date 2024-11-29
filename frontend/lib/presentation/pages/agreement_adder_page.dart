@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/models/contrato_modelo.dart';
+import 'package:frontend/domain/models/propiedad_menu_modelo.dart';
+import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:frontend/presentation/widgets/add_pdf_agreement_widget.dart';
+import 'package:frontend/services/contrato_service.dart';
+import 'package:frontend/services/propiedad_service.dart';
+import 'package:provider/provider.dart';
 
 class AgreementAdderPage extends StatefulWidget {
   const AgreementAdderPage({super.key});
@@ -22,6 +29,9 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
     List<Widget> agreements = [
       AddAgreementWidget(),
     ];
+    PropiedadService propiedadService = PropiedadService();
+    int idPropiedad = 0;
+    String tipoContrato = '';
 
     return Scaffold(
       appBar: AppBar(),
@@ -48,59 +58,111 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
               height: MediaQuery.of(context).size.height * 0.08,
             ),
             Expanded(
-              flex: 2,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          customTextFormFieldWidget(titleController, 'Título'),
-                          SizedBox(
-                            height: separation,
-                          ),
-                          TextFormField(
-                            controller: descriptionController,
-                            decoration: InputDecoration(
-                              labelText: 'Descripción',
-                              border: OutlineInputBorder(),
+                flex: 2,
+                child: FutureBuilder(
+                    future: propiedadService.getAllPropiedades(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                            child: Text("error: ${snapshot.error.toString()}"));
+                      }
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      List<PropiedadMenu>? propiedades = snapshot.data!.data;
+                      return Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  customTextFormFieldWidget(
+                                      titleController, 'Título'),
+                                  SizedBox(
+                                    height: separation,
+                                  ),
+                                  TextFormField(
+                                    controller: descriptionController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Descripción',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    maxLines: 3,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Este campo es obligatorio';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: separation,
+                                  ),
+                                  DropdownMenu(
+                                    width: double.infinity,
+                                    label: const Text("Tipo de contrato"),
+                                    dropdownMenuEntries: [
+                                      DropdownMenuEntry(
+                                          value: 'Compraventa',
+                                          label: "Compraventa"),
+                                      DropdownMenuEntry(
+                                          value: 'Arrendamiento',
+                                          label: "Arrendamiento"),
+                                    ],
+                                    onSelected: (value) {
+                                      tipoContrato = value!;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: separation,
+                                  ),
+                                  DropdownMenu(
+                                    width: double.infinity,
+                                    label: const Text("Propiedad asociada"),
+                                    dropdownMenuEntries:
+                                        propiedades!.map((propiedad) {
+                                      return DropdownMenuEntry(
+                                          value: propiedad.idPropiedad,
+                                          label: propiedad.titulo);
+                                    }).toList(),
+                                    onSelected: (value) {
+                                      idPropiedad = value!;
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
-                            maxLines: 3,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Este campo es obligatorio';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: separation,
-                          ),
-                          customTextFormFieldWidget(
-                              typeController, 'Tipo de contrato'),
-                          SizedBox(
-                            height: separation,
-                          ),
-                          customTextFormFieldWidget(
-                              propertyController, 'Propiedad correspondiente')
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height * 0.02),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: FilledButton(
-                              onPressed: () {},
-                              child: Text('Agregar contrato')),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
+                      );
+                    })),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.02),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: FilledButton(
+                      onPressed: () async {
+                        Contrato contrato = Contrato(
+                            idContrato: 0,
+                            tituloContrato: titleController.text,
+                            descripcionContrato: descriptionController.text,
+                            tipo: tipoContrato,
+                            idPropiedad: idPropiedad);
+
+                        ContratoService contratoService = ContratoService();
+                        await contratoService.createContrato(contrato);
+
+                        Provider.of<AgreementsNotifier>(
+                                navigatorKey.currentContext!,
+                                listen: false)
+                            .shouldRefresh();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Agregar contrato')),
                 ),
               ),
             ),
