@@ -21,9 +21,9 @@ func NewContratosService(db *sql.DB) *ContratosService {
 // Recupera un contrato por su ID
 func (service *ContratosService) GetContrato(id int) (*models.Contrato, error) {
 	var contrato models.Contrato
-	query := "SELECT id_contrato, descripcion_contrato, tipo, ruta_pdf, id_propiedad FROM Contratos WHERE id_contrato = ?"
+	query := "SELECT id_contrato, titulo_contrato, descripcion_contrato, tipo, ruta_pdf, id_propiedad FROM Contratos WHERE id_contrato = ?"
 	row := service.DB.QueryRow(query, id)
-	err := row.Scan(&contrato.IDContrato, &contrato.DescripcionContrato, &contrato.Tipo, &contrato.RutaPDF, &contrato.IDPropiedad)
+	err := row.Scan(&contrato.IDContrato, &contrato.TituloContrato, &contrato.DescripcionContrato, &contrato.Tipo, &contrato.RutaPDF, &contrato.IDPropiedad)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Println("No se encontró el contrato")
@@ -35,10 +35,37 @@ func (service *ContratosService) GetContrato(id int) (*models.Contrato, error) {
 	return &contrato, nil
 }
 
+func (service *ContratosService) GetContratos() ([]*models.ContratoMenu, error) {
+	var contratos []*models.ContratoMenu
+	query := "SELECT id_contrato, titulo_contrato, tipo, titulo FROM Contratos, Propiedades WHERE Contratos.id_propiedad = Propiedades.id_propiedad"
+	rows, err := service.DB.Query(query)
+	if err != nil {
+		log.Println("Error recuperando contratos:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var contrato models.ContratoMenu
+		err := rows.Scan(&contrato.IDContrato, &contrato.TituloContrato, &contrato.Tipo, &contrato.TituloPropiedad)
+		if err != nil {
+			log.Println("Error procesando fila de contrato:", err)
+			return nil, err
+		}
+		contratos = append(contratos, &contrato)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Println("Error iterando filas:", err)
+		return nil, err
+	}
+	return contratos, nil
+}
+
 // Recupera todos los contratos asociados a una propiedad
 func (service *ContratosService) GetContratosByPropiedad(idPropiedad int) ([]*models.Contrato, error) {
 	var contratos []*models.Contrato
-	query := "SELECT id_contrato, descripcion_contrato, tipo, ruta_pdf, id_propiedad FROM Contratos WHERE id_propiedad = ?"
+	query := "SELECT id_contrato, titulo_contrato, descripcion_contrato, tipo, ruta_pdf, id_propiedad FROM Contratos WHERE id_propiedad = ?"
 	rows, err := service.DB.Query(query, idPropiedad)
 	if err != nil {
 		log.Println("Error recuperando contratos:", err)
@@ -48,7 +75,7 @@ func (service *ContratosService) GetContratosByPropiedad(idPropiedad int) ([]*mo
 
 	for rows.Next() {
 		var contrato models.Contrato
-		err := rows.Scan(&contrato.IDContrato, &contrato.DescripcionContrato, &contrato.Tipo, &contrato.RutaPDF, &contrato.IDPropiedad)
+		err := rows.Scan(&contrato.IDContrato, &contrato.TituloContrato, &contrato.DescripcionContrato, &contrato.Tipo, &contrato.RutaPDF, &contrato.IDPropiedad)
 		if err != nil {
 			log.Println("Error procesando fila de contrato:", err)
 			return nil, err
@@ -80,8 +107,8 @@ func (service *ContratosService) InsertContrato(contrato *models.Contrato) (int,
 	}
 	contrato.IDPropiedad = lastIdPropiedad
 
-	query := "INSERT INTO Contratos(id_contrato, descripcion_contrato, tipo, ruta_pdf, id_propiedad) VALUES(?,?,?,?,?)"
-	result, err := service.DB.Exec(query, contrato.IDContrato, contrato.DescripcionContrato, contrato.Tipo, contrato.RutaPDF, contrato.IDPropiedad)
+	query := "INSERT INTO Contratos(id_contrato, titulo_contrato, descripcion_contrato, tipo, ruta_pdf, id_propiedad) VALUES(?,?,?,?,?,?)"
+	result, err := service.DB.Exec(query, contrato.IDContrato, contrato.TituloContrato, contrato.DescripcionContrato, contrato.Tipo, contrato.RutaPDF, contrato.IDPropiedad)
 	if err != nil {
 		log.Println("Error insertando contrato:", err)
 		return 0, err
@@ -100,8 +127,8 @@ func (service *ContratosService) InsertContrato(contrato *models.Contrato) (int,
 
 // Actualiza un contrato existente por su ID
 func (service *ContratosService) UpdateContrato(contrato *models.Contrato, id int) error {
-	query := "UPDATE Contratos SET descripcion_contrato = ?, tipo = ?, ruta_pdf = ?, id_propiedad = ? WHERE id_contrato = ?"
-	result, err := service.DB.Exec(query, contrato.DescripcionContrato, contrato.Tipo, contrato.RutaPDF, contrato.IDPropiedad, id)
+	query := "UPDATE Contratos SET titulo_contrato = ?, descripcion_contrato = ?, tipo = ?, ruta_pdf = ?, id_propiedad = ? WHERE id_contrato = ?"
+	result, err := service.DB.Exec(query, contrato.TituloContrato, contrato.DescripcionContrato, contrato.Tipo, contrato.RutaPDF, contrato.IDPropiedad, id)
 	if err != nil {
 		log.Println("Error actualizando contrato:", err)
 		return err

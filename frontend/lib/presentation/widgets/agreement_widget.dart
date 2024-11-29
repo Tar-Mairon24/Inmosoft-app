@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/models/contrato_modelo.dart';
 
 class AgreementWidget extends StatelessWidget {
-  const AgreementWidget(
-      {super.key,
-      required this.type,
-      required this.title,
-      required this.property,
-      required this.client});
-  final String type;
-  final String title;
-  final String property;
-  final String client;
+  const AgreementWidget({super.key, required this.contrato});
+  final ContratoMenu contrato;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +23,11 @@ class AgreementWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              type,
+              contrato.tipo!,
               style: Theme.of(context).primaryTextTheme.bodySmall,
             ),
             Text(
-              title,
+              contrato.tituloContrato,
               style: Theme.of(context).primaryTextTheme.titleMedium,
             ),
           ],
@@ -42,8 +35,7 @@ class AgreementWidget extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(property),
-            Text(client),
+            Text(contrato.tituloPropiedad),
           ],
         ),
         trailing: PopupMenuButton<String>(

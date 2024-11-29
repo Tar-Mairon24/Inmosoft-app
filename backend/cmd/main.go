@@ -109,6 +109,7 @@ func main() {
 	router.DELETE("/eliminar/imagen/:id", imagenesController.DeleteImagen)
 
 	router.GET("/contratos/:id", contratosController.GetContrato)
+	router.GET("all/contratos", contratosController.GetContratos)
 	router.GET("/contratos/propiedad/:id_propiedad", contratosController.GetContratosByPropiedad)
 	router.POST("/contratos", contratosController.CreateContrato)
 	router.PUT("/contratos/:id", contratosController.UpdateContrato)

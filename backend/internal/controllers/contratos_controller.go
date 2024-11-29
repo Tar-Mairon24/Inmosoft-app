@@ -3,10 +3,11 @@ package controllers
 import (
 	"backend/internal/models"
 	"backend/internal/services"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ContratosController struct {
@@ -40,6 +41,21 @@ func (controller *ContratosController) GetContrato(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, contrato)
+}
+
+func (controller *ContratosController) GetContratos(c *gin.Context) {
+	contratos, err := controller.Service.GetContratos()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve contratos"})
+		return
+	}
+
+	if contratos == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No contratos found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, contratos)
 }
 
 // Recupera todos los contratos asociados a una propiedad

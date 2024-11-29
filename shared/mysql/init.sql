@@ -145,6 +145,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Contratos` (
   `id_contrato` INT NOT NULL,
+  `titulo_contrato` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   `descripcion_contrato` VARCHAR(1500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NULL,
   `tipo` VARCHAR(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
   `ruta_pdf` VARCHAR(255)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,

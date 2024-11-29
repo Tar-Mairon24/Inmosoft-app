@@ -174,3 +174,14 @@ VALUES
 (22, 'C:\\Users\\josel\\Desktop\\Imagenes\\images22.jpg', 'Fachada principal de la propiedad.', 0, 6),
 (23, 'C:\\Users\\josel\\Desktop\\Imagenes\\images23.jpg', 'Fachada principal de la propiedad.', 0, 6),
 (24, 'C:\\Users\\josel\\Desktop\\Imagenes\\images24.jpg', 'Fachada principal de la propiedad.', 0, 6);
+
+INSERT INTO `inmosoftDB`.`Contratos` 
+(`id_contrato`, `titulo_contrato`, `descripcion_contrato`, `tipo`, `ruta_pdf`, `id_propiedad`) 
+VALUES
+(1, 'Contrato de Arrendamiento', 'Contrato para el arrendamiento de la propiedad.', 'Arrendamiento', '/pdfs/contrato_arrendamiento1.pdf', 1),
+(2, 'Contrato de Compra-Venta', 'Contrato para la compra-venta de la propiedad.', 'Compra-Venta', '/pdfs/contrato_compra_venta1.pdf', 2),
+(3, 'Contrato de Mantenimiento', 'Contrato para el mantenimiento de la propiedad.', 'Mantenimiento', '/pdfs/contrato_mantenimiento1.pdf', 3),
+(4, 'Contrato de Subarrendamiento', 'Contrato para el subarrendamiento de la propiedad.', 'Subarrendamiento', '/pdfs/contrato_subarrendamiento1.pdf', 4),
+(5, 'Contrato de Arrendamiento', 'Contrato de arrendamiento con cláusulas especiales.', 'Arrendamiento', '/pdfs/contrato_arrendamiento2.pdf', 5),
+(6, 'Contrato de Compra-Venta', 'Contrato de compra-venta con términos preferenciales.', 'Compra-Venta', '/pdfs/contrato_compra_venta2.pdf', 6);
+

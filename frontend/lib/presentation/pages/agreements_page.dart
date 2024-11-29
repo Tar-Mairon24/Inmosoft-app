@@ -1,133 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/models/contrato_modelo.dart';
 import 'package:frontend/presentation/pages/agreement_adder_page.dart';
+import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:frontend/presentation/widgets/agreement_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
+import 'package:provider/provider.dart';
 
 class AgreementsPage extends StatelessWidget {
   const AgreementsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> agreements = [
-      AgreementWidget(
-          type: 'Arrendamiento',
-          title: 'Arrendamiento de Lupita',
-          property: 'Casa de Ramos',
-          client: 'Guadalupe'),
-      AgreementWidget(
-          type: 'Arrendamiento',
-          title: 'Arrendamiento de Lupita',
-          property: 'Casa de Ramos',
-          client: 'Guadalupe'),
-      AgreementWidget(
-          type: 'Arrendamiento',
-          title: 'Arrendamiento de Lupita',
-          property: 'Casa de Ramos',
-          client: 'Guadalupe'),
-      AgreementWidget(
-          type: 'Arrendamiento',
-          title: 'Arrendamiento de Lupita',
-          property: 'Casa de Ramos',
-          client: 'Guadalupe'),
-      AgreementWidget(
-          type: 'Arrendamiento',
-          title: 'Arrendamiento de Lupita',
-          property: 'Casa de Ramos',
-          client: 'Guadalupe'),
-      AgreementWidget(
-          type: 'Arrendamiento',
-          title: 'Arrendamiento de Lupita',
-          property: 'Casa de Ramos',
-          client: 'Guadalupe'),
-    ];
-    if (agreements.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Contratos',
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Contratos',
+          style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
-        body: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.06,
-            ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.02),
-                    child: FilledButton(
-                      onPressed: () {},
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.04,
-                          vertical: MediaQuery.of(context).size.height * 0.018,
-                        ),
-                        child: Text('Nuevo contrato'),
+      ),
+      body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.06,
+          ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.02),
+                  child: FilledButton(
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => AgreementAdderPage()),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.04,
+                        vertical: MediaQuery.of(context).size.height * 0.018,
                       ),
+                      child: Text('Nuevo contrato'),
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text("No existen contratos aún"),
-                  ),
-                ),
-              ],
-            )),
-        drawer: NavigationDrawerWidget(),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Contratos',
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-          ),
-        ),
-        body: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.06,
-            ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.02),
-                    child: FilledButton(
-                      onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => AgreementAdderPage()),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.04,
-                          vertical: MediaQuery.of(context).size.height * 0.018,
-                        ),
-                        child: Text('Nuevo contrato'),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (context, i) {
-                        return agreements[i];
-                      },
-                      separatorBuilder: (context, i) => SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04,
-                          ),
-                      itemCount: agreements.length),
-                ),
-              ],
-            )),
-        drawer: NavigationDrawerWidget(),
-      );
-    }
+              ),
+              Expanded(child: Consumer<AgreementsNotifier>(
+                  builder: (context, agreementsNotifier, child) {
+                return FutureBuilder(
+                    future: agreementsNotifier.loadData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                            child: Text("error: ${snapshot.error.toString()}"));
+                      }
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      List<ContratoMenu>? contratos = snapshot.data!.data;
+
+                      return ListView.separated(
+                          itemBuilder: (context, i) {
+                            // return contratos[i];
+                            return AgreementWidget(
+                              contrato: contratos[i],
+                            );
+                          },
+                          separatorBuilder: (context, i) => SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.04,
+                              ),
+                          itemCount: contratos!.length);
+                    });
+              })),
+            ],
+          )),
+      drawer: NavigationDrawerWidget(),
+    );
   }
 }
