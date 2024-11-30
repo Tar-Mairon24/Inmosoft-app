@@ -114,7 +114,7 @@ class LoginPage extends StatelessWidget {
                           decoration: InputDecoration(
                             labelStyle:
                                 Theme.of(context).primaryTextTheme.labelMedium,
-                            labelText: 'tu email',
+                            labelText: 'email',
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) {
@@ -132,7 +132,7 @@ class LoginPage extends StatelessWidget {
                           decoration: InputDecoration(
                             labelStyle:
                                 Theme.of(context).primaryTextTheme.labelMedium,
-                            labelText: 'tu contraseña',
+                            labelText: 'contraseña',
                             border: OutlineInputBorder(),
                           ),
                           obscureText: true,
@@ -148,7 +148,7 @@ class LoginPage extends StatelessWidget {
                           height: 48,
                           width: double.infinity,
                           child: FilledButton(
-                            onPressed: () async {
+                            onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 _login(context);
                                 authProvider.login(emailController.text);

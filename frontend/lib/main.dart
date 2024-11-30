@@ -41,6 +41,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'InmoSoft',
         theme: ThemeData(
+          listTileTheme: ListTileThemeData(
+            iconColor: Colors.white, // Color de los íconos en ListTile
+          ),
+          snackBarTheme: SnackBarThemeData(actionTextColor: Colors.indigo),
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0.0,
