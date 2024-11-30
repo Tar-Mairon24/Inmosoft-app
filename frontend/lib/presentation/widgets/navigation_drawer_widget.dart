@@ -72,10 +72,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () {
+                              authProvider.logout();
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (context) => LoginPage()));
-                              authProvider.logout();
                             },
                             child: const Text("SI"),
                           ),

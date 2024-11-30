@@ -4,6 +4,7 @@ import 'package:frontend/domain/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:frontend/presentation/widgets/add_pdf_agreement_widget.dart';
+import 'package:frontend/presentation/widgets/agreement_pdfs_row.dart';
 import 'package:frontend/services/contrato_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,14 @@ class AgreementAdderPage extends StatefulWidget {
 }
 
 class _AgreementAdderPageState extends State<AgreementAdderPage> {
+  List<String> rutasPdfs = [];
+
+  void _updatePdfs(List<String> updatedPdfs) {
+    setState(() {
+      rutasPdfs = updatedPdfs;
+    });
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController titleController = TextEditingController();
@@ -26,9 +35,7 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
   @override
   Widget build(BuildContext context) {
     double separation = MediaQuery.of(context).size.height * 0.02;
-    List<Widget> agreements = [
-      AddAgreementWidget(),
-    ];
+
     PropiedadService propiedadService = PropiedadService();
     int idPropiedad = 0;
     String tipoContrato = '';
@@ -42,23 +49,12 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
         child: Column(
           children: [
             Expanded(
-              flex: 1,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, i) {
-                  return agreements[i];
-                },
-                separatorBuilder: (context, i) => SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.02,
-                ),
-                itemCount: agreements.length,
-              ),
-            ),
+                flex: 1, child: AgreementPdfsRow(onPdfsUpdated: _updatePdfs)),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.08,
             ),
             Expanded(
-                flex: 2,
+                flex: 1,
                 child: FutureBuilder(
                     future: propiedadService.getAllPropiedades(),
                     builder: (context, snapshot) {
@@ -70,12 +66,12 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
                         return const Center(child: CircularProgressIndicator());
                       }
                       List<PropiedadMenu>? propiedades = snapshot.data!.data;
-                      return Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            SingleChildScrollView(
-                              child: Column(
+                      return SingleChildScrollView(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Column(
                                 children: [
                                   customTextFormFieldWidget(
                                       titleController, 'Título'),
@@ -132,8 +128,8 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
                                   )
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     })),
