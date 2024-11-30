@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/contrato_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
+import 'package:frontend/presentation/pages/agreement_modifier_page.dart';
 import 'package:frontend/services/contrato_service.dart';
 import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:provider/provider.dart';
@@ -55,9 +56,14 @@ class AgreementWidget extends StatelessWidget {
             PopupMenuButton<String>(
               itemBuilder: (BuildContext context) => [
                 PopupMenuItem<String>(
-                  onTap: () {
-                    // Navegación para editar contrato.
-                  },
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AgreementModifierPage(
+                        agreementID: contrato.idContrato,
+                        tituloPropiedad: contrato.tituloPropiedad,
+                      ),
+                    ),
+                  ),
                   child: const Text('Editar'),
                 ),
                 PopupMenuItem<String>(

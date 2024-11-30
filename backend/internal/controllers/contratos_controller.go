@@ -115,7 +115,7 @@ func (controller *ContratosController) UpdateContrato(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusNoContent, nil)
+	c.JSON(http.StatusOK, contrato)
 }
 
 // Elimina un contrato por ID

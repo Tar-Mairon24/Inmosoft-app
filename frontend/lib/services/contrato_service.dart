@@ -15,14 +15,15 @@ class ContratoService {
   final Logger log = Logger();
 
   // Obtener un contrato por ID
-  Future<Result> getContrato(int idContrato) async {
+  Future<Result<Contrato>> getContrato(int idContrato) async {
     String? errorMessage;
     try {
       final response =
           await _dio.get('http://localhost:8080/contratos/$idContrato');
       if (response.statusCode == 200) {
         log.i('Contrato fetched successfully');
-        return Result(success: true, data: response.data);
+        final contrato = Contrato.fromJson(response.data);
+        return Result(success: true, data: contrato);
       } else {
         errorMessage = 'Failed to get contrato: ${response.statusCode}';
         log.w(errorMessage);
@@ -124,6 +125,7 @@ class ContratoService {
   Future<Result<void>> updateContrato(Contrato contrato, int idContrato) async {
     String? errorMessage;
     try {
+      log.w(contrato.toJson());
       final response = await _dio.put(
         'http://localhost:8080/contratos/$idContrato',
         data: contrato.toJson(),
