@@ -99,6 +99,7 @@ class ContratoService {
   // Crear un contrato
   Future<Result<void>> createContrato(Contrato contrato) async {
     String? errorMessage;
+    log.w(contrato.toJson());
     try {
       final response = await _dio.post('http://localhost:8080/contratos',
           data: contrato.toJson());

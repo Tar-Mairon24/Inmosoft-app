@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/contrato_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/agreement_modifier_page.dart';
+import 'package:frontend/presentation/pages/detailed_agreement_page.dart';
 import 'package:frontend/services/contrato_service.dart';
 import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +22,10 @@ class AgreementWidget extends StatelessWidget {
     final ContratoService contratoService = ContratoService();
 
     return GestureDetector(
-      onTap: () {
-        // Aquí puedes agregar navegación a una página detallada del contrato.
-      },
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => DetailedAgreementPage(
+                agreementID: contrato.idContrato,
+              ))),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/models/documento_anexo_modelo.dart';
 import 'package:frontend/domain/models/contrato_modelo.dart';
 import 'package:frontend/domain/models/propiedad_menu_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
@@ -6,6 +7,7 @@ import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:frontend/presentation/widgets/add_pdf_agreement_widget.dart';
 import 'package:frontend/presentation/widgets/agreement_pdfs_row.dart';
 import 'package:frontend/services/contrato_service.dart';
+import 'package:frontend/services/documentos_anexos_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
 
@@ -31,14 +33,14 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController typeController = TextEditingController();
   final TextEditingController propertyController = TextEditingController();
+  int idPropiedad = 0;
+  String tipoContrato = '';
 
   @override
   Widget build(BuildContext context) {
     double separation = MediaQuery.of(context).size.height * 0.02;
 
     PropiedadService propiedadService = PropiedadService();
-    int idPropiedad = 0;
-    String tipoContrato = '';
 
     return Scaffold(
       appBar: AppBar(),
@@ -147,10 +149,26 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
                             tituloContrato: titleController.text,
                             descripcionContrato: descriptionController.text,
                             tipo: tipoContrato,
+                            rutaPDF: rutasPdfs[0],
                             idPropiedad: idPropiedad);
 
                         ContratoService contratoService = ContratoService();
                         await contratoService.createContrato(contrato);
+
+                        // DocumentosAnexosService documentosAnexosService =
+                        //     DocumentosAnexosService();
+
+                        // for (String ruta in rutasPdfs) {
+                        //   DocumentoAnexo documentoAnexo = DocumentoAnexo(
+                        //     idDocumentoAnexo: 0,
+                        //     rutaDocumento: ruta,
+                        //     descripcionDocumento: null,
+                        //     idPropiedad: idPropiedad,
+                        //   );
+
+                        //   await documentosAnexosService
+                        //       .insertDocumentoAnexo(documentoAnexo);
+                        // }
 
                         Provider.of<AgreementsNotifier>(
                                 navigatorKey.currentContext!,

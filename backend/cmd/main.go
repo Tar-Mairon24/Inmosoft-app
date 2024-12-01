@@ -23,6 +23,7 @@ func main() {
 	prospectoService := services.NewProspectoService(database.DB)
 	imagenesService := services.NewImagenesService(database.DB)
 	contratoService := services.NewContratosService(database.DB)
+	documentosAnexosService := services.NewDocumentosAnexosService(database.DB)
 
 	// Initialize controllers
 	userController := controllers.NewUserController(userService)
@@ -34,6 +35,7 @@ func main() {
 	prospectoController := controllers.NewProspectoController(prospectoService)
 	imagenesController := controllers.NewImagenesController(imagenesService)
 	contratosController := controllers.NewContratosController(contratoService)
+	documentosAnexosController := controllers.NewDocumentosAnexosController(documentosAnexosService)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -114,6 +116,10 @@ func main() {
 	router.POST("/contratos", contratosController.CreateContrato)
 	router.PUT("/contratos/:id", contratosController.UpdateContrato)
 	router.DELETE("/contratos/:id", contratosController.DeleteContrato)
+
+	router.GET("/all/documentos_anexos/propiedad/:id", documentosAnexosController.GetDocumentosByPropiedad)
+	router.GET("/documento_anexo/:id", documentosAnexosController.GetDocumentoAnexo)
+	router.POST("/create/documento_anexo", documentosAnexosController.InsertDocumentoAnexo)
 
 	// Start the server
 	router.Run(":8080")

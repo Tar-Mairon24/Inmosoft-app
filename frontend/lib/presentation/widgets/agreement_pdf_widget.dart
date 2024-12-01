@@ -29,8 +29,8 @@ class _AgreementPdfWidgetState extends State<AgreementPdfWidget> {
       // Renderizar la primera página como imagen
       final page = await _pdfDocument.getPage(1);
       _pdfPageImage = await page.render(
-        width: 720, // Ajusta el tamaño según tus necesidades
-        height: 1080,
+        width: 612, // Ajusta el tamaño según tus necesidades
+        height: 792,
         format: PdfPageImageFormat.png,
       );
 

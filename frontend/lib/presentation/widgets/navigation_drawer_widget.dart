@@ -19,18 +19,26 @@ class NavigationDrawerWidget extends StatelessWidget {
           Wrap(
             runSpacing: MediaQuery.of(context).size.height * 0.04,
             children: [
-              UserAccountsDrawerHeader(
-                accountName: null,
-                accountEmail: Text(
-                  authProvider.userId!,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.02,
+                    vertical: MediaQuery.of(context).size.height * 0.04),
+                child: Text(
+                  "InmoSoft",
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.white),
                 ),
-                decoration: BoxDecoration(color: Colors.grey[400]),
               ),
               ListTile(
                 leading: Icon(Icons.home_outlined),
                 title: Text(
                   'Inicio',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.white),
                 ),
                 onTap: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const HomePage())),
@@ -41,7 +49,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                 ),
                 title: Text(
                   'Citas',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.white),
                 ),
                 onTap: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -51,7 +62,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                 leading: Icon(Icons.description_outlined),
                 title: Text(
                   'Contratos',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.white),
                 ),
                 onTap: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -61,7 +75,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                   leading: Icon(Icons.logout_outlined),
                   title: Text(
                     'Cerrar sesión',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
                   ),
                   onTap: () {
                     showDialog(
