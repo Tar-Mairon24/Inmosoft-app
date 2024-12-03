@@ -123,33 +123,6 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                Icon(Icons.location_on_outlined),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                ),
-                                Text(
-                                  "Locación",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyMedium,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                ),
-                                Switch(
-                                  value: false,
-                                  onChanged: null,
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ],

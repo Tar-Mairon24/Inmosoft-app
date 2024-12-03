@@ -114,48 +114,48 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                 child: Text("Datos de la propiedad")),
                             Divider(),
                             customTextFormFieldWidget(
-                                titleController, 'título'),
+                                titleController, 'Título'),
                             SizedBox(height: separation),
                             customTextFormFieldWidget(
-                                addressController, 'dirección'),
+                                addressController, 'Dirección'),
                             SizedBox(height: separation),
                             customTextFormFieldWidget(
-                                residenceController, 'colonia'),
+                                residenceController, 'Colonia'),
                             SizedBox(height: separation),
-                            customTextFormFieldWidget(cityController, 'ciudad'),
+                            customTextFormFieldWidget(cityController, 'Ciudad'),
                             SizedBox(height: separation),
                             customTextFormFieldWidget(
-                                referenceController, 'referencia'),
+                                referenceController, 'Referencia'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                priceController, 'precio'),
+                                priceController, 'Precio'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(constrMtsController,
-                                'metros de la construcción'),
+                                'Metros de la construcción'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                lotMtsController, 'metros del terreno'),
+                                lotMtsController, 'Metros del terreno'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                floorsNumController, 'número de plantas'),
+                                floorsNumController, 'Número de plantas'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                bedroomsNumController, 'número de recámaras'),
+                                bedroomsNumController, 'Número de recámaras'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                bathroomsNumController, 'número de baños'),
+                                bathroomsNumController, 'Número de baños'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                garageSizeController, 'tamaño de la cochera'),
+                                garageSizeController, 'Tamaño de la cochera'),
                             SizedBox(height: separation),
                             customNumberFormFieldWidget(
-                                gardenMtsController, 'metros del jardín'),
+                                gardenMtsController, 'Metros del jardín'),
                             SizedBox(height: separation),
                             TextFormField(
                               maxLines: 3,
                               controller: observationsController,
                               decoration: InputDecoration(
-                                labelText: "observaciones",
+                                labelText: "Observaciones",
                                 border: OutlineInputBorder(),
                               ),
                               validator: (value) {
@@ -164,6 +164,40 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                 }
                                 return null;
                               },
+                            ),
+                            SizedBox(
+                              height: separation,
+                            ),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child:
+                                    Text("Datos del estado de la propiedad")),
+                            Divider(),
+                            DropdownMenu(
+                                width: double.infinity,
+                                label: const Text("Tipo de transacción"),
+                                dropdownMenuEntries: [
+                                  DropdownMenuEntry(
+                                      value: "renta", label: 'Renta'),
+                                  DropdownMenuEntry(
+                                      value: "venta", label: 'Venta'),
+                                ]),
+                            SizedBox(
+                              height: separation,
+                            ),
+                            DropdownMenu(
+                                width: double.infinity,
+                                label: const Text("Estado de la propiedad"),
+                                dropdownMenuEntries: [
+                                  DropdownMenuEntry(
+                                      value: "rentada", label: 'Rentada'),
+                                  DropdownMenuEntry(
+                                      value: "vendida", label: 'Vendida'),
+                                  DropdownMenuEntry(
+                                      value: "disponible", label: 'Disponible'),
+                                ]),
+                            SizedBox(
+                              height: separation,
                             ),
                           ],
                         ),
@@ -439,7 +473,7 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                         Imagen imagen = Imagen(
                                           idImagen: 0,
                                           rutaImagen: ruta,
-                                          descripcion: "desc",
+                                          descripcion: null,
                                           principal:
                                               isFirst, // True para el primer elemento
                                           idPropiedad: 0,
