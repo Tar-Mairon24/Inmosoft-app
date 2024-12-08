@@ -11,6 +11,7 @@ import 'package:open_filex/open_filex.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 
 class DetailedPropertyPage extends StatelessWidget {
   const DetailedPropertyPage(
@@ -124,6 +125,8 @@ class DetailedPropertyPage extends StatelessWidget {
 
           Propiedad? property = snapshot.data!.data;
           double separation = MediaQuery.of(context).size.height * 0.02;
+          final NumberFormat currencyFormat = NumberFormat("#,##0", "es_MX");
+          String formattedPrice = currencyFormat.format(property!.precio);
 
           return Padding(
             padding:
@@ -135,8 +138,8 @@ class DetailedPropertyPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          flex: 3,
-                          child: FutureBuilder(
+                            flex: 3,
+                            child: FutureBuilder(
                               future: imagenService
                                   .getImagenesByPropiedad(propertyID),
                               builder: (context, snapshot) {
@@ -146,9 +149,12 @@ class DetailedPropertyPage extends StatelessWidget {
                                         "Error: ${snapshot.error.toString()}"),
                                   );
                                 }
-                                if (!snapshot.hasData) {
+                                if (!snapshot.hasData ||
+                                    snapshot.data == null ||
+                                    snapshot.data!.data == null) {
                                   return const Center(
-                                      child: CircularProgressIndicator());
+                                    child: Text("No hay imágenes disponibles"),
+                                  );
                                 }
 
                                 List<Imagen>? images = snapshot.data!.data;
@@ -172,8 +178,8 @@ class DetailedPropertyPage extends StatelessWidget {
                                     autoPlayInterval: Duration(seconds: 3),
                                   ),
                                 );
-                              }),
-                        ),
+                              },
+                            )),
                         Expanded(
                           flex: 1,
                           child: Padding(
@@ -188,16 +194,6 @@ class DetailedPropertyPage extends StatelessWidget {
                                     onPressed: () =>
                                         generatePDF(property!, context),
                                     child: const Text('Ficha técnica'),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                ),
-                                Expanded(
-                                  child: FilledButton(
-                                    onPressed: () {},
-                                    child: const Text('Generar publicidad'),
                                   ),
                                 ),
                               ],
@@ -234,10 +230,11 @@ class DetailedPropertyPage extends StatelessWidget {
                           Text(
                             "Precio",
                           ),
-                          Text("\$${property.precio}",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .titleMedium),
+                          Text(
+                            "\$$formattedPrice",
+                            style:
+                                Theme.of(context).primaryTextTheme.titleMedium,
+                          ),
                           SizedBox(height: separation),
                           const Divider(),
                           SizedBox(height: separation),

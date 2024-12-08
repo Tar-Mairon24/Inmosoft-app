@@ -122,6 +122,24 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `inmosoftDB`.`ImagenesProspecto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `inmosoftDB`.`ImagenesProspecto` (
+  `id_imagen` INT NOT NULL,
+  `ruta_imagen` VARCHAR(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `descripcion_imagen` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL,
+  `principal` TINYINT NULL,
+  `id_prospecto` INT NOT NULL,
+  PRIMARY KEY (`id_imagen`),
+  INDEX `fk_Imagenes_Prospectos1_idx` (`id_prospecto` ASC) VISIBLE,
+  CONSTRAINT `fk_Imagenes_Prospectos1`
+    FOREIGN KEY (`id_prospecto`)
+    REFERENCES `inmosoftDB`.`Prospecto` (`id_cliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `inmosoftDB`.`Estado_Propiedades`
 -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS `inmosoftDB`.`Estado_Propiedades` (

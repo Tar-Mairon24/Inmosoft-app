@@ -71,6 +71,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => const AgreementsPage())),
               ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.45,
+              ),
               ListTile(
                   leading: Icon(Icons.logout_outlined),
                   title: Text(

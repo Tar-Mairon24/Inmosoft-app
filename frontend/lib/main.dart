@@ -8,6 +8,7 @@ import 'package:frontend/presentation/providers/agreements_notifier.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/providers/images_notifier.dart';
+import 'package:frontend/presentation/providers/images_prospecto_notifier.dart';
 import 'package:frontend/presentation/providers/properties_notifier.dart';
 import 'package:frontend/presentation/widgets/add_property_widget.dart';
 import 'package:frontend/presentation/widgets/agreement_widget.dart';
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<ImagesProspectoNotifier>(
+            create: (context) => ImagesProspectoNotifier()),
         ChangeNotifierProvider<AgreementsNotifier>(
             create: (context) => AgreementsNotifier()),
         ChangeNotifierProvider<ImagesNotifier>(
