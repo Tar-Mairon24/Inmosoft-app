@@ -108,45 +108,45 @@ INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (4, 'renta', 'disponible', 
 INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (5, 'venta', 'disponible', null, 5);
 INSERT INTO `inmosoftDB`.`Estado_Propiedades` values (6, 'renta', 'rentada', null, 6);   
 
-INSERT INTO `inmosoftDB`.`Prospecto` 
-(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
-VALUES 
-(1, 'Juan', 'Gonzalez', 'Perez', '555-1234', 'juan.gonzalez@example.com');
+-- INSERT INTO `inmosoftDB`.`Prospecto` 
+-- (`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+-- VALUES 
+-- (1, 'Juan', 'Gonzalez', 'Perez', '555-1234', 'juan.gonzalez@example.com');
 
-INSERT INTO `inmosoftDB`.`Prospecto` 
-(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
-VALUES 
-(2, 'Maria', 'Martinez', 'Lopez', '555-5678', 'maria.martinez@example.com');
+-- INSERT INTO `inmosoftDB`.`Prospecto` 
+-- (`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+-- VALUES 
+-- (2, 'Maria', 'Martinez', 'Lopez', '555-5678', 'maria.martinez@example.com');
 
-INSERT INTO `inmosoftDB`.`Prospecto` 
-(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
-VALUES 
-(3, 'Carlos', 'Hernandez', 'Garcia', '555-9101', 'carlos.hernandez@example.com');
+-- INSERT INTO `inmosoftDB`.`Prospecto` 
+-- (`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+-- VALUES 
+-- (3, 'Carlos', 'Hernandez', 'Garcia', '555-9101', 'carlos.hernandez@example.com');
 
-INSERT INTO `inmosoftDB`.`Prospecto` 
-(`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
-VALUES 
-(4, 'Ana', 'Ramirez', 'Sanchez', '555-1122', 'ana.ramirez@example.com');
+-- INSERT INTO `inmosoftDB`.`Prospecto` 
+-- (`id_cliente`, `nombre_prospecto`, `apellido_paterno_prospecto`, `apellido_materno_prospecto`, `telefono_prospecto`, `correo_prospecto`) 
+-- VALUES 
+-- (4, 'Ana', 'Ramirez', 'Sanchez', '555-1122', 'ana.ramirez@example.com');
 
-INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
-VALUES 
-(1, 'Primera visita de inspeccion', '2024-11-10', 1000, 'Primera inspeccion para revisar el estado de la propiedad.', 'Admin', 1);
+-- INSERT INTO `inmosoftDB`.`Citas` 
+-- (`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
+-- VALUES 
+-- (1, 'Primera visita de inspeccion', '2024-11-10', 1000, 'Primera inspeccion para revisar el estado de la propiedad.', 'Admin', 1);
 
-INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
-VALUES 
-(2, 'Reunion de negociacion', '2024-11-12', 1500, 'Reunion con el cliente para discutir terminos de negociacion.', 'Admin', 2);
+-- INSERT INTO `inmosoftDB`.`Citas` 
+-- (`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
+-- VALUES 
+-- (2, 'Reunion de negociacion', '2024-11-12', 1500, 'Reunion con el cliente para discutir terminos de negociacion.', 'Admin', 2);
 
-INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
-VALUES 
-(3, 'Firma de contrato', '2024-11-15', 1100, 'Cita para la firma de contrato de arrendamiento.', 'Admin', 3);
+-- INSERT INTO `inmosoftDB`.`Citas` 
+-- (`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
+-- VALUES 
+-- (3, 'Firma de contrato', '2024-11-15', 1100, 'Cita para la firma de contrato de arrendamiento.', 'Admin', 3);
 
-INSERT INTO `inmosoftDB`.`Citas` 
-(`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
-VALUES 
-(4, 'Segunda visita de inspeccion', '2024-11-15', 1600, 'Inspeccion para verificar reparaciones y estado final.', 'Admin', 4);
+-- INSERT INTO `inmosoftDB`.`Citas` 
+-- (`id_citas`, `titulo_cita`, `fecha_cita`, `hora_cita`, `descripcion_cita`, `usuario`, `id_cliente`) 
+-- VALUES 
+-- (4, 'Segunda visita de inspeccion', '2024-11-15', 1600, 'Inspeccion para verificar reparaciones y estado final.', 'Admin', 4);
 
 INSERT INTO `inmosoftDB`.`Imagenes` (`id_imagen`, `ruta_imagen`, `descripcion_imagen`, `principal`, `id_propiedad`) 
 VALUES 
@@ -180,8 +180,3 @@ INSERT INTO `inmosoftDB`.`Contratos`
 VALUES
 (1, 'Contrato de Arrendamiento', 'Contrato para el arrendamiento de la propiedad.', 'Arrendamiento', '/pdfs/contrato_arrendamiento1.pdf', 1),
 (2, 'Contrato de Compra-Venta', 'Contrato para la compra-venta de la propiedad.', 'Arrendamiento', '/pdfs/contrato_compra_venta1.pdf', 2),
-(3, 'Contrato de Mantenimiento', 'Contrato para el mantenimiento de la propiedad.', 'Arrendamiento', '/pdfs/contrato_mantenimiento1.pdf', 3),
-(4, 'Contrato de Subarrendamiento', 'Contrato para el subarrendamiento de la propiedad.', 'Compraventa', '/pdfs/contrato_subarrendamiento1.pdf', 4),
-(5, 'Contrato de Arrendamiento', 'Contrato de arrendamiento con cláusulas especiales.', 'Compraventa', '/pdfs/contrato_arrendamiento2.pdf', 5),
-(6, 'Contrato de Compra-Venta', 'Contrato de compra-venta con términos preferenciales.', 'Compraventa', '/pdfs/contrato_compra_venta2.pdf', 6);
-

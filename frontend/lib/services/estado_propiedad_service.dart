@@ -20,9 +20,10 @@ class EstadoPropiedadService {
     String? errorMessage;
     try {
       final response = await _dio
-          .get('http://localhost:8080/estadoPropiedad/$idTipoPropiedad');
+          .get('http://localhost:8080/estadopropiedad/$idTipoPropiedad');
       if (response.statusCode == 200) {
         final estadoPropiedad = EstadoPropiedad.fromJson(response.data);
+        log.w(estadoPropiedad);
         log.i('Estado de propiedad fetched successfully');
         return Result(success: true, data: estadoPropiedad);
       } else {

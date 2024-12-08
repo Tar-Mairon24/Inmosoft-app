@@ -34,6 +34,10 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
   final TextEditingController garageSizeController = TextEditingController();
   final TextEditingController gardenMtsController = TextEditingController();
   final TextEditingController observationsController = TextEditingController();
+  final TextEditingController tipoTransaccionController =
+      TextEditingController();
+  final TextEditingController estadoPropiedadController =
+      TextEditingController();
 
   bool isOccupied = false;
   bool isFurnished = false;
@@ -71,7 +75,7 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
     return Scaffold(
       appBar: AppBar(),
       body: FutureBuilder(
-          future: propiedadService.getPropiedad(widget.propertyID),
+          future: getData(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("error: ${snapshot.error.toString()}"));
@@ -79,7 +83,8 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
-            Propiedad? property = snapshot.data!.data;
+            Propiedad? property = snapshot.data![1].data;
+            EstadoPropiedad? estadoPropiedad = snapshot.data![0].data;
 
             titleController.text = property!.titulo;
             addressController.text = property.direccion;
@@ -95,6 +100,8 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
             garageSizeController.text = property.sizeCochera.toString();
             gardenMtsController.text = property.mtsJardin.toString();
             observationsController.text = property.observaciones ?? '';
+            tipoTransaccionController.text = estadoPropiedad!.tipoTransaccion;
+            estadoPropiedadController.text = estadoPropiedad.estado;
 
             List<String> gases = property.gas ?? [];
             List<String> comodidades = property.comodidades ?? [];
@@ -120,6 +127,9 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
             hasCocineta = extras.contains("cocineta") ? true : false;
             hasCuartoServicio =
                 extras.contains("cuarto de servicio") ? true : false;
+
+            String tipoTransaccion = '';
+            String estado = '';
 
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -158,54 +168,58 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                     height: MediaQuery.of(context).size.height *
                                         0.01,
                                   ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Datos de la propiedad")),
+                                  Divider(),
                                   customTextFormFieldWidget(
-                                      titleController, 'título'),
+                                      titleController, 'Título'),
                                   SizedBox(height: separation),
                                   customTextFormFieldWidget(
-                                      addressController, 'dirección'),
+                                      addressController, 'Dirección'),
                                   SizedBox(height: separation),
                                   customTextFormFieldWidget(
-                                      residenceController, 'colonia'),
+                                      residenceController, 'Colonia'),
                                   SizedBox(height: separation),
                                   customTextFormFieldWidget(
-                                      cityController, 'ciudad'),
+                                      cityController, 'Ciudad'),
                                   SizedBox(height: separation),
                                   customTextFormFieldWidget(
-                                      referenceController, 'referencia'),
+                                      referenceController, 'Referencia'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
-                                      priceController, 'precio'),
+                                      priceController, 'Precio'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
                                       constrMtsController,
-                                      'metros de la construcción'),
+                                      'Metros de la construcción'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
-                                      lotMtsController, 'metros del terreno'),
+                                      lotMtsController, 'Metros del terreno'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
-                                      floorsNumController, 'número de plantas'),
+                                      floorsNumController, 'Número de plantas'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
                                       bedroomsNumController,
-                                      'número de recámaras'),
+                                      'Número de recámaras'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
                                       bathroomsNumController,
-                                      'número de baños'),
+                                      'Número de baños'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
                                       garageSizeController,
-                                      'tamaño de la cochera'),
+                                      'Tamaño de la cochera'),
                                   SizedBox(height: separation),
                                   customNumberFormFieldWidget(
-                                      gardenMtsController, 'metros del jardín'),
+                                      gardenMtsController, 'Metros del jardín'),
                                   SizedBox(height: separation),
                                   TextFormField(
                                     maxLines: 3,
                                     controller: observationsController,
                                     decoration: InputDecoration(
-                                      labelText: "observaciones",
+                                      labelText: "Observaciones",
                                       border: OutlineInputBorder(),
                                     ),
                                     validator: (value) {
@@ -214,6 +228,51 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                       }
                                       return null;
                                     },
+                                  ),
+                                  SizedBox(
+                                    height: separation,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                          "Datos del estado de la propiedad")),
+                                  Divider(),
+                                  DropdownMenu(
+                                    controller: tipoTransaccionController,
+                                    width: double.infinity,
+                                    label: const Text("Tipo de transacción"),
+                                    dropdownMenuEntries: [
+                                      DropdownMenuEntry(
+                                          value: "renta", label: 'Renta'),
+                                      DropdownMenuEntry(
+                                          value: "venta", label: 'Venta'),
+                                    ],
+                                    onSelected: (value) {
+                                      tipoTransaccion = value!;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: separation,
+                                  ),
+                                  DropdownMenu(
+                                    controller: estadoPropiedadController,
+                                    width: double.infinity,
+                                    label: const Text("Estado de la propiedad"),
+                                    dropdownMenuEntries: [
+                                      DropdownMenuEntry(
+                                          value: "rentada", label: 'Rentada'),
+                                      DropdownMenuEntry(
+                                          value: "vendida", label: 'Vendida'),
+                                      DropdownMenuEntry(
+                                          value: "disponible",
+                                          label: 'Disponible'),
+                                    ],
+                                    onSelected: (value) {
+                                      estado = value!;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: separation,
                                   ),
                                 ],
                               ),
@@ -490,13 +549,10 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
                                             EstadoPropiedad estadoPropiedad =
                                                 EstadoPropiedad(
                                               idEstadoPropiedad: 0,
-                                              tipoTransaccion: "renta",
-                                              estado: "disponible",
-                                              fechaCambioEstado: null,
+                                              tipoTransaccion: tipoTransaccion,
+                                              estado: estado,
                                               idPropiedad: 0,
                                             );
-
-                                            print(estadoPropiedad.idPropiedad);
 
                                             await propiedadService
                                                 .updatePropiedad(propiedad,
@@ -585,5 +641,16 @@ class _PropertyModifierPageState extends State<PropertyModifierPage> {
         return null;
       },
     );
+  }
+
+  Future<List<dynamic>> getData() async {
+    final EstadoPropiedadService estadoPropiedadService =
+        EstadoPropiedadService();
+    final PropiedadService propiedadService = PropiedadService();
+
+    return await Future.wait([
+      estadoPropiedadService.getEstadoPropiedad(widget.propertyID),
+      propiedadService.getPropiedad(widget.propertyID),
+    ]);
   }
 }

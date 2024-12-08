@@ -69,6 +69,8 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
   List<String> comodidades = [];
   List<String> utilidades = [];
   List<String> extras = [];
+  String tipoTransaccion = '';
+  String estado = '';
 
   @override
   Widget build(BuildContext context) {
@@ -174,28 +176,36 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                     Text("Datos del estado de la propiedad")),
                             Divider(),
                             DropdownMenu(
-                                width: double.infinity,
-                                label: const Text("Tipo de transacción"),
-                                dropdownMenuEntries: [
-                                  DropdownMenuEntry(
-                                      value: "renta", label: 'Renta'),
-                                  DropdownMenuEntry(
-                                      value: "venta", label: 'Venta'),
-                                ]),
+                              width: double.infinity,
+                              label: const Text("Tipo de transacción"),
+                              dropdownMenuEntries: [
+                                DropdownMenuEntry(
+                                    value: "renta", label: 'Renta'),
+                                DropdownMenuEntry(
+                                    value: "venta", label: 'Venta'),
+                              ],
+                              onSelected: (value) {
+                                tipoTransaccion = value!;
+                              },
+                            ),
                             SizedBox(
                               height: separation,
                             ),
                             DropdownMenu(
-                                width: double.infinity,
-                                label: const Text("Estado de la propiedad"),
-                                dropdownMenuEntries: [
-                                  DropdownMenuEntry(
-                                      value: "rentada", label: 'Rentada'),
-                                  DropdownMenuEntry(
-                                      value: "vendida", label: 'Vendida'),
-                                  DropdownMenuEntry(
-                                      value: "disponible", label: 'Disponible'),
-                                ]),
+                              width: double.infinity,
+                              label: const Text("Estado de la propiedad"),
+                              dropdownMenuEntries: [
+                                DropdownMenuEntry(
+                                    value: "rentada", label: 'Rentada'),
+                                DropdownMenuEntry(
+                                    value: "vendida", label: 'Vendida'),
+                                DropdownMenuEntry(
+                                    value: "disponible", label: 'Disponible'),
+                              ],
+                              onSelected: (value) {
+                                estado = value!;
+                              },
+                            ),
                             SizedBox(
                               height: separation,
                             ),
@@ -456,8 +466,8 @@ class _PropertyAdderPageState extends State<PropertyAdderPage> {
                                       EstadoPropiedad estadoPropiedad =
                                           EstadoPropiedad(
                                         idEstadoPropiedad: 0,
-                                        tipoTransaccion: "renta",
-                                        estado: "disponible",
+                                        tipoTransaccion: tipoTransaccion,
+                                        estado: estado,
                                         idPropiedad: 0,
                                       );
 

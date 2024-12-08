@@ -4,7 +4,6 @@ import 'package:frontend/presentation/pages/appointment_adder_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/providers/auth_provider.dart';
 import 'package:frontend/presentation/widgets/appointment_widget.dart';
-import 'package:frontend/presentation/widgets/appointments_calendar_widget.dart';
 import 'package:frontend/presentation/widgets/navigation_drawer_widget.dart';
 import 'package:frontend/services/cita_service.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
@@ -135,69 +134,75 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     width: MediaQuery.of(context).size.width * 0.06,
                   ),
                   Expanded(
-                      flex: 1,
-                      child: FutureBuilder(
-                          future:
-                              citaService.getAllCitasUser(authProvider.userId!),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Center(
-                                  child: Text(
-                                      "error: ${snapshot.error.toString()}"));
-                            }
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
-                            List<DateTime> appointmentDates = [];
+                    flex: 1,
+                    child: FutureBuilder(
+                      future: citaService.getAllCitasUser(authProvider.userId!),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                              child:
+                                  Text("Error: ${snapshot.error.toString()}"));
+                        }
 
-                            appointmentDates = snapshot.data!.data!
-                                .map((cita) => DateTime.parse(cita.fecha))
-                                .toList();
-                            return TableCalendar(
-                              headerStyle:
-                                  HeaderStyle(formatButtonVisible: false),
-                              rowHeight:
-                                  MediaQuery.of(context).size.height * 0.1,
-                              focusedDay: _focusedDay,
-                              calendarFormat: _calendarFormat,
-                              firstDay: DateTime.utc(2010),
-                              lastDay: DateTime.utc(2040),
-                              selectedDayPredicate: (day) =>
-                                  isSameDay(_selectedDay, day),
-                              onDaySelected: (selectedDay, focusedDay) {
-                                setState(() {
-                                  _selectedDay = selectedDay;
-                                  _focusedDay = focusedDay;
-                                });
-                                Provider.of<AppointmentsNotifier>(
-                                        navigatorKey.currentContext!,
-                                        listen: false)
-                                    .shouldRefresh();
-                              },
-                              calendarBuilders: CalendarBuilders(
-                                defaultBuilder: (context, day, focusedDay) {
-                                  if (appointmentDates.any((appointmentDate) =>
-                                      isSameDay(appointmentDate, day))) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        color:
-                                            Colors.redAccent.withOpacity(0.8),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      margin: EdgeInsets.all(6.0),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        '${day.day}',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                },
-                              ),
-                            );
-                          })),
+                        if (!snapshot.hasData) {
+                          // Muestra el calendario incluso si no hay datos
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+
+                        // Si los datos son null o vacíos, inicializa una lista vacía
+                        List<DateTime> appointmentDates = [];
+
+                        // Si snapshot.data está presente y tiene datos, mapea las fechas de las citas
+                        if (snapshot.data!.data != null) {
+                          appointmentDates = snapshot.data!.data!
+                              .map((cita) => DateTime.parse(cita.fecha))
+                              .toList();
+                        }
+
+                        return TableCalendar(
+                          headerStyle: HeaderStyle(formatButtonVisible: false),
+                          rowHeight: MediaQuery.of(context).size.height * 0.1,
+                          focusedDay: _focusedDay,
+                          calendarFormat: _calendarFormat,
+                          firstDay: DateTime.utc(2010),
+                          lastDay: DateTime.utc(2040),
+                          selectedDayPredicate: (day) =>
+                              isSameDay(_selectedDay, day),
+                          onDaySelected: (selectedDay, focusedDay) {
+                            setState(() {
+                              _selectedDay = selectedDay;
+                              _focusedDay = focusedDay;
+                            });
+                            Provider.of<AppointmentsNotifier>(
+                                    navigatorKey.currentContext!,
+                                    listen: false)
+                                .shouldRefresh();
+                          },
+                          calendarBuilders: CalendarBuilders(
+                            defaultBuilder: (context, day, focusedDay) {
+                              if (appointmentDates.any((appointmentDate) =>
+                                  isSameDay(appointmentDate, day))) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.redAccent.withOpacity(0.8),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  margin: EdgeInsets.all(6.0),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    '${day.day}',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                );
+                              }
+                              return null;
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

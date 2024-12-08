@@ -75,6 +75,10 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
                             children: [
                               Column(
                                 children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Datos del contrato")),
+                                  Divider(),
                                   customTextFormFieldWidget(
                                       titleController, 'Título'),
                                   SizedBox(
@@ -144,37 +148,24 @@ class _AgreementAdderPageState extends State<AgreementAdderPage> {
                   width: MediaQuery.of(context).size.width * 0.2,
                   child: FilledButton(
                       onPressed: () async {
-                        Contrato contrato = Contrato(
-                            idContrato: 0,
-                            tituloContrato: titleController.text,
-                            descripcionContrato: descriptionController.text,
-                            tipo: tipoContrato,
-                            rutaPDF: rutasPdfs[0],
-                            idPropiedad: idPropiedad);
+                        if (_formKey.currentState!.validate()) {
+                          Contrato contrato = Contrato(
+                              idContrato: 0,
+                              tituloContrato: titleController.text,
+                              descripcionContrato: descriptionController.text,
+                              tipo: tipoContrato,
+                              rutaPDF: rutasPdfs[0],
+                              idPropiedad: idPropiedad);
 
-                        ContratoService contratoService = ContratoService();
-                        await contratoService.createContrato(contrato);
+                          ContratoService contratoService = ContratoService();
+                          await contratoService.createContrato(contrato);
 
-                        // DocumentosAnexosService documentosAnexosService =
-                        //     DocumentosAnexosService();
-
-                        // for (String ruta in rutasPdfs) {
-                        //   DocumentoAnexo documentoAnexo = DocumentoAnexo(
-                        //     idDocumentoAnexo: 0,
-                        //     rutaDocumento: ruta,
-                        //     descripcionDocumento: null,
-                        //     idPropiedad: idPropiedad,
-                        //   );
-
-                        //   await documentosAnexosService
-                        //       .insertDocumentoAnexo(documentoAnexo);
-                        // }
-
-                        Provider.of<AgreementsNotifier>(
-                                navigatorKey.currentContext!,
-                                listen: false)
-                            .shouldRefresh();
-                        Navigator.of(context).pop();
+                          Provider.of<AgreementsNotifier>(
+                                  navigatorKey.currentContext!,
+                                  listen: false)
+                              .shouldRefresh();
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text('Agregar contrato')),
                 ),

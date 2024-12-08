@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
+import 'package:frontend/domain/models/imagen_modelo.dart';
+import 'package:frontend/domain/models/imagen_prospecto_modelo.dart';
 import 'package:frontend/domain/models/propietario_modelo.dart';
 import 'package:frontend/domain/models/prospecto_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/presentation/providers/auth_provider.dart';
+import 'package:frontend/presentation/providers/images_notifier.dart';
 import 'package:frontend/presentation/widgets/add_appointment_image_widget.dart';
+import 'package:frontend/presentation/widgets/prospect_images_row.dart';
 import 'package:frontend/services/cita_service.dart';
+import 'package:frontend/services/imagen_prospecto_service.dart';
+import 'package:frontend/services/imagen_service.dart';
 import 'package:frontend/services/prospecto_service.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +27,12 @@ class AppointmentAdderPage extends StatefulWidget {
 
 class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
   final _formKey = GlobalKey<FormState>();
+  List<String> rutasImagenes = [];
+  void _updatePhotos(List<String> updatedPhotos) {
+    setState(() {
+      rutasImagenes = updatedPhotos;
+    });
+  }
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -34,13 +47,11 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ImagenProspectoService imagenService = ImagenProspectoService();
     final authProvider = Provider.of<AuthProvider>(context);
     final CitaService citaService = CitaService();
     final ProspectoService prospectoService = ProspectoService();
     double separation = MediaQuery.of(context).size.height * 0.02;
-    List<Widget> images = [
-      AddAppointmentImageWidget(),
-    ];
 
     return Scaffold(
       appBar: AppBar(),
@@ -50,17 +61,10 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
         ),
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, i) {
-                  return images[i];
-                },
-                separatorBuilder: (context, i) => SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.02,
-                ),
-                itemCount: images.length,
+            Expanded(
+              flex: 1,
+              child: ProspectImagesRow(
+                onPhotosUpdated: _updatePhotos,
               ),
             ),
             SizedBox(
@@ -93,7 +97,17 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                         },
                       ),
                       SizedBox(height: separation),
-                      customTextFormFieldWidget(hourController, 'Hora (hh:mm)'),
+                      //customTextFormFieldWidget(hourController, 'Hora (hh:mm)'),
+                      TextFormField(
+                        controller: hourController,
+                        decoration: InputDecoration(
+                          labelText: 'Hora (hh:mm)',
+                          border: OutlineInputBorder(),
+                          hintText: 'Ej. 14:30',
+                        ),
+                        keyboardType: TextInputType.datetime,
+                      ),
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.04,
                       ),
@@ -111,7 +125,26 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                       SizedBox(height: separation),
                       customTextFormFieldWidget(phoneNumController, "Teléfono"),
                       SizedBox(height: separation),
-                      customTextFormFieldWidget(emailController, "Email"),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, ingresa un correo electrónico';
+                          }
+                          // Expresión regular para validar email
+                          final RegExp emailRegex =
+                              RegExp(r'^\w+[\w-\.]*\@\w+((\.\w+)+)$');
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Por favor, ingresa un correo válido';
+                          }
+                          return null;
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -128,15 +161,22 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
                   child: FilledButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        // Elimina el ":" de la hora antes de convertirla en número
+                        String horaSinDosPuntos =
+                            hourController.text.replaceAll(":", "");
+
+                        // Ahora puedes convertir la hora sin el ":"
                         Cita cita = Cita(
                           id: 0,
                           titulo: titleController.text,
                           fecha: widget.day.toIso8601String().split('T')[0],
-                          hora: int.parse(hourController.text),
+                          hora: int.parse(
+                              horaSinDosPuntos), // Convierte a entero sin los ":"
                           descripcion: descriptionController.text,
                           idUsuario: authProvider.userId!,
                           idCliente: 0,
                         );
+
                         Prospecto prospecto = Prospecto(
                             idCliente: 0,
                             nombre: nameController.text,
@@ -147,6 +187,28 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
 
                         await prospectoService.createProspecto(prospecto);
                         await citaService.createCita(cita);
+
+                        bool isFirst = true;
+                        for (String ruta in rutasImagenes) {
+                          print(rutasImagenes);
+                          ImagenProspecto imagen = ImagenProspecto(
+                            idImagen: 0,
+                            rutaImagen: ruta,
+                            descripcion: null,
+                            principal: isFirst, // True para el primer elemento
+                            idProspecto: 0,
+                          );
+
+                          await imagenService.insertImagen(imagen);
+
+                          isFirst =
+                              false; // Después del primer elemento, todos serán false
+                        }
+
+                        Provider.of<ImagesNotifier>(
+                                navigatorKey.currentContext!,
+                                listen: false)
+                            .shouldRefresh();
                         Provider.of<AppointmentsNotifier>(
                                 navigatorKey.currentContext!,
                                 listen: false)

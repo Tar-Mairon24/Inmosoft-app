@@ -2,7 +2,7 @@ class EstadoPropiedad {
   int idEstadoPropiedad;
   String tipoTransaccion;
   String estado;
-  String? fechaCambioEstado;
+  dynamic fechaCambioEstado;
   int idPropiedad;
 
   EstadoPropiedad({

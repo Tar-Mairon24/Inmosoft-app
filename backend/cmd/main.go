@@ -22,6 +22,7 @@ func main() {
 	citasService := services.NewCitasService(database.DB)
 	prospectoService := services.NewProspectoService(database.DB)
 	imagenesService := services.NewImagenesService(database.DB)
+	imagenesProspectoService := services.NewImagenesProspectoService(database.DB)
 	contratoService := services.NewContratosService(database.DB)
 	documentosAnexosService := services.NewDocumentosAnexosService(database.DB)
 
@@ -34,6 +35,7 @@ func main() {
 	citasController := controllers.NewCitasController(citasService)
 	prospectoController := controllers.NewProspectoController(prospectoService)
 	imagenesController := controllers.NewImagenesController(imagenesService)
+	imagenesProspectoController := controllers.NewImagenesProspectoController(imagenesProspectoService)
 	contratosController := controllers.NewContratosController(contratoService)
 	documentosAnexosController := controllers.NewDocumentosAnexosController(documentosAnexosService)
 
@@ -87,6 +89,8 @@ func main() {
 
 	router.GET("/all/imagenes/propiedad/:id", imagenesController.GetImagenesByPropiedad)
 	router.GET("/all/imagenes/principal/:id", imagenesController.GetImagenPrincipal)
+	router.GET("/all/imagenesProspecto/principal/:id", imagenesProspectoController.GetImagenPrincipal)
+	router.GET("/all/imagenes/prospecto/:id", imagenesProspectoController.GetImagenesByProspecto)
 
 	// ruta para insertar una propiedad
 	router.POST("/create/propiedad", propiedadController.CreatePropiedad)
@@ -97,6 +101,7 @@ func main() {
 	router.POST("/create/prospecto", prospectoController.InsertProspecto)
 
 	router.POST("/create/imagen", imagenesController.InsertImagen)
+	router.POST("/create/imagenProspecto", imagenesProspectoController.InsertImagen)
 
 	// ruta para actualizar una propiedad
 	router.PUT("/update/propiedad/:id", propiedadController.UpdatePropiedad)

@@ -45,21 +45,26 @@ class PropertyWidget extends StatelessWidget {
             children: [
               Expanded(
                   child: FutureBuilder(
-                      future: imagenService
-                          .getImagenPrincipal(property.idPropiedad),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(
-                              child:
-                                  Text("error: ${snapshot.error.toString()}"));
-                        }
-                        if (!snapshot.hasData) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        Imagen? image = snapshot.data!.data;
-                        return Image.file(File(image!.rutaImagen));
-                      })),
+                future: imagenService.getImagenPrincipal(property.idPropiedad),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("error: ${snapshot.error.toString()}"),
+                    );
+                  }
+                  if (!snapshot.hasData ||
+                      snapshot.data == null ||
+                      snapshot.data!.data == null) {
+                    return const SizedBox.shrink(); // Espacio en blanco
+                  }
+
+                  Imagen? image = snapshot.data!.data;
+                  return Image.file(
+                    File(image!.rutaImagen),
+                    fit: BoxFit.cover,
+                  );
+                },
+              )),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(

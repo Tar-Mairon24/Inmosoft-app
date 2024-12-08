@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/models/citas_modelo.dart';
+import 'package:frontend/domain/models/imagen_prospecto_modelo.dart';
 import 'package:frontend/presentation/navigator_key.dart';
 import 'package:frontend/presentation/pages/appointment_modifier_page.dart';
 import 'package:frontend/presentation/pages/detailed_appointment_page.dart';
 import 'package:frontend/presentation/providers/appointments_notifier.dart';
 import 'package:frontend/services/cita_service.dart';
+import 'package:frontend/services/imagen_prospecto_service.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentWidget extends StatelessWidget {
@@ -19,6 +23,9 @@ class AppointmentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CitaService citaService = CitaService();
+    final ImagenProspectoService imagenProspectoService =
+        ImagenProspectoService();
+
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailedAppointmentPage(
@@ -33,11 +40,29 @@ class AppointmentWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: MediaQuery.of(context).size.aspectRatio * 18,
-              backgroundColor: Colors.grey[400],
-              backgroundImage: image.image,
-            ),
+            FutureBuilder(
+                future:
+                    imagenProspectoService.getImagenPrincipal(appointment.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("error: ${snapshot.error.toString()}"),
+                    );
+                  }
+                  if (!snapshot.hasData ||
+                      snapshot.data == null ||
+                      snapshot.data!.data == null) {
+                    return const SizedBox.shrink(); // Espacio en blanco
+                  }
+                  ImagenProspecto? image = snapshot.data!.data;
+
+                  return CircleAvatar(
+                    radius: MediaQuery.of(context).size.aspectRatio * 18,
+                    backgroundColor: Colors.grey[400],
+                    backgroundImage: FileImage(File(image!
+                        .rutaImagen)), // Use FileImage instead of Image.file
+                  );
+                }),
             SizedBox(
                 width: MediaQuery.of(context).size.width *
                     0.02), // Espacio entre el avatar y el contenido

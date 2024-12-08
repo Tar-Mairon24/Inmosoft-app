@@ -47,31 +47,39 @@ class AgreementsPage extends StatelessWidget {
               Expanded(child: Consumer<AgreementsNotifier>(
                   builder: (context, agreementsNotifier, child) {
                 return FutureBuilder(
-                    future: agreementsNotifier.loadData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Center(
-                            child: Text("error: ${snapshot.error.toString()}"));
-                      }
-                      if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                  future: agreementsNotifier.loadData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                          child: Text("Error: ${snapshot.error.toString()}"));
+                    }
 
-                      List<ContratoMenu>? contratos = snapshot.data!.data;
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                      return ListView.separated(
-                          itemBuilder: (context, i) {
-                            // return contratos[i];
-                            return AgreementWidget(
-                              contrato: contratos[i],
-                            );
-                          },
-                          separatorBuilder: (context, i) => SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.04,
-                              ),
-                          itemCount: contratos!.length);
-                    });
+                    List<ContratoMenu>? contratos = snapshot.data!.data;
+
+                    // Si contratos es null o está vacío, mostrar un mensaje en lugar del listado
+                    if (contratos == null || contratos.isEmpty) {
+                      return Center(
+                        child: Text("No hay contratos aún"),
+                      );
+                    }
+
+                    return ListView.separated(
+                      itemBuilder: (context, i) {
+                        return AgreementWidget(
+                          contrato: contratos[i],
+                        );
+                      },
+                      separatorBuilder: (context, i) => SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
+                      itemCount: contratos.length,
+                    );
+                  },
+                );
               })),
             ],
           )),
