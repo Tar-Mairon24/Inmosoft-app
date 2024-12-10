@@ -22,7 +22,7 @@ func NewPropiedadService(db *sql.DB) *PropiedadService {
 // Funcion que recupera todas las propiedades de la base de datos, solo recupera los campos necesarios para mostrar en el menú, el resto de los campos se recuperan en otra función
 func (service *PropiedadService) GetAllPropiedades() ([]*models.MenuPropiedades, error) {
 	var propiedades []*models.MenuPropiedades
-	query := "SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado FROM Propiedades, Estado_Propiedades WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad"
+	query := "SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, Propiedades.num_recamaras, Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado FROM Propiedades, Estado_Propiedades WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad"
 	rows, err := service.DB.Query(query)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -36,7 +36,7 @@ func (service *PropiedadService) GetAllPropiedades() ([]*models.MenuPropiedades,
 
 	for rows.Next() {
 		var propiedad models.MenuPropiedades
-		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.TipoTransaccion, &propiedad.Estado)
+		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.Habitaciones, &propiedad.TipoTransaccion, &propiedad.Estado)
 		if err != nil {
 			log.Println("Error scanning propiedad:", err)
 			return nil, err
@@ -54,7 +54,7 @@ func (service *PropiedadService) GetAllPropiedades() ([]*models.MenuPropiedades,
 func (service *PropiedadService) GetAllPropiedadesByPrice() ([]*models.MenuPropiedades, error) {
 	var propiedades []*models.MenuPropiedades
 	query := `
-		SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, 
+		SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, Propiedades.num_recamaras, 
 		       Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado 
 		FROM Propiedades, Estado_Propiedades 
 		WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad
@@ -73,7 +73,7 @@ func (service *PropiedadService) GetAllPropiedadesByPrice() ([]*models.MenuPropi
 
 	for rows.Next() {
 		var propiedad models.MenuPropiedades
-		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.TipoTransaccion, &propiedad.Estado)
+		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.Habitaciones, &propiedad.TipoTransaccion, &propiedad.Estado)
 		if err != nil {
 			log.Println("Error scanning propiedad:", err)
 			return nil, err
@@ -90,7 +90,7 @@ func (service *PropiedadService) GetAllPropiedadesByPrice() ([]*models.MenuPropi
 
 func (service *PropiedadService) GetAllPropiedadesByBedrooms() ([]*models.MenuPropiedades, error) {
 	var propiedades []*models.MenuPropiedades
-	query := "SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado FROM Propiedades, Estado_Propiedades WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad"
+	query := "SELECT Propiedades.id_propiedad, Propiedades.titulo, Propiedades.precio, Propiedades.num_recamaras, Estado_Propiedades.tipo_transaccion, Estado_Propiedades.estado FROM Propiedades, Estado_Propiedades WHERE Propiedades.id_propiedad = Estado_Propiedades.id_propiedad ORDER BY Propiedades.num_recamaras DESC"
 	rows, err := service.DB.Query(query)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -104,7 +104,7 @@ func (service *PropiedadService) GetAllPropiedadesByBedrooms() ([]*models.MenuPr
 
 	for rows.Next() {
 		var propiedad models.MenuPropiedades
-		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.TipoTransaccion, &propiedad.Estado)
+		err := rows.Scan(&propiedad.IDPropiedad, &propiedad.Titulo, &propiedad.Precio, &propiedad.Habitaciones, &propiedad.TipoTransaccion, &propiedad.Estado)
 		if err != nil {
 			log.Println("Error scanning propiedad:", err)
 			return nil, err

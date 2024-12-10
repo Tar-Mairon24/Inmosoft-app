@@ -70,7 +70,7 @@ func main() {
 	// ruta para agarrar la informacion importante de todas las propiedades ordenadas por precio
 	router.GET("/all/propiedadesByPrice", propiedadController.GetAllPropiedadesByPrice)
 	// ruta para agarrar la informacion importante de todas las propiedades ordenadas por habitaciones
-	router.GET("/all/propiedadesByBedrooms", propiedadController.GetAllPropiedades)
+	router.GET("/all/propiedadesByBedrooms", propiedadController.GetAllPropiedadesByBedrooms)
 	// ruta para agarrar toda la informacion de una propiedad en específico
 	router.GET("/propiedad/:id", propiedadController.GetPropiedad)
 	// ruta para agarrar toda la informacion de una propiedad en específico

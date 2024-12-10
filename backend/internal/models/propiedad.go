@@ -29,9 +29,10 @@ type Propiedad struct {
 }
 
 type MenuPropiedades struct {
-	IDPropiedad     int     `json:"id_propiedad"`     // Clave primaria
-	Titulo          string  `json:"titulo"`           // Título de la propiedad
-	Precio          float64 `json:"precio"`           // Precio de la propiedad
+	IDPropiedad     int     `json:"id_propiedad"` // Clave primaria
+	Titulo          string  `json:"titulo"`       // Título de la propiedad
+	Precio          float64 `json:"precio"`       // Precio de la propiedad
+	Habitaciones    int     `json:"num_recamaras"`
 	TipoTransaccion string  `json:"tipo_transaccion"` // Tipo de transacción ('venta', 'renta')
 	Estado          string  `json:"estado"`           // Estado de la propiedad ('disponible', 'vendida', 'rentada')
 }
