@@ -11,6 +11,7 @@ import 'package:frontend/services/estado_propiedad_service.dart';
 import 'package:frontend/services/imagen_service.dart';
 import 'package:frontend/services/propiedad_service.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart'; // Importación para formatear números
 
 class PropertyWidget extends StatelessWidget {
   final PropiedadMenu property;
@@ -28,6 +29,11 @@ class PropertyWidget extends StatelessWidget {
     final EstadoPropiedadService estadoPropiedadService =
         EstadoPropiedadService();
     final ImagenService imagenService = ImagenService();
+
+    // Formatear el precio con comas
+    final String formattedPrice =
+        NumberFormat.decimalPattern().format(property.precio);
+
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailedPropertyPage(
@@ -89,10 +95,22 @@ class PropertyWidget extends StatelessWidget {
                                   Theme.of(context).primaryTextTheme.bodySmall,
                             ),
                             Text(
-                              "${property.precio} MXN",
+                              "$formattedPrice MXN",
                               style:
                                   Theme.of(context).primaryTextTheme.bodySmall,
                             ),
+                            Row(
+                              children: [
+                                Icon(Icons.bed_outlined),
+                                const SizedBox(width: 4),
+                                Text(
+                                  "${property.habitaciones} recámaras",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodySmall,
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),

@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/domain/models/imagen_modelo.dart';
-import 'package:frontend/presentation/widgets/property_image_widget.dart';
 import 'package:frontend/presentation/widgets/prospect_image_widget.dart';
 
 class ProspectImagesRow extends StatefulWidget {
-  final Function(List<String>)
-      onPhotosUpdated; // Callback function to update photos
+  final Function(List<String>) onPhotosUpdated;
 
   const ProspectImagesRow({super.key, required this.onPhotosUpdated});
 
@@ -17,48 +14,54 @@ class ProspectImagesRow extends StatefulWidget {
 }
 
 class _ProspectImagesRowState extends State<ProspectImagesRow> {
-  // Lista de rutas de las fotos (usar strings para simplificar)
   List<String> rutasImagenes = [];
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   // Añadir un widget para agregar fotos si aún no existe
-  //   if (photos.isEmpty) {
-  //     photos.add(_buildAddPhotoWidget());
-  //   }
-  // }
-
-  // Función para seleccionar una imagen
   Future<void> _pickImage() async {
+    if (rutasImagenes.isNotEmpty) {
+      _showMaxImageDialog();
+      return;
+    }
+
     final result = await FilePicker.platform.pickFiles(
-      type: FileType.image, // Filtra solo imágenes
+      type: FileType.image,
     );
 
-    final imagePath = result!.files.single.path;
-
-    setState(() {
-      rutasImagenes.add(
-        imagePath!,
-      );
-      widget.onPhotosUpdated(
-          rutasImagenes); // Llama al callback para actualizar las fotos en el widget padre
-    });
+    if (result != null) {
+      final imagePath = result.files.single.path;
+      if (imagePath != null) {
+        setState(() {
+          rutasImagenes.add(imagePath);
+          widget.onPhotosUpdated(rutasImagenes);
+        });
+      }
+    }
   }
 
-  // Widget para el botón de "Agregar fotografía"
+  void _showMaxImageDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text('Solo puedes agregar una imagen por cita.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
-      // itemBuilder: (context, i) {
-      //   return photos[i];
-      // },
       itemBuilder: (context, i) {
         if (i == 0) {
           return GestureDetector(
-            onTap: _pickImage, // Llama a la función para seleccionar la imagen
+            onTap: _pickImage,
             child: Container(
               decoration: BoxDecoration(border: Border.all()),
               child: Center(
@@ -93,7 +96,7 @@ class _ProspectImagesRowState extends State<ProspectImagesRow> {
       separatorBuilder: (context, i) => SizedBox(
         width: MediaQuery.of(context).size.width * 0.02,
       ),
-      itemCount: rutasImagenes.length + 1, // Add 1 for the "Add photo" button
+      itemCount: rutasImagenes.length + 1,
     );
   }
 }

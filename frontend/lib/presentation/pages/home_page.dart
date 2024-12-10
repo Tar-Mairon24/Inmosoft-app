@@ -119,6 +119,10 @@ class _HomePageState extends State<HomePage> {
                                     setState(() {
                                       filterByBedrooms = value;
                                     });
+                                    Provider.of<PropertiesNotifier>(
+                                            navigatorKey.currentContext!,
+                                            listen: false)
+                                        .shouldRefresh();
                                   },
                                 ),
                               ],
