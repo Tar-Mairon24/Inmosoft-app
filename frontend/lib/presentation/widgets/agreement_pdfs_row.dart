@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/domain/models/imagen_modelo.dart';
 import 'package:frontend/presentation/widgets/agreement_pdf_widget.dart';
-import 'package:frontend/presentation/widgets/property_image_widget.dart';
 
 class AgreementPdfsRow extends StatefulWidget {
-  final Function(List<String>)
-      onPdfsUpdated; // Callback function to update photos
+  final Function(List<String>) onPdfsUpdated;
 
   const AgreementPdfsRow({super.key, required this.onPdfsUpdated});
 
@@ -17,49 +14,55 @@ class AgreementPdfsRow extends StatefulWidget {
 }
 
 class _AgreementPdfsRowState extends State<AgreementPdfsRow> {
-  // Lista de rutas de las fotos (usar strings para simplificar)
   List<String> rutasPdfs = [];
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   // Añadir un widget para agregar fotos si aún no existe
-  //   if (photos.isEmpty) {
-  //     photos.add(_buildAddPhotoWidget());
-  //   }
-  // }
-
-  // Función para seleccionar una imagen
   Future<void> _pickPdf() async {
+    if (rutasPdfs.isNotEmpty) {
+      _showMaxPdfDialog();
+      return;
+    }
+
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
 
-    final pdfPath = result!.files.single.path;
-
-    setState(() {
-      rutasPdfs.add(
-        pdfPath!,
-      );
-      widget.onPdfsUpdated(
-          rutasPdfs); // Llama al callback para actualizar las fotos en el widget padre
-    });
+    if (result != null) {
+      final pdfPath = result.files.single.path;
+      if (pdfPath != null) {
+        setState(() {
+          rutasPdfs.add(pdfPath);
+          widget.onPdfsUpdated(rutasPdfs);
+        });
+      }
+    }
   }
 
-  // Widget para el botón de "Agregar fotografía"
+  void _showMaxPdfDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text('Solo puedes agregar un PDF por contrato.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
-      // itemBuilder: (context, i) {
-      //   return photos[i];
-      // },
       itemBuilder: (context, i) {
         if (i == 0) {
           return GestureDetector(
-            onTap: _pickPdf, // Llama a la función para seleccionar la imagen
+            onTap: _pickPdf,
             child: Container(
               decoration: BoxDecoration(border: Border.all()),
               child: Center(
@@ -94,7 +97,7 @@ class _AgreementPdfsRowState extends State<AgreementPdfsRow> {
       separatorBuilder: (context, i) => SizedBox(
         width: MediaQuery.of(context).size.width * 0.02,
       ),
-      itemCount: rutasPdfs.length + 1, // Add 1 for the "Add photo" button
+      itemCount: rutasPdfs.length + 1,
     );
   }
 }

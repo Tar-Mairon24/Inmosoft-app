@@ -71,6 +71,7 @@ class _AppointmentAdderPageState extends State<AppointmentAdderPage> {
               height: MediaQuery.of(context).size.height * 0.08,
             ),
             Expanded(
+              flex: 2,
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,

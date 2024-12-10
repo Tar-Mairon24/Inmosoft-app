@@ -35,7 +35,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.04,
+          horizontal: MediaQuery.of(context).size.width * 0.06,
         ),
         child: Column(
           children: [
@@ -104,7 +104,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
 
                             if (appointments!.isEmpty) {
                               return Center(
-                                child: Text("No hay citas"),
+                                child: Text("No hay citas para este día"),
                               );
                             } else {
                               return ListView.separated(
@@ -135,72 +135,139 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   ),
                   Expanded(
                     flex: 1,
-                    child: FutureBuilder(
-                      future: citaService.getAllCitasUser(authProvider.userId!),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(
-                              child:
-                                  Text("Error: ${snapshot.error.toString()}"));
-                        }
-
-                        if (!snapshot.hasData) {
-                          // Muestra el calendario incluso si no hay datos
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-
-                        // Si los datos son null o vacíos, inicializa una lista vacía
-                        List<DateTime> appointmentDates = [];
-
-                        // Si snapshot.data está presente y tiene datos, mapea las fechas de las citas
-                        if (snapshot.data!.data != null) {
-                          appointmentDates = snapshot.data!.data!
-                              .map((cita) => DateTime.parse(cita.fecha))
-                              .toList();
-                        }
-
-                        return TableCalendar(
-                          headerStyle: HeaderStyle(formatButtonVisible: false),
-                          rowHeight: MediaQuery.of(context).size.height * 0.1,
-                          focusedDay: _focusedDay,
-                          calendarFormat: _calendarFormat,
-                          firstDay: DateTime.utc(2010),
-                          lastDay: DateTime.utc(2040),
-                          selectedDayPredicate: (day) =>
-                              isSameDay(_selectedDay, day),
-                          onDaySelected: (selectedDay, focusedDay) {
-                            setState(() {
-                              _selectedDay = selectedDay;
-                              _focusedDay = focusedDay;
-                            });
-                            Provider.of<AppointmentsNotifier>(
-                                    navigatorKey.currentContext!,
-                                    listen: false)
-                                .shouldRefresh();
-                          },
-                          calendarBuilders: CalendarBuilders(
-                            defaultBuilder: (context, day, focusedDay) {
-                              if (appointmentDates.any((appointmentDate) =>
-                                  isSameDay(appointmentDate, day))) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.redAccent.withOpacity(0.8),
-                                    shape: BoxShape.circle,
+                    child: Column(
+                      children: [
+                        // Leyenda
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.02),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      color: Colors.redAccent.withOpacity(0.8),
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
-                                  margin: EdgeInsets.all(6.0),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '${day.day}',
-                                    style: TextStyle(color: Colors.white),
+                                  SizedBox(width: 8),
+                                  Text('Día con citas'),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      color: Colors.indigo.shade200,
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
-                                );
+                                  SizedBox(width: 8),
+                                  Text('Día actual'),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      color: Colors.indigo,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text('Día seleccionado'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Calendario
+                        Expanded(
+                          child: FutureBuilder(
+                            future: citaService
+                                .getAllCitasUser(authProvider.userId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Center(
+                                    child: Text(
+                                        "Error: ${snapshot.error.toString()}"));
                               }
-                              return null;
+
+                              if (!snapshot.hasData) {
+                                // Muestra el calendario incluso si no hay datos
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+
+                              // Si los datos son null o vacíos, inicializa una lista vacía
+                              List<DateTime> appointmentDates = [];
+
+                              // Si snapshot.data está presente y tiene datos, mapea las fechas de las citas
+                              if (snapshot.data!.data != null) {
+                                appointmentDates = snapshot.data!.data!
+                                    .map((cita) => DateTime.parse(cita.fecha))
+                                    .toList();
+                              }
+
+                              return TableCalendar(
+                                headerStyle:
+                                    HeaderStyle(formatButtonVisible: false),
+                                rowHeight:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                focusedDay: _focusedDay,
+                                calendarFormat: _calendarFormat,
+                                firstDay: DateTime.utc(2010),
+                                lastDay: DateTime.utc(2040),
+                                selectedDayPredicate: (day) =>
+                                    isSameDay(_selectedDay, day),
+                                onDaySelected: (selectedDay, focusedDay) {
+                                  setState(() {
+                                    _selectedDay = selectedDay;
+                                    _focusedDay = focusedDay;
+                                  });
+                                  Provider.of<AppointmentsNotifier>(
+                                          navigatorKey.currentContext!,
+                                          listen: false)
+                                      .shouldRefresh();
+                                },
+                                calendarBuilders: CalendarBuilders(
+                                  defaultBuilder: (context, day, focusedDay) {
+                                    if (appointmentDates.any(
+                                        (appointmentDate) =>
+                                            isSameDay(appointmentDate, day))) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color:
+                                              Colors.redAccent.withOpacity(0.8),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        margin: EdgeInsets.all(6.0),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '${day.day}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      );
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              );
                             },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
                 ],

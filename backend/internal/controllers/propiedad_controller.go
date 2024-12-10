@@ -56,7 +56,7 @@ func (ctrl *Propiedad_Controller) GetAllPropiedadesByPrice(c *gin.Context) {
 }
 
 func (ctrl *Propiedad_Controller) GetAllPropiedadesByBedrooms(c *gin.Context) {
-	propiedades, err := ctrl.PropiedadService.GetAllPropiedades()
+	propiedades, err := ctrl.PropiedadService.GetAllPropiedadesByBedrooms()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve propiedades"})
 		return

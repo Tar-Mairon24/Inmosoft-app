@@ -44,6 +44,7 @@ class AgreementsPage extends StatelessWidget {
                   ),
                 ),
               ),
+              Divider(),
               Expanded(child: Consumer<AgreementsNotifier>(
                   builder: (context, agreementsNotifier, child) {
                 return FutureBuilder(

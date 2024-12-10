@@ -79,7 +79,8 @@ class PropiedadService {
   Future<Result<List<PropiedadMenu>>> getAllPropiedadesByBedrooms() async {
     String? errorMessage;
     try {
-      final response = await _dio.get('http://localhost:8080/all/propiedades');
+      final response =
+          await _dio.get('http://localhost:8080/all/propiedadesByBedrooms');
       if (response.statusCode == 200) {
         final List<dynamic> propiedades = response.data;
         log.i('Propiedades fetched successfully');
